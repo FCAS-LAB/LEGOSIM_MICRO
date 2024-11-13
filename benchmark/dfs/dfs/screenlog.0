@@ -1,0 +1,31 @@
+[2024-10-18 17:11:50.944] [[32minfo[m] ==== LegoSim Chiplet Simulator ====
+[2024-10-18 17:11:50.945] [[32minfo[m] Load benchmark configuration from ./dfs.yml.
+[2024-10-18 17:11:50.945] [[32minfo[m] **** Round 1 Phase 1 ****
+[2024-10-18 17:11:50.945] [[32minfo[m] Load 0 delay records.
+[2024-10-18 17:11:50.946] [[32minfo[m] Start simulation process 59076. Command: /home/fcl/newtest/Chiplet_Heterogeneous_newVersion/benchmark/dfs/bin/dfs_cu
+[2024-10-18 17:11:50.947] [[32minfo[m] Start simulation process 59074. Command: /home/fcl/newtest/Chiplet_Heterogeneous_newVersion/benchmark/dfs/bin/dfs_cu
+[2024-10-18 17:11:50.947] [[32minfo[m] Start simulation process 59079. Command: /home/fcl/newtest/Chiplet_Heterogeneous_newVersion/benchmark/dfs/bin/dfs_cu
+[2024-10-18 17:11:50.947] [[32minfo[m] Start simulation process 59081. Command: /home/fcl/newtest/Chiplet_Heterogeneous_newVersion/benchmark/dfs/bin/dfs_cu
+[2024-10-18 17:11:50.948] [[32minfo[m] Start simulation process 59084. Command: /home/fcl/newtest/Chiplet_Heterogeneous_newVersion/benchmark/dfs/bin/dfs-worker_c
+[2024-10-18 17:11:50.949] [[32minfo[m] Start simulation process 59085. Command: /home/fcl/newtest/Chiplet_Heterogeneous_newVersion/snipersim/run-sniper
+^C[2024-10-19 18:32:36.458] [[32minfo[m] ==== LegoSim Chiplet Simulator ====
+[2024-10-19 18:32:36.463] [[32minfo[m] Load benchmark configuration from ./dfs.yml.
+[2024-10-19 18:32:36.463] [[32minfo[m] **** Round 1 Phase 1 ****
+[2024-10-19 18:32:36.463] [[32minfo[m] Load 0 delay records.
+[2024-10-19 18:32:36.471] [[32minfo[m] Start simulation process 63129. Command: /home/fcl/newtest/Chiplet_Heterogeneous_newVersion/benchmark/dfs/bin/dfs_cu
+[2024-10-19 18:32:36.475] [[32minfo[m] Start simulation process 63130. Command: /home/fcl/newtest/Chiplet_Heterogeneous_newVersion/benchmark/dfs/bin/dfs-worker_c
+[2024-10-19 18:32:36.483] [[32minfo[m] Start simulation process 63132. Command: /home/fcl/newtest/Chiplet_Heterogeneous_newVersion/benchmark/dfs/bin/dfs_cu
+[2024-10-19 18:32:36.483] [[32minfo[m] Start simulation process 63133. Command: /home/fcl/newtest/Chiplet_Heterogeneous_newVersion/snipersim/run-sniper
+[2024-10-19 18:32:36.483] [[32minfo[m] Start simulation process 63134. Command: /home/fcl/newtest/Chiplet_Heterogeneous_newVersion/benchmark/dfs/bin/dfs_cu
+[2024-10-19 18:32:36.484] [[32minfo[m] Start simulation process 63135. Command: /home/fcl/newtest/Chiplet_Heterogeneous_newVersion/benchmark/dfs/bin/dfs_cu
+^C[2024-10-19 19:00:49.489] [[32minfo[m] ==== LegoSim Chiplet Simulator ====
+[2024-10-19 19:00:49.494] [[32minfo[m] Load benchmark configuration from ./dfs.yml.
+[2024-10-19 19:00:49.494] [[32minfo[m] **** Round 1 Phase 1 ****
+[2024-10-19 19:00:49.494] [[32minfo[m] Load 0 delay records.
+[2024-10-19 19:00:49.503] [[32minfo[m] Start simulation process 65466. Command: /home/fcl/newtest/Chiplet_Heterogeneous_newVersion/benchmark/dfs/bin/dfs_cu
+[2024-10-19 19:00:49.511] [[32minfo[m] Start simulation process 65467. Command: /home/fcl/newtest/Chiplet_Heterogeneous_newVersion/benchmark/dfs/bin/dfs_cu
+[2024-10-19 19:00:49.515] [[32minfo[m] Start simulation process 65469. Command: /home/fcl/newtest/Chiplet_Heterogeneous_newVersion/benchmark/dfs/bin/dfs_cu
+[2024-10-19 19:00:49.515] [[32minfo[m] Start simulation process 65470. Command: /home/fcl/newtest/Chiplet_Heterogeneous_newVersion/snipersim/run-sniper
+[2024-10-19 19:00:49.516] [[32minfo[m] Start simulation process 65471. Command: /home/fcl/newtest/Chiplet_Heterogeneous_newVersion/benchmark/dfs/bin/dfs-worker_c
+[2024-10-19 19:00:49.516] [[32minfo[m] Start simulation process 65472. Command: /home/fcl/newtest/Chiplet_Heterogeneous_newVersion/benchmark/dfs/bin/dfs_cu
+^C

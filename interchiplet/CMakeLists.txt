@@ -5,6 +5,10 @@ enable_language(CUDA)
 # Project name.
 project(interchiplet LANGUAGES CUDA CXX)
 
+# Set build type to Debug
+set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g")
+
 # Third-party library
 add_subdirectory(thirdparty/yaml-cpp)
 add_subdirectory(thirdparty/CLI11)

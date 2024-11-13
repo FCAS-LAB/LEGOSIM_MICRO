@@ -25,7 +25,11 @@ NPU_SRCS=cim.cpp
 NPU_OBJS=obj/cim.o
 NPU_TARGET=bin/cim
 
-all: bin_dir obj_dir cuobj_dir C_target CUDA_target NPU_target
+MNSIM_SRCS=mnsim.cpp
+MNSIM_OBJS=obj/mnsim.o
+MNSIM_TARGET=bin/mnsim
+
+all: bin_dir obj_dir cuobj_dir C_target CUDA_target NPU_target MNSIM_target
 
 # C language target
 C_target: $(C_OBJS)
@@ -38,6 +42,10 @@ CUDA_target: $(CUDA_OBJS)
 # NPU language target
 NPU_target: $(NPU_OBJS)
 	$(CC) $(NPU_OBJS) $(INTERCHIPLET_C_LIB) -o $(NPU_TARGET)
+
+# MNSIM language target
+MNSIM_target: $(MNSIM_OBJS)
+	$(CC) $(MNSIM_OBJS) $(INTERCHIPLET_C_LIB) -o $(MNSIM_TARGET)
 
 # Rule for C object
 obj/%.o: %.cpp
@@ -60,9 +68,12 @@ cuobj_dir:
 	mkdir -p cuobj
 
 run:
-	../../interchiplet/bin/interchiplet ./matmul.yml 
+	../../interchiplet/bin/interchiplet ./matmul.yml -w 6
 # Clean generated files.
 clean:
 	rm -rf bench.txt delayInfo.txt buffer* message_record.txt
 	rm -rf proc_r*_t* *.log
+	
+
+clean_all:clean
 	rm -rf obj cuobj bin

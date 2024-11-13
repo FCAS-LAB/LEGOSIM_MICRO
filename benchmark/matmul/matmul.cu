@@ -54,8 +54,8 @@ int main(int argc, char** argv) {
     cudaMalloc((void**)&d_dataB, sizeof(int64_t) * Row_B * Col_B);
     cudaMalloc((void**)&d_dataC, sizeof(int64_t) * Col_B * Row_A);
 
-    receiveMessage(idX, idY, 3, 3, d_dataA, sizeof(int64_t) * Row_A * Col_A);
-    receiveMessage(idX, idY, 3, 3, d_dataB, sizeof(int64_t) * Row_B * Col_B);
+    receiveMessage(idX, idY, 5, 5, d_dataA, sizeof(int64_t) * Row_A * Col_A);
+    receiveMessage(idX, idY, 5, 5, d_dataB, sizeof(int64_t) * Row_B * Col_B);
 
     // calculate
     dim3 threadPerBlock(10, 10);
@@ -63,7 +63,7 @@ int main(int argc, char** argv) {
                          (Row_A + threadPerBlock.y - 1) / threadPerBlock.y);
     matrix_mul_gpu<<<blockNumber, threadPerBlock>>>(d_dataA, d_dataB, d_dataC, Col_A, Row_A, Col_B);
 
-    sendMessage(3, 3, idX, idY, d_dataC, Col_B * Row_A * sizeof(int64_t));
+    sendMessage(5, 5, idX, idY, d_dataC, Col_B * Row_A * sizeof(int64_t));
     cudaFree(d_dataA);
     cudaFree(d_dataB);
     cudaFree(d_dataC);

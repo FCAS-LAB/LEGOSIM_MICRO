@@ -106,6 +106,50 @@ class NetworkDelayItem {
     }
 };
 
+class NetworkDelayItem_onDim {
+   public:
+    InterChiplet::InnerTimeType m_cycle;
+    uint64_t m_id;
+    long m_src;  // 修改为 long 类型
+    long m_dst;  // 修改为 long 类型
+    long m_desc;
+    std::vector<InterChiplet::InnerTimeType> m_delay_list;
+
+   public:
+    NetworkDelayItem_onDim() {}
+
+    NetworkDelayItem_onDim(InterChiplet::InnerTimeType __cycle, long __src, long __dst, long __desc,
+                           const std::vector<InterChiplet::InnerTimeType>& __delay_list)
+        : m_cycle(__cycle), m_src(__src), m_dst(__dst), m_desc(__desc), m_delay_list(__delay_list) {}
+
+    friend std::ostream& operator<<(std::ostream& os, const NetworkDelayItem_onDim& __item) {
+        os << __item.m_cycle << " " << __item.m_src << " " << __item.m_dst << " "
+           << __item.m_desc << " " << __item.m_delay_list.size();
+        for (auto& delay : __item.m_delay_list) {
+            os << " " << delay;
+        }
+        return os;
+    }
+
+    friend std::istream& operator>>(std::istream& os, NetworkDelayItem_onDim& __item) {
+        os >> __item.m_cycle;
+        os >> __item.m_src >> __item.m_dst;
+        os >> __item.m_desc;
+
+        int delay_cnt = 0;
+        os >> delay_cnt;
+        __item.m_delay_list.clear();
+        for (int i = 0; i < delay_cnt; i++) {
+            InterChiplet::TimeType delay;
+            os >> delay;
+            __item.m_delay_list.push_back(delay);
+        }
+
+        return os;
+    }
+};
+
+
 typedef std::tuple<InterChiplet::InnerTimeType, InterChiplet::InnerTimeType> CmdDelayPair;
 #define SRC_DELAY(pair) std::get<0>(pair)
 #define DST_DELAY(pair) std::get<1>(pair)
@@ -297,24 +341,43 @@ class NetworkDelayStruct {
      * @param __file_name Path to benchmark file.
      * @param __clock_rate Clock ratio (Simulator clock/Interchiplet clock).
      */
-    void loadDelayInfo(const std::string& __file_name, double __clock_rate) {
+    void loadDelayInfo(const std::string& __file_name, double __clock_rate, int __width) {
         std::ifstream bench_if(__file_name, std::ios::in);
         m_item_count = 0;
 
         while (bench_if) {
-            // Load item from file.
-            NetworkDelayItem item;
-            bench_if >> item;
+            // 读取一维的 item_onDim 数据
+            NetworkDelayItem_onDim item_onDim;
+            bench_if >> item_onDim;
             if (!bench_if) break;
-            item.m_cycle = item.m_cycle / __clock_rate;
+
+            // 初始化二维的 item
+            NetworkDelayItem item;
+            item.m_cycle = item_onDim.m_cycle / __clock_rate;
+            item.m_desc = item_onDim.m_desc;
+            item.m_delay_list = item_onDim.m_delay_list;
+
+            // 将一维源地址转换为二维 (src_x, src_y)
+            int src_x = item_onDim.m_src % __width;
+            int src_y = item_onDim.m_src / __width;
+            item.m_src = {src_x, src_y};
+
+            // 将一维目标地址转换为二维 (dst_x, dst_y)
+            int dst_x = item_onDim.m_dst % __width;
+            int dst_y = item_onDim.m_dst / __width;
+            item.m_dst = {dst_x, dst_y};
+
+            // 缩放延迟时间
             for (std::size_t i = 0; i < item.m_delay_list.size(); i++) {
-                item.m_delay_list[i] = item.m_delay_list[i] / __clock_rate;
+                item.m_delay_list[i] = item_onDim.m_delay_list[i] / __clock_rate;
             }
+
             m_item_count += 1;
 
-            // Source map.
+            // 插入到 Source map
             m_src_delay_map.insert(item.m_src, item.m_cycle, item);
-            // Ordering of barrier, launch, lock and unlock.
+
+            // 处理不同的同步协议
             if (item.m_desc & 0xF0000) {
                 InterChiplet::InnerTimeType end_cycle = item.m_cycle + item.m_delay_list[1];
                 if (item.m_desc & InterChiplet::SPD_BARRIER) {
@@ -329,6 +392,7 @@ class NetworkDelayStruct {
             }
         }
     }
+
 
     /**
      * @brief Check the order of write/read commands.

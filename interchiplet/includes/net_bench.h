@@ -4,6 +4,7 @@
 #include <map>
 
 #include "global_define.h"
+#include <iostream>
 
 #define PAC_PAYLOAD_BIT 512
 #define PAC_PAYLOAD_BYTE (PAC_PAYLOAD_BIT / 8)
@@ -144,16 +145,25 @@ class NetworkBenchList : public std::multimap<InterChiplet::InnerTimeType, Netwo
      * @param __file_name Path to benchmark file.
      * @param __clock_rate Clock ratio (Simulator clock/Interchiplet clock).
      */
-    void dumpBench(const std::string& __file_name, double __clock_rate) {
+    void dumpBench(const std::string& __file_name, double __clock_rate, int __width) {
         std::ofstream bench_of(__file_name, std::ios::out);
-        for (auto& it : *this) {
+
+        for(auto &it : *this){
             bench_of << static_cast<InterChiplet::TimeType>(it.second.m_src_cycle * __clock_rate)
-                     << " "
-                     << static_cast<InterChiplet::TimeType>(it.second.m_dst_cycle * __clock_rate)
-                     << " " << DIM_X(it.second.m_src) << " " << DIM_Y(it.second.m_src) << " "
-                     << DIM_X(it.second.m_dst) << " " << DIM_Y(it.second.m_dst) << " "
-                     << it.second.m_pac_size << " " << it.second.m_desc << std::endl;
+                    << " "
+                    << static_cast<InterChiplet::TimeType>(it.second.m_dst_cycle * __clock_rate)
+                    << " " << DIM_X(it.second.m_src) + DIM_Y(it.second.m_src)*__width << " "
+                    << DIM_X(it.second.m_dst) + DIM_Y(it.second.m_dst)*__width << " "
+                    << it.second.m_pac_size << " " << it.second.m_desc << std::endl;
         }
+        // for (auto& it : *this) {
+        //     bench_of << static_cast<InterChiplet::TimeType>(it.second.m_src_cycle * __clock_rate)
+        //              << " "
+        //              << static_cast<InterChiplet::TimeType>(it.second.m_dst_cycle * __clock_rate)
+        //              << " " << DIM_X(it.second.m_src) << " " << DIM_Y(it.second.m_src) << " "
+        //              << DIM_X(it.second.m_dst) << " " << DIM_Y(it.second.m_dst) << " "
+        //              << it.second.m_pac_size << " " << it.second.m_desc << std::endl;
+        // }
         bench_of.flush();
         bench_of.close();
     }

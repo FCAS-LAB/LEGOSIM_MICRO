@@ -36,8 +36,14 @@ phase1:
     clock_rate: 1
   # Process 5
   - cmd: "$SIMULATOR_ROOT/snipersim/run-sniper"
-    args: ["--", "$BENCHMARK_ROOT/bin/matmul_c", "3", "3"]
-    log: "sniper.3.3.log"
+    args: ["--", "$BENCHMARK_ROOT/bin/matmul_c", "5", "5"]
+    log: "sniper.5.5.log"
+    is_to_stdout: false
+    clock_rate: 1
+  # Process 6
+  - cmd: "$BENCHMARK_ROOT/bin/mnsim"
+    args: ["5", "0"]
+    log: "mnsim.5.0.log"
     is_to_stdout: false
     clock_rate: 1
 
@@ -45,7 +51,7 @@ phase1:
 phase2:
   # Process 0
   - cmd: "$SIMULATOR_ROOT/popnet_chiplet/build/popnet"
-    args: ["-A", "5", "-c", "2", "-V", "3", "-B", "12", "-O", "12", "-F", "4", "-L", "1000", "-T", "10000000", "-r", "1", "-I", "../bench.txt", "-R", "0", "-D", "../delayInfo.txt", "-P"]
+    args: ["-A", "36", "-c", "1", "-V", "3", "-B", "12", "-O", "12", "-F", "4", "-L", "1000", "-T", "1000000000", "-r", "1", "-I", "../bench.txt", "-G", "/home/qc/Chiplet_Heterogeneous_newVersion_gem5/Chiplet_Heterogeneous_newVersion/popnet_chiplet/test/star_6_6.gv","-R","4","-D", "../delayInfo.txt", "-P"]
     log: "popnet_0.log"
     is_to_stdout: false
     clock_rate: 1

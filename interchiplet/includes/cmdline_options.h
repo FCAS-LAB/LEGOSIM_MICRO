@@ -18,7 +18,7 @@ class CmdLineOptions {
      * @brief Constructor.
      */
     CmdLineOptions()
-        : m_bench(), m_cwd(), m_timeout_threshold(5), m_err_rate_threshold(0.005), m_debug(false) {}
+        : m_bench(), m_cwd(), m_timeout_threshold(5), m_err_rate_threshold(0.005), m_debug(false), m_width(1), m_height(1) {}
 
     /**
      * @brief Read options from command line.
@@ -36,6 +36,8 @@ class CmdLineOptions {
         app.add_option("--cwd", m_cwd, "Woring directory for simulation.")
             ->check(CLI::ExistingPath);
         app.add_flag("--debug", m_debug, "Print debug information.");
+        app.add_option("-w", m_width, "Width of the matrix");
+        app.add_option("-H", m_height, "Height of the matrix");
 
         try {
             app.parse(argc, argv);
@@ -70,6 +72,10 @@ class CmdLineOptions {
      * @brief Print debug information.
      */
     bool m_debug;
+
+    int m_width;
+
+    int m_height;
 };
 /**
  * @}

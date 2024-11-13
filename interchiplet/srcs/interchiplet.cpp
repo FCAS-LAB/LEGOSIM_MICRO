@@ -285,6 +285,7 @@ void* bridge_thread(void* __args_ptr) {
                     std::cout.flush();
                 }
                 // Parse command in pipe_buf
+                // std::cout<<"----------------------------"<<pipe_buf<<"----------------------------"<<std::endl;
                 parse_command(pipe_buf, proc_struct, stdin_fd);
             }
             if (fd_list[1].revents & POLL_IN) {
@@ -298,6 +299,7 @@ void* bridge_thread(void* __args_ptr) {
                     std::cerr.write(pipe_buf, res);
                     std::cerr.flush();
                 }
+                // std::cout<<"----------------------------"<<pipe_buf<<"----------------------------"<<std::endl;
                 // Parse command in pipe_buf
                 parse_command(pipe_buf, proc_struct, stdin_fd);
             }
@@ -325,13 +327,13 @@ void* bridge_thread(void* __args_ptr) {
 
 InterChiplet::InnerTimeType __loop_phase_one(
     int __round, const std::vector<ProcessConfig>& __proc_phase1_cfg_list,
-    const std::vector<ProcessConfig>& __proc_phase2_cfg_list) {
+    const std::vector<ProcessConfig>& __proc_phase2_cfg_list, int __width) {
     // Create synchronize data structure.
     SyncStruct* g_sync_structure = new SyncStruct();
 
     // Load delay record.
     g_sync_structure->m_delay_list.loadDelayInfo("delayInfo.txt",
-                                                 __proc_phase2_cfg_list[0].m_clock_rate);
+                                                 __proc_phase2_cfg_list[0].m_clock_rate, __width);
     spdlog::info("Load {} delay records.", g_sync_structure->m_delay_list.size());
 
     // Create multi-thread.
@@ -367,7 +369,7 @@ InterChiplet::InnerTimeType __loop_phase_one(
     }
 
     // Dump benchmark record.
-    g_sync_structure->m_bench_list.dumpBench("bench.txt", __proc_phase2_cfg_list[0].m_clock_rate);
+    g_sync_structure->m_bench_list.dumpBench("bench.txt", __proc_phase2_cfg_list[0].m_clock_rate, __width);
     spdlog::info("Dump {} bench records.", g_sync_structure->m_bench_list.size());
 
     // Destory global synchronize structure, and return total cycle.
@@ -418,7 +420,7 @@ int main(int argc, const char* argv[]) {
     if (options.parse(argc, argv) != 0) {
         return 0;
     };
-
+    int width = options.m_width;
     // Initializate logging
     if (options.m_debug) {
         spdlog::set_level(spdlog::level::debug);
@@ -455,7 +457,8 @@ int main(int argc, const char* argv[]) {
         gettimeofday(&roundstart, 0);
         spdlog::info("**** Round {} Phase 1 ****", round);
         InterChiplet::InnerTimeType round_cycle =
-            __loop_phase_one(round, configs.m_phase1_proc_cfg_list, configs.m_phase2_proc_cfg_list);
+            __loop_phase_one(round, configs.m_phase1_proc_cfg_list, configs.m_phase2_proc_cfg_list,
+                             width);
 
         // Get simulation cycle.
         // If simulation cycle this round is close to the previous one, quit iteration.
