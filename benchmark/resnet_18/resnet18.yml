@@ -1,0 +1,141 @@
+# Phase 1 configuration.
+phase1:
+  # Process 0
+  - cmd: "$BENCHMARK_ROOT/bin/MNSIM_0_0"
+    args: ["0", "0"]
+    log: "MNSIM.0.0.log"
+    is_to_stdout: false
+    clock_rate: 1
+  # # Process 1
+  # - cmd: "$BENCHMARK_ROOT/bin/MNSIM_0_1"
+  #   args: ["0", "1"]
+  #   log: "MNSIM.0.1.log"
+  #   is_to_stdout: false
+  #   clock_rate: 1
+  # # Process 2
+  # - cmd: "$BENCHMARK_ROOT/bin/MNSIM_0_2"
+  #   args: ["0", "2"]
+  #   log: "MNSIM.0.2.log"
+  #   is_to_stdout: false
+  #   clock_rate: 1
+  # # Process 3
+  # - cmd: "$BENCHMARK_ROOT/bin/MNSIM_0_3"
+  #   args: ["0", "3"]
+  #   log: "MNSIM.0.3.log"
+  #   is_to_stdout: false
+  #   clock_rate: 1
+  # # Process 4
+  # - cmd: "$BENCHMARK_ROOT/bin/MNSIM_0_4"
+  #   args: ["0", "4"]
+  #   log: "MNSIM.0.4.log"
+  #   is_to_stdout: false
+  #   clock_rate: 1
+  # Process 5
+  - cmd: "$BENCHMARK_ROOT/bin/MNSIM_1_0"
+    args: ["1", "0"]
+    log: "MNSIM.1.0.log"
+    is_to_stdout: false
+    clock_rate: 1
+  # # Process 6
+  # - cmd: "$BENCHMARK_ROOT/bin/MNSIM_1_1"
+  #   args: ["1", "1"]
+  #   log: "MNSIM.1.1.log"
+  #   is_to_stdout: false
+  #   clock_rate: 1
+  # # Process 7
+  # - cmd: "$BENCHMARK_ROOT/bin/MNSIM_1_2"
+  #   args: ["1", "2"]
+  #   log: "MNSIM.1.2.log"
+  #   is_to_stdout: false
+  #   clock_rate: 1
+  # # Process 8
+  # - cmd: "$BENCHMARK_ROOT/bin/MNSIM_1_3"
+  #   args: ["1", "3"]
+  #   log: "MNSIM.1.3.log"
+  #   is_to_stdout: false
+  #   clock_rate: 1
+  # # Process 9
+  # - cmd: "$BENCHMARK_ROOT/bin/MNSIM_1_4"
+  #   args: ["1", "4"]
+  #   log: "MNSIM.1.4.log"
+  #   is_to_stdout: false
+  #   clock_rate: 1
+  # Process 10
+  - cmd: "$BENCHMARK_ROOT/bin/MNSIM_2_0"
+    args: ["2", "0"]
+    log: "MNSIM.2.0.log"
+    is_to_stdout: false
+    clock_rate: 1
+  # # Process 11
+  # - cmd: "$BENCHMARK_ROOT/bin/MNSIM_2_1"
+  #   args: ["2", "1"]
+  #   log: "MNSIM.2.1.log"
+  #   is_to_stdout: false
+  #   clock_rate: 1
+  # # Process 12
+  # - cmd: "$BENCHMARK_ROOT/bin/MNSIM_2_2"
+  #   args: ["2", "2"]
+  #   log: "MNSIM.2.2.log"
+  #   is_to_stdout: false
+  #   clock_rate: 1
+  # # Process 13
+  # - cmd: "$BENCHMARK_ROOT/bin/MNSIM_2_3"
+  #   args: ["2", "3"]
+  #   log: "MNSIM.2.3.log"
+  #   is_to_stdout: false
+  #   clock_rate: 1
+  # # Process 14
+  # - cmd: "$BENCHMARK_ROOT/bin/MNSIM_2_4"
+  #   args: ["2", "4"]
+  #   log: "MNSIM.2.4.log"
+  #   is_to_stdout: false
+  #   clock_rate: 1
+  # Process 15
+  - cmd: "$BENCHMARK_ROOT/bin/MNSIM_3_0"
+    args: ["3", "0"]
+    log: "MNSIM.3.0.log"
+    is_to_stdout: false
+    clock_rate: 1
+  # # Process 16
+  # - cmd: "$BENCHMARK_ROOT/bin/MNSIM_3_1"
+  #   args: ["3", "1"]
+  #   log: "MNSIM.3.1.log"
+  #   is_to_stdout: false
+  #   clock_rate: 1
+  # # Process 17
+  # - cmd: "$BENCHMARK_ROOT/bin/MNSIM_3_2"
+  #   args: ["3", "2"]
+  #   log: "MNSIM.3.2.log"
+  #   is_to_stdout: false
+  #   clock_rate: 1
+  # # Process 18
+  # - cmd: "$BENCHMARK_ROOT/bin/MNSIM_3_3"
+  #   args: ["3", "3"]
+  #   log: "MNSIM.3.3.log"
+  #   is_to_stdout: false
+  #   clock_rate: 1
+  # # Process 19
+  # - cmd: "$BENCHMARK_ROOT/bin/MNSIM_3_4"
+  #   args: ["3", "4"]
+  #   log: "MNSIM.3.4.log"
+  #   is_to_stdout: false
+  #   clock_rate: 1
+  # Process 20
+  - cmd: "$SIMULATOR_ROOT/snipersim/run-sniper"
+    args: ["--", "$BENCHMARK_ROOT/bin/sniper_chip", "4", "0"]
+    log: "sniper.4.0.log"
+    is_to_stdout: false
+    clock_rate: 1
+
+# Phase 2 configuration.
+phase2:
+  # Process 0
+  - cmd: "$SIMULATOR_ROOT/popnet/popnet"
+    args: ["-A", "2", "-c", "2", "-V", "3", "-B", "12", "-O", "12", "-F", "4", "-L", "1000", "-T", "10000000000", "-r", "1", "-I", "../bench.txt", "-R", "0"]
+    log: "popnet.log"
+    is_to_stdout: false
+    clock_rate: 1
+
+# File configuration. (Not used yet)
+bench_file: "./bench.txt"
+delayinfo_file: "./delayInfo.txt"

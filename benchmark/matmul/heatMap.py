@@ -1,52 +1,48 @@
-import re
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
+import re
+from collections import Counter
+from matplotlib.ticker import MaxNLocator
 
-# 文件路径
-log_file_path = "./proc_r1_p2_t0/popnet.log"
+# Step 1: Read the log data from popnet.log file
+with open("./proc_r1_p2_t0/popnet.log", "r") as file:
+    log_data = file.readlines()
 
-# 正则表达式模式，用于提取 router 的坐标
-pattern = r"From Router (\d+) (\d+) to Router (\d+) (\d+)"
+# Step 2: Parse the data to extract router communication pairs
+pattern = re.compile(r"From Router (\d+) to Router (\d+)")
+matches = [pattern.search(line).groups() for line in log_data if pattern.search(line)]
+counter = Counter(matches)
 
-# 初始化一个字典，用于记录每个 router 的流量
-traffic_dict = {}
+# Step 3: Convert router numbers to coordinates in a 6x6 grid
+def router_to_coordinates(router_id):
+    y = int(router_id) // 4
+    x = int(router_id) % 4
+    print("router_id: ", router_id, "x: ", x, "y: ", y)
+    return x, y
 
-# 从 log 文件中读取数据并解析
-with open(log_file_path, "r") as file:
-    for line in file:
-        match = re.search(pattern, line)
-        if match:
-            src_x, src_y, dst_x, dst_y = map(int, match.groups())
-            src = (src_x, src_y)
-            dst = (dst_x, dst_y)
-            
-            # 更新源 router 的流量计数
-            if src not in traffic_dict:
-                traffic_dict[src] = {}
-            if dst not in traffic_dict[src]:
-                traffic_dict[src][dst] = 0
-            traffic_dict[src][dst] += 1
+# Step 4: Initialize the communication matrix
+comm_matrix = np.zeros((4, 4))
 
-# 找到最大坐标，用于定义矩阵的大小
-max_x = max(max(src[0], dst[0]) for src in traffic_dict for dst in traffic_dict[src])
-max_y = max(max(src[1], dst[1]) for src in traffic_dict for dst in traffic_dict[src])
+# Populate the communication matrix with counts
+for (src, dest), count in counter.items():
+    src_x, src_y = router_to_coordinates(src)
+    dest_x, dest_y = router_to_coordinates(dest)
+    comm_matrix[src_x, src_y] += count
 
-# 初始化通信流量矩阵
-traffic_matrix = np.zeros((max_x + 1, max_y + 1))
+# Step 5: Plot the heatmap
+plt.figure(figsize=(8, 6))
+plt.imshow(comm_matrix, cmap='hot', interpolation='nearest')
+cbar = plt.colorbar(label='Traffic Count', fraction=0.046, pad=0.04)
+cbar.set_label('Traffic volume', fontsize=25)  # Set colorbar label font size
+cbar.ax.tick_params(labelsize=14)  # Set colorbar tick label size
+# plt.title('Heatmap of Communication Frequency Between Routers')
+plt.xlabel('Y', fontsize=25)
+plt.ylabel('X', fontsize=25)
+plt.xticks(fontsize=20)  # X-axis tick labels
+plt.yticks(fontsize=20)  # 
+# Ensure only integers are displayed on ticks
+plt.gca().xaxis.set_major_locator(MaxNLocator(integer=True))  # X-axis
+plt.gca().yaxis.set_major_locator(MaxNLocator(integer=True))  # Y-axis
+# plt.show()
 
-# 将流量数据填入矩阵
-for src, dst_dict in traffic_dict.items():
-    src_x, src_y = src
-    for dst, count in dst_dict.items():
-        traffic_matrix[src_x, src_y] += count
-
-# 绘制热力图
-plt.figure(figsize=(10, 8))
-sns.heatmap(traffic_matrix, annot=True, cmap="YlOrRd", cbar_kws={'label': 'Traffic Volume'})
-plt.title("Router Traffic Heatmap")
-plt.xlabel("Router X Coordinate")
-plt.ylabel("Router Y Coordinate")
-# 反转 y 轴，使其从下往上显示
-plt.gca().invert_yaxis()
 plt.savefig("router_traffic_heatmap.png", dpi=300, bbox_inches='tight')

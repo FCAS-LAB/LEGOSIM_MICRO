@@ -1,0 +1,726 @@
+=== ONNX Model: lidar.backbone.xyz.onnx ===
+
+### Model Inputs ###
+Name: 0, Type: tensor_type {
+  elem_type: 10
+  shape {
+    dim {
+      dim_value: 1
+    }
+    dim {
+      dim_value: 5
+    }
+  }
+}
+
+
+### Model Outputs ###
+Name: 40, Type: tensor_type {
+  elem_type: 10
+  shape {
+    dim {
+      dim_value: 1
+    }
+    dim {
+      dim_value: 256
+    }
+    dim {
+      dim_value: 180
+    }
+    dim {
+      dim_value: 180
+    }
+  }
+}
+
+
+### Graph Nodes ###
+Node: conv0
+  Operator Type: SparseConvolution
+  Inputs: 0, spconv0.weight, spconv0.bias
+  Outputs: 1
+  Attributes:
+    - activation: ReLU
+    - dilation: [1, 1, 1]
+    - groups: 1
+    - in_channels: 5
+    - input_shape: [1, 5]
+    - input_spatial_shape: [1440, 1440, 41]
+    - inverse: 0
+    - kernel_size: [3, 3, 3]
+    - ndim: 3
+    - out_channels: 16
+    - output_bound: 200000
+    - output_padding: [0, 0, 0]
+    - output_shape: [1, 16]
+    - output_spatial_shape: [1440, 1440, 41]
+    - padding: [1, 1, 1]
+    - rulebook: subm1
+    - stride: [1, 1, 1]
+    - subm: 1
+    - transposed: 0
+
+Node: conv1
+  Operator Type: SparseConvolution
+  Inputs: 1, spconv1.weight, spconv1.bias
+  Outputs: 2
+  Attributes:
+    - activation: ReLU
+    - dilation: [1, 1, 1]
+    - groups: 1
+    - in_channels: 16
+    - input_shape: [1, 16]
+    - input_spatial_shape: [1440, 1440, 41]
+    - inverse: 0
+    - kernel_size: [3, 3, 3]
+    - ndim: 3
+    - out_channels: 16
+    - output_bound: 200000
+    - output_padding: [0, 0, 0]
+    - output_shape: [1, 16]
+    - output_spatial_shape: [1440, 1440, 41]
+    - padding: [1, 1, 1]
+    - rulebook: subm1
+    - stride: [1, 1, 1]
+    - subm: 1
+    - transposed: 0
+
+Node: conv2
+  Operator Type: SparseConvolution
+  Inputs: 2, spconv2.weight, spconv2.bias
+  Outputs: 3
+  Attributes:
+    - activation: None
+    - dilation: [1, 1, 1]
+    - groups: 1
+    - in_channels: 16
+    - input_shape: [1, 16]
+    - input_spatial_shape: [1440, 1440, 41]
+    - inverse: 0
+    - kernel_size: [3, 3, 3]
+    - ndim: 3
+    - out_channels: 16
+    - output_bound: 200000
+    - output_padding: [0, 0, 0]
+    - output_shape: [1, 16]
+    - output_spatial_shape: [1440, 1440, 41]
+    - padding: [1, 1, 1]
+    - rulebook: subm1
+    - stride: [1, 1, 1]
+    - subm: 1
+    - transposed: 0
+
+Node: add0
+  Operator Type: Add
+  Inputs: 3, 1
+  Outputs: 4
+  Attributes:
+
+Node: relu0
+  Operator Type: Relu
+  Inputs: 4
+  Outputs: 5
+  Attributes:
+
+Node: conv3
+  Operator Type: SparseConvolution
+  Inputs: 5, spconv3.weight, spconv3.bias
+  Outputs: 6
+  Attributes:
+    - activation: ReLU
+    - dilation: [1, 1, 1]
+    - groups: 1
+    - in_channels: 16
+    - input_shape: [1, 16]
+    - input_spatial_shape: [1440, 1440, 41]
+    - inverse: 0
+    - kernel_size: [3, 3, 3]
+    - ndim: 3
+    - out_channels: 16
+    - output_bound: 200000
+    - output_padding: [0, 0, 0]
+    - output_shape: [1, 16]
+    - output_spatial_shape: [1440, 1440, 41]
+    - padding: [1, 1, 1]
+    - rulebook: subm1
+    - stride: [1, 1, 1]
+    - subm: 1
+    - transposed: 0
+
+Node: conv4
+  Operator Type: SparseConvolution
+  Inputs: 6, spconv4.weight, spconv4.bias
+  Outputs: 7
+  Attributes:
+    - activation: None
+    - dilation: [1, 1, 1]
+    - groups: 1
+    - in_channels: 16
+    - input_shape: [1, 16]
+    - input_spatial_shape: [1440, 1440, 41]
+    - inverse: 0
+    - kernel_size: [3, 3, 3]
+    - ndim: 3
+    - out_channels: 16
+    - output_bound: 200000
+    - output_padding: [0, 0, 0]
+    - output_shape: [1, 16]
+    - output_spatial_shape: [1440, 1440, 41]
+    - padding: [1, 1, 1]
+    - rulebook: subm1
+    - stride: [1, 1, 1]
+    - subm: 1
+    - transposed: 0
+
+Node: add1
+  Operator Type: Add
+  Inputs: 7, 5
+  Outputs: 8
+  Attributes:
+
+Node: relu1
+  Operator Type: Relu
+  Inputs: 8
+  Outputs: 9
+  Attributes:
+
+Node: conv5
+  Operator Type: SparseConvolution
+  Inputs: 9, spconv5.weight, spconv5.bias
+  Outputs: 10
+  Attributes:
+    - activation: ReLU
+    - dilation: [1, 1, 1]
+    - groups: 1
+    - in_channels: 16
+    - input_shape: [1, 16]
+    - input_spatial_shape: [1440, 1440, 41]
+    - inverse: 0
+    - kernel_size: [3, 3, 3]
+    - ndim: 3
+    - out_channels: 32
+    - output_bound: 200000
+    - output_padding: [0, 0, 0]
+    - output_shape: [1, 32]
+    - output_spatial_shape: [720, 720, 21]
+    - padding: [1, 1, 1]
+    - rulebook: spconv1
+    - stride: [2, 2, 2]
+    - subm: 0
+    - transposed: 0
+
+Node: conv6
+  Operator Type: SparseConvolution
+  Inputs: 10, spconv6.weight, spconv6.bias
+  Outputs: 11
+  Attributes:
+    - activation: ReLU
+    - dilation: [1, 1, 1]
+    - groups: 1
+    - in_channels: 32
+    - input_shape: [1, 32]
+    - input_spatial_shape: [720, 720, 21]
+    - inverse: 0
+    - kernel_size: [3, 3, 3]
+    - ndim: 3
+    - out_channels: 32
+    - output_bound: 200000
+    - output_padding: [0, 0, 0]
+    - output_shape: [1, 32]
+    - output_spatial_shape: [720, 720, 21]
+    - padding: [1, 1, 1]
+    - rulebook: subm2
+    - stride: [1, 1, 1]
+    - subm: 1
+    - transposed: 0
+
+Node: conv7
+  Operator Type: SparseConvolution
+  Inputs: 11, spconv7.weight, spconv7.bias
+  Outputs: 12
+  Attributes:
+    - activation: None
+    - dilation: [1, 1, 1]
+    - groups: 1
+    - in_channels: 32
+    - input_shape: [1, 32]
+    - input_spatial_shape: [720, 720, 21]
+    - inverse: 0
+    - kernel_size: [3, 3, 3]
+    - ndim: 3
+    - out_channels: 32
+    - output_bound: 200000
+    - output_padding: [0, 0, 0]
+    - output_shape: [1, 32]
+    - output_spatial_shape: [720, 720, 21]
+    - padding: [1, 1, 1]
+    - rulebook: subm2
+    - stride: [1, 1, 1]
+    - subm: 1
+    - transposed: 0
+
+Node: add2
+  Operator Type: Add
+  Inputs: 12, 10
+  Outputs: 13
+  Attributes:
+
+Node: relu2
+  Operator Type: Relu
+  Inputs: 13
+  Outputs: 14
+  Attributes:
+
+Node: conv8
+  Operator Type: SparseConvolution
+  Inputs: 14, spconv8.weight, spconv8.bias
+  Outputs: 15
+  Attributes:
+    - activation: ReLU
+    - dilation: [1, 1, 1]
+    - groups: 1
+    - in_channels: 32
+    - input_shape: [1, 32]
+    - input_spatial_shape: [720, 720, 21]
+    - inverse: 0
+    - kernel_size: [3, 3, 3]
+    - ndim: 3
+    - out_channels: 32
+    - output_bound: 200000
+    - output_padding: [0, 0, 0]
+    - output_shape: [1, 32]
+    - output_spatial_shape: [720, 720, 21]
+    - padding: [1, 1, 1]
+    - rulebook: subm2
+    - stride: [1, 1, 1]
+    - subm: 1
+    - transposed: 0
+
+Node: conv9
+  Operator Type: SparseConvolution
+  Inputs: 15, spconv9.weight, spconv9.bias
+  Outputs: 16
+  Attributes:
+    - activation: None
+    - dilation: [1, 1, 1]
+    - groups: 1
+    - in_channels: 32
+    - input_shape: [1, 32]
+    - input_spatial_shape: [720, 720, 21]
+    - inverse: 0
+    - kernel_size: [3, 3, 3]
+    - ndim: 3
+    - out_channels: 32
+    - output_bound: 200000
+    - output_padding: [0, 0, 0]
+    - output_shape: [1, 32]
+    - output_spatial_shape: [720, 720, 21]
+    - padding: [1, 1, 1]
+    - rulebook: subm2
+    - stride: [1, 1, 1]
+    - subm: 1
+    - transposed: 0
+
+Node: add3
+  Operator Type: Add
+  Inputs: 16, 14
+  Outputs: 17
+  Attributes:
+
+Node: relu3
+  Operator Type: Relu
+  Inputs: 17
+  Outputs: 18
+  Attributes:
+
+Node: conv10
+  Operator Type: SparseConvolution
+  Inputs: 18, spconv10.weight, spconv10.bias
+  Outputs: 19
+  Attributes:
+    - activation: ReLU
+    - dilation: [1, 1, 1]
+    - groups: 1
+    - in_channels: 32
+    - input_shape: [1, 32]
+    - input_spatial_shape: [720, 720, 21]
+    - inverse: 0
+    - kernel_size: [3, 3, 3]
+    - ndim: 3
+    - out_channels: 64
+    - output_bound: 200000
+    - output_padding: [0, 0, 0]
+    - output_shape: [1, 64]
+    - output_spatial_shape: [360, 360, 11]
+    - padding: [1, 1, 1]
+    - rulebook: spconv2
+    - stride: [2, 2, 2]
+    - subm: 0
+    - transposed: 0
+
+Node: conv11
+  Operator Type: SparseConvolution
+  Inputs: 19, spconv11.weight, spconv11.bias
+  Outputs: 20
+  Attributes:
+    - activation: ReLU
+    - dilation: [1, 1, 1]
+    - groups: 1
+    - in_channels: 64
+    - input_shape: [1, 64]
+    - input_spatial_shape: [360, 360, 11]
+    - inverse: 0
+    - kernel_size: [3, 3, 3]
+    - ndim: 3
+    - out_channels: 64
+    - output_bound: 200000
+    - output_padding: [0, 0, 0]
+    - output_shape: [1, 64]
+    - output_spatial_shape: [360, 360, 11]
+    - padding: [1, 1, 1]
+    - rulebook: subm3
+    - stride: [1, 1, 1]
+    - subm: 1
+    - transposed: 0
+
+Node: conv12
+  Operator Type: SparseConvolution
+  Inputs: 20, spconv12.weight, spconv12.bias
+  Outputs: 21
+  Attributes:
+    - activation: None
+    - dilation: [1, 1, 1]
+    - groups: 1
+    - in_channels: 64
+    - input_shape: [1, 64]
+    - input_spatial_shape: [360, 360, 11]
+    - inverse: 0
+    - kernel_size: [3, 3, 3]
+    - ndim: 3
+    - out_channels: 64
+    - output_bound: 200000
+    - output_padding: [0, 0, 0]
+    - output_shape: [1, 64]
+    - output_spatial_shape: [360, 360, 11]
+    - padding: [1, 1, 1]
+    - rulebook: subm3
+    - stride: [1, 1, 1]
+    - subm: 1
+    - transposed: 0
+
+Node: add4
+  Operator Type: Add
+  Inputs: 21, 19
+  Outputs: 22
+  Attributes:
+
+Node: relu4
+  Operator Type: Relu
+  Inputs: 22
+  Outputs: 23
+  Attributes:
+
+Node: conv13
+  Operator Type: SparseConvolution
+  Inputs: 23, spconv13.weight, spconv13.bias
+  Outputs: 24
+  Attributes:
+    - activation: ReLU
+    - dilation: [1, 1, 1]
+    - groups: 1
+    - in_channels: 64
+    - input_shape: [1, 64]
+    - input_spatial_shape: [360, 360, 11]
+    - inverse: 0
+    - kernel_size: [3, 3, 3]
+    - ndim: 3
+    - out_channels: 64
+    - output_bound: 200000
+    - output_padding: [0, 0, 0]
+    - output_shape: [1, 64]
+    - output_spatial_shape: [360, 360, 11]
+    - padding: [1, 1, 1]
+    - rulebook: subm3
+    - stride: [1, 1, 1]
+    - subm: 1
+    - transposed: 0
+
+Node: conv14
+  Operator Type: SparseConvolution
+  Inputs: 24, spconv14.weight, spconv14.bias
+  Outputs: 25
+  Attributes:
+    - activation: None
+    - dilation: [1, 1, 1]
+    - groups: 1
+    - in_channels: 64
+    - input_shape: [1, 64]
+    - input_spatial_shape: [360, 360, 11]
+    - inverse: 0
+    - kernel_size: [3, 3, 3]
+    - ndim: 3
+    - out_channels: 64
+    - output_bound: 200000
+    - output_padding: [0, 0, 0]
+    - output_shape: [1, 64]
+    - output_spatial_shape: [360, 360, 11]
+    - padding: [1, 1, 1]
+    - rulebook: subm3
+    - stride: [1, 1, 1]
+    - subm: 1
+    - transposed: 0
+
+Node: add5
+  Operator Type: Add
+  Inputs: 25, 23
+  Outputs: 26
+  Attributes:
+
+Node: relu5
+  Operator Type: Relu
+  Inputs: 26
+  Outputs: 27
+  Attributes:
+
+Node: conv15
+  Operator Type: SparseConvolution
+  Inputs: 27, spconv15.weight, spconv15.bias
+  Outputs: 28
+  Attributes:
+    - activation: ReLU
+    - dilation: [1, 1, 1]
+    - groups: 1
+    - in_channels: 64
+    - input_shape: [1, 64]
+    - input_spatial_shape: [360, 360, 11]
+    - inverse: 0
+    - kernel_size: [3, 3, 3]
+    - ndim: 3
+    - out_channels: 128
+    - output_bound: 200000
+    - output_padding: [0, 0, 0]
+    - output_shape: [1, 128]
+    - output_spatial_shape: [180, 180, 5]
+    - padding: [1, 1, 0]
+    - rulebook: spconv3
+    - stride: [2, 2, 2]
+    - subm: 0
+    - transposed: 0
+
+Node: conv16
+  Operator Type: SparseConvolution
+  Inputs: 28, spconv16.weight, spconv16.bias
+  Outputs: 29
+  Attributes:
+    - activation: ReLU
+    - dilation: [1, 1, 1]
+    - groups: 1
+    - in_channels: 128
+    - input_shape: [1, 128]
+    - input_spatial_shape: [180, 180, 5]
+    - inverse: 0
+    - kernel_size: [3, 3, 3]
+    - ndim: 3
+    - out_channels: 128
+    - output_bound: 200000
+    - output_padding: [0, 0, 0]
+    - output_shape: [1, 128]
+    - output_spatial_shape: [180, 180, 5]
+    - padding: [1, 1, 1]
+    - rulebook: subm4
+    - stride: [1, 1, 1]
+    - subm: 1
+    - transposed: 0
+
+Node: conv17
+  Operator Type: SparseConvolution
+  Inputs: 29, spconv17.weight, spconv17.bias
+  Outputs: 30
+  Attributes:
+    - activation: None
+    - dilation: [1, 1, 1]
+    - groups: 1
+    - in_channels: 128
+    - input_shape: [1, 128]
+    - input_spatial_shape: [180, 180, 5]
+    - inverse: 0
+    - kernel_size: [3, 3, 3]
+    - ndim: 3
+    - out_channels: 128
+    - output_bound: 200000
+    - output_padding: [0, 0, 0]
+    - output_shape: [1, 128]
+    - output_spatial_shape: [180, 180, 5]
+    - padding: [1, 1, 1]
+    - rulebook: subm4
+    - stride: [1, 1, 1]
+    - subm: 1
+    - transposed: 0
+
+Node: add6
+  Operator Type: Add
+  Inputs: 30, 28
+  Outputs: 31
+  Attributes:
+
+Node: relu6
+  Operator Type: Relu
+  Inputs: 31
+  Outputs: 32
+  Attributes:
+
+Node: conv18
+  Operator Type: SparseConvolution
+  Inputs: 32, spconv18.weight, spconv18.bias
+  Outputs: 33
+  Attributes:
+    - activation: ReLU
+    - dilation: [1, 1, 1]
+    - groups: 1
+    - in_channels: 128
+    - input_shape: [1, 128]
+    - input_spatial_shape: [180, 180, 5]
+    - inverse: 0
+    - kernel_size: [3, 3, 3]
+    - ndim: 3
+    - out_channels: 128
+    - output_bound: 200000
+    - output_padding: [0, 0, 0]
+    - output_shape: [1, 128]
+    - output_spatial_shape: [180, 180, 5]
+    - padding: [1, 1, 1]
+    - rulebook: subm4
+    - stride: [1, 1, 1]
+    - subm: 1
+    - transposed: 0
+
+Node: conv19
+  Operator Type: SparseConvolution
+  Inputs: 33, spconv19.weight, spconv19.bias
+  Outputs: 34
+  Attributes:
+    - activation: None
+    - dilation: [1, 1, 1]
+    - groups: 1
+    - in_channels: 128
+    - input_shape: [1, 128]
+    - input_spatial_shape: [180, 180, 5]
+    - inverse: 0
+    - kernel_size: [3, 3, 3]
+    - ndim: 3
+    - out_channels: 128
+    - output_bound: 200000
+    - output_padding: [0, 0, 0]
+    - output_shape: [1, 128]
+    - output_spatial_shape: [180, 180, 5]
+    - padding: [1, 1, 1]
+    - rulebook: subm4
+    - stride: [1, 1, 1]
+    - subm: 1
+    - transposed: 0
+
+Node: add7
+  Operator Type: Add
+  Inputs: 34, 32
+  Outputs: 35
+  Attributes:
+
+Node: relu7
+  Operator Type: Relu
+  Inputs: 35
+  Outputs: 36
+  Attributes:
+
+Node: conv20
+  Operator Type: SparseConvolution
+  Inputs: 36, spconv20.weight, spconv20.bias
+  Outputs: 37
+  Attributes:
+    - activation: ReLU
+    - dilation: [1, 1, 1]
+    - groups: 1
+    - in_channels: 128
+    - input_shape: [1, 128]
+    - input_spatial_shape: [180, 180, 5]
+    - inverse: 0
+    - kernel_size: [1, 1, 3]
+    - ndim: 3
+    - out_channels: 128
+    - output_bound: 200000
+    - output_padding: [0, 0, 0]
+    - output_shape: [1, 128]
+    - output_spatial_shape: [180, 180, 2]
+    - padding: [0, 0, 0]
+    - rulebook: spconv_down2
+    - stride: [1, 1, 2]
+    - subm: 0
+    - transposed: 0
+
+Node: scatter0
+  Operator Type: ScatterDense
+  Inputs: 37
+  Outputs: 38
+  Attributes:
+    - format: xyz
+    - input_spatial_shape: [180, 180, 2]
+    - output_shape: [1, 128, 180, 180, 2]
+
+Node: transpose0
+  Operator Type: Transpose
+  Inputs: 38
+  Outputs: 39
+  Attributes:
+    - dims: [0, 1, 4, 2, 3]
+
+Node: reshape0
+  Operator Type: Reshape
+  Inputs: 39
+  Outputs: 40
+  Attributes:
+    - dims: [1, 256, 180, 180]
+
+### Initializer (Weights and Constants) ###
+Name: spconv0.weight, Shape: [16, 3, 3, 3, 5], Data Type: 10
+Name: spconv0.bias, Shape: [16], Data Type: 10
+Name: spconv1.weight, Shape: [16, 3, 3, 3, 16], Data Type: 10
+Name: spconv1.bias, Shape: [16], Data Type: 10
+Name: spconv2.weight, Shape: [16, 3, 3, 3, 16], Data Type: 10
+Name: spconv2.bias, Shape: [16], Data Type: 10
+Name: spconv3.weight, Shape: [16, 3, 3, 3, 16], Data Type: 10
+Name: spconv3.bias, Shape: [16], Data Type: 10
+Name: spconv4.weight, Shape: [16, 3, 3, 3, 16], Data Type: 10
+Name: spconv4.bias, Shape: [16], Data Type: 10
+Name: spconv5.weight, Shape: [32, 3, 3, 3, 16], Data Type: 10
+Name: spconv5.bias, Shape: [32], Data Type: 10
+Name: spconv6.weight, Shape: [32, 3, 3, 3, 32], Data Type: 10
+Name: spconv6.bias, Shape: [32], Data Type: 10
+Name: spconv7.weight, Shape: [32, 3, 3, 3, 32], Data Type: 10
+Name: spconv7.bias, Shape: [32], Data Type: 10
+Name: spconv8.weight, Shape: [32, 3, 3, 3, 32], Data Type: 10
+Name: spconv8.bias, Shape: [32], Data Type: 10
+Name: spconv9.weight, Shape: [32, 3, 3, 3, 32], Data Type: 10
+Name: spconv9.bias, Shape: [32], Data Type: 10
+Name: spconv10.weight, Shape: [64, 3, 3, 3, 32], Data Type: 10
+Name: spconv10.bias, Shape: [64], Data Type: 10
+Name: spconv11.weight, Shape: [64, 3, 3, 3, 64], Data Type: 10
+Name: spconv11.bias, Shape: [64], Data Type: 10
+Name: spconv12.weight, Shape: [64, 3, 3, 3, 64], Data Type: 10
+Name: spconv12.bias, Shape: [64], Data Type: 10
+Name: spconv13.weight, Shape: [64, 3, 3, 3, 64], Data Type: 10
+Name: spconv13.bias, Shape: [64], Data Type: 10
+Name: spconv14.weight, Shape: [64, 3, 3, 3, 64], Data Type: 10
+Name: spconv14.bias, Shape: [64], Data Type: 10
+Name: spconv15.weight, Shape: [128, 3, 3, 3, 64], Data Type: 10
+Name: spconv15.bias, Shape: [128], Data Type: 10
+Name: spconv16.weight, Shape: [128, 3, 3, 3, 128], Data Type: 10
+Name: spconv16.bias, Shape: [128], Data Type: 10
+Name: spconv17.weight, Shape: [128, 3, 3, 3, 128], Data Type: 10
+Name: spconv17.bias, Shape: [128], Data Type: 10
+Name: spconv18.weight, Shape: [128, 3, 3, 3, 128], Data Type: 10
+Name: spconv18.bias, Shape: [128], Data Type: 10
+Name: spconv19.weight, Shape: [128, 3, 3, 3, 128], Data Type: 10
+Name: spconv19.bias, Shape: [128], Data Type: 10
+Name: spconv20.weight, Shape: [128, 1, 1, 3, 128], Data Type: 10
+Name: spconv20.bias, Shape: [128], Data Type: 10
+
+=== End of ONNX Model Info ===

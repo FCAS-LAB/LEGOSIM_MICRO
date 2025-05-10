@@ -71,7 +71,7 @@ cuobj_dir:
 	mkdir -p cuobj
 
 run:
-	$(INTERCHIPLET) mlp.yml
+	$(INTERCHIPLET) mlp_config.yml -w 10 
 
 run_cpu:
 	$(SNIPER_EXEC) --curdir $(BENCHMARK_ROOT) -- $(BENCHMARK_ROOT)/$(SNIPER_TARGET) 0 0
@@ -88,7 +88,7 @@ valgrind: $(SNIPER_TARGET)
 
 clean:
 	rm -rf bench.txt delayInfo.txt buffer* message_record.txt
-	rm -rf proc_r*_t* *.log
+	rm -rf proc_r*_t* 
 
 clean_all:
 	make clean 

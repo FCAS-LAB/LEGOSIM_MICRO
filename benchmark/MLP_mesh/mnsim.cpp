@@ -15,9 +15,9 @@ int main(int argc, char** argv)
     long long unsigned int timeNow = 1;
     int size = 12*12*8;
     int64_t* size_A = new int64_t[size];
-    std::string fileName = InterChiplet::receiveSync(5, 5, idX, idY);
+    std::string fileName = InterChiplet::receiveSync(9, 9, idX, idY);
     global_pipe_comm.read_data(fileName.c_str(), size_A, size * sizeof(int64_t));
-    long long int time_end = InterChiplet::readSync(timeNow, 5, 5, idX, idY, size * sizeof(int64_t), 0);
+    long long int time_end = InterChiplet::readSync(timeNow, 9, 9, idX, idY, size * sizeof(int64_t), 0);
 
     system("cd /home/qc/Chiplet_Heterogeneous_newVersion_gem5/Chiplet_Heterogeneous_newVersion/MNSIMChiplet;python3 MNSIM_Chiplet.py -ID1 0 -ID2 2");
 
@@ -32,9 +32,9 @@ int main(int argc, char** argv)
         ans[i] = i;
     }
 
-    fileName = InterChiplet::sendSync(idX, idY, 5, 5);
+    fileName = InterChiplet::sendSync(idX, idY, 9, 9);
     global_pipe_comm.write_data(fileName.c_str(), ans, size * sizeof(int64_t));
-    time_end = InterChiplet::writeSync(time_end, idX, idY, 5, 5, size * sizeof(int64_t), 0);
+    time_end = InterChiplet::writeSync(timeNow, idX, idY, 9, 9, size * sizeof(int64_t), 0);
 
     delete[] size_A;
     delete[] ans;

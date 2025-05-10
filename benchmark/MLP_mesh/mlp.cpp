@@ -14,6 +14,8 @@
 
 #include "apis_c.h"
 
+#define GPU_COUNT 25
+
 using json = nlohmann::json;
 // using namespace InterChiplet;
 
@@ -25,6 +27,9 @@ using json = nlohmann::json;
 #define CFG_CNN_SIZE_Y 3
 #define CFG_CNN_SIZE_Z 3
 #define WT_DATA_SIZE 32*4
+
+std::unordered_map<int, std::pair<int, int>> gpu_first_placement;
+std::unordered_map<int, std::pair<int, int>> gpu_second_placement;
 
 void random_init(int64_t * data, int size){
     int i;
@@ -180,10 +185,10 @@ void GpuMultiply(double* mat1, double* mat2, int fst_Row, int fst_Col, int sec_R
     std::cout << "##########################################" << std::endl;
     InterChiplet::sendMessage(dstX, dstY, srcX, srcY, Mat2, sec_Row * sec_Col * sizeof(int64_t));
     std::cout << "##########################################" << std::endl;
-    bool file = 1;
-    while (file == 0) {
-        file = checkfile(dstX, dstY, srcX, srcY);
-    }
+    // bool file = 1;
+    // while (file == 0) {
+    //     file = checkfile(dstX, dstY, srcX, srcY);
+    // }
 
     double* result = new double[fst_Row * sec_Col];
     int64_t* Result_2 = new int64_t[fst_Row * sec_Col];
@@ -214,58 +219,145 @@ void ToGPU(double* mat1, double* mat2, int fst_Row, int fst_Col, int sec_Row, in
            std::vector<std::vector<double>>& Res, int gpu_num) {
     std::vector<std::vector<std::vector<double>>> dev1, dev2;
     std::vector<std::vector<double>> dev1_, dev2_;
-    int Col_per_GPU = fst_Col / 2 + fst_Col % 2;
-    for (int start = 0; start < fst_Col; start += Col_per_GPU) {
+    
+    // 判断是否需要减少GPU数量
+    int gpu_count = GPU_COUNT;
+    if (fst_Col < gpu_count || sec_Row < gpu_count) {
+        // 如果矩阵维度小于GPU数量，减少使用的GPU数量
+        gpu_count = std::min(fst_Col, sec_Row);
+        if (gpu_count < 1) gpu_count = 1; // 确保至少使用一个GPU
+        std::cout << "警告: 矩阵维度较小，自动减少使用的GPU数量为：" << gpu_count << std::endl;
+    }
+    
+    // 基本列数：所有GPU处理的列数
+    int base_Col_per_GPU = std::max(1, fst_Col / gpu_count); // 确保至少为1
+    
+    // 分割并分配任务给每个GPU
+    for (int gpu_idx = 0; gpu_idx < gpu_count; gpu_idx++) {
+        int start = gpu_idx * base_Col_per_GPU;
+        int end = (gpu_idx == gpu_count - 1) ? fst_Col : (gpu_idx + 1) * base_Col_per_GPU;
+        
+        // 如果这个区段没有数据，跳过此GPU
+        if (start >= fst_Col || start >= end) {
+            continue;
+        }
+        
+        // 处理第一个矩阵的分区
+        dev1_.clear();
         for (int i = 0; i < fst_Row; i++) {
             std::vector<double> dev_temp;
-            for (int j = start; j < fst_Col && j < start + Col_per_GPU; j++) {
+            for (int j = start; j < end; j++) {
                 dev_temp.push_back(mat1[i * fst_Col + j]);
             }
             dev1_.push_back(dev_temp);
         }
-        dev1.push_back(dev1_);
-        dev1_.clear();
-    }
-    for (int i = 0; i < sec_Row; i++) {
-        std::vector<double> dev_temp;
-        for (int j = 0; j < sec_Col; j++) {
-            dev_temp.push_back(mat2[i * sec_Col + j]);
+        
+        // 确保数据不为空
+        if (!dev1_.empty() && !dev1_[0].empty()) {
+            dev1.push_back(dev1_);
         }
-        dev2_.push_back(dev_temp);
-        if ((i + 1) % Col_per_GPU == 0 || i == sec_Row - 1) {
+        
+        // 处理第二个矩阵的相应分区
+        dev2_.clear();
+        int sec_start = start;
+        int sec_end = end;
+        if (sec_start >= sec_Row) {
+            sec_start = sec_Row - 1;
+        }
+        if (sec_end > sec_Row) {
+            sec_end = sec_Row;
+        }
+        
+        for (int i = sec_start; i < sec_end; i++) {
+            std::vector<double> dev_temp;
+            for (int j = 0; j < sec_Col; j++) {
+                dev_temp.push_back(mat2[i * sec_Col + j]);
+            }
+            dev2_.push_back(dev_temp);
+        }
+        
+        // 确保数据不为空
+        if (!dev2_.empty() && !dev2_[0].empty()) {
             dev2.push_back(dev2_);
-            dev2_.clear();
         }
     }
-    int dstX = 0;
-    if (gpu_num == 2) {
-        dstX = 1;
+    
+    // 如果没有成功分割任何数据，直接返回
+    if (dev1.empty() || dev2.empty()) {
+        std::cerr << "错误: 无法将矩阵分割为有效的区块!" << std::endl;
+        return;
     }
+    
+    // 为每个分区创建结果容器
     std::vector<std::thread> THREAD;
     std::vector<std::vector<std::vector<double>>> res;
     for (size_t i = 0; i < dev1.size(); i++) {
+        // 检查索引是否有效
+        if (i >= dev2.size() || dev2[i].empty() || dev2[i][0].empty()) {
+            std::cerr << "错误: 区块 " << i << " 的第二个矩阵维度无效!" << std::endl;
+            continue;
+        }
+        
         std::vector<std::vector<double>> res_temp(dev1[i].size(),
-                                                  std::vector<double>(dev2[i][0].size()));
+                                             std::vector<double>(dev2[i][0].size()));
         res.push_back(res_temp);
     }
-    for (size_t i = 0; i < dev1.size(); i++) {
+    
+    // 为每个区块创建线程执行计算
+    for (size_t i = 0; i < dev1.size() && i < dev2.size(); i++) {
+        int dstX = gpu_first_placement[i % GPU_COUNT].first;
+        int dstY = gpu_first_placement[i % GPU_COUNT].second;
+        if (gpu_num == 2) {
+            dstX = gpu_second_placement[i % GPU_COUNT].first;
+            dstY = gpu_second_placement[i % GPU_COUNT].second;
+        }
+        
+        // 确保数据结构不为空
+        if(dev1[i].empty() || dev2[i].empty() || dev2[i][0].empty()) {
+            std::cerr << "错误: 区块 " << i << " 数据结构为空，跳过!" << std::endl;
+            continue;
+        }
+        
         double* Dev1 = new double[dev1[i].size() * dev1[i][0].size()];
         vectorToDouble(dev1[i], Dev1);
         double* Dev2 = new double[dev2[i].size() * dev2[i][0].size()];
         vectorToDouble(dev2[i], Dev2);
-        // GpuMultiply(Dev1,Dev2,dev1[i].size(),dev1[i][0].size(),dev2[i].size(),dev2[i][0].size(),std::ref(res[i]),dstX,i+1);
-        // std::thread
-        // t(&BPNeuralNetwork::GpuMultiply,this,Dev1,Dev2,dev1[i].size(),dev1[i][0].size(),dev2[i].size(),dev2[i][0].size(),std::ref(res[i]),dstX,i+1);
+        
+        std::cout << "GPU " << i << " 处理矩阵区块: " 
+                  << dev1[i].size() << "x" << dev1[i][0].size() << " * " 
+                  << dev2[i].size() << "x" << dev2[i][0].size() << std::endl;
+                  
         THREAD.push_back(std::thread(GpuMultiply, Dev1, Dev2, dev1[i].size(), dev1[i][0].size(),
                                      dev2[i].size(), dev2[i][0].size(), std::ref(res[i]), dstX,
-                                     i + 1));
+                                     dstY));
     }
+    
+    // 等待所有线程完成
     for (auto& i : THREAD) {
         i.join();
     }
+    
+    // 如果res为空，返回空结果
+    if (res.empty()) {
+        std::cerr << "错误: 没有计算结果可用!" << std::endl;
+        return;
+    }
+    
+    // 合并结果
     Res = res[0];
     for (size_t i = 1; i < res.size(); i++) {
+        // 检查结果维度是否兼容
+        if (res[i].size() != Res.size()) {
+            std::cerr << "警告: 结果维度不匹配，跳过合并第 " << i << " 个结果!" << std::endl;
+            continue;
+        }
+        
         for (size_t j = 0; j < res[i].size(); j++) {
+            if (res[i][j].size() != Res[j].size()) {
+                std::cerr << "警告: 结果行 " << j << " 维度不匹配，跳过!" << std::endl;
+                continue;
+            }
+            
             for (size_t z = 0; z < res[i][j].size(); z++) {
                 Res[j][z] += res[i][j][z];
             }
@@ -300,10 +392,10 @@ void T(double* a, std::vector<std::vector<double>> x, int Row, int Col) {
     int64_t *size_A = new int64_t[2];
     size_A[0] = Row;
     size_A[1] = Col;
-    InterChiplet::sendMessage(2, 0, srcX, srcY, size_A, 2 * sizeof(int64_t));
+    InterChiplet::sendMessage(9, 8, srcX, srcY, size_A, 2 * sizeof(int64_t));
     std::cout<<"Row: "<<Row<<" Col: "<<Col<<std::endl;
-    InterChiplet::sendMessage(2, 0, srcX, srcY, x1, Col * Row * sizeof(double));
-    InterChiplet::receiveMessage(srcX, srcY, 2, 0, a, Col * Row * sizeof(double));
+    InterChiplet::sendMessage(9, 8, srcX, srcY, x1, Col * Row * sizeof(double));
+    InterChiplet::receiveMessage(srcX, srcY, 9, 8, a, Col * Row * sizeof(double));
     std::cout<<"#########################test T over####################"<<std::endl;
     delete[] size_A;
     for (int j = 0; j < Col; j++) {
@@ -635,6 +727,21 @@ std::string getSimulatorRootPath() {
 }
 
 int main(int argc, char** argv) {
+    // 在10*10的mesh网络拓扑中配置first组25个芯粒
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            int index = i * 5 + j;
+            gpu_first_placement[index] = std::make_pair(i, j);
+        }
+    }
+    
+    // 在10*10的mesh网络拓扑中配置second组25个芯粒
+    for (int i = 0; i < 5; i++) {
+        for (int j = 5; j < 10; j++) {
+            int index = i * 5 + (j - 5);
+            gpu_second_placement[index] = std::make_pair(i, j);
+        }
+    }
     std::string json_path = getSimulatorRootPath()+ "temp_data.json";
 
     int srcX = atoi(argv[1]);
@@ -643,12 +750,12 @@ int main(int argc, char** argv) {
     int64_t *test = new int64_t[size];
     int64_t *test_ans = new int64_t[size];
     random_init(test, size);
-    InterChiplet::sendMessage(0, 3, srcX, srcY, test, size*sizeof(int64_t));
-    InterChiplet::receiveMessage(srcX, srcY, 0, 3, test_ans, size*sizeof(int64_t));
+    InterChiplet::sendMessage(9, 7, srcX, srcY, test, size*sizeof(int64_t));
+    InterChiplet::receiveMessage(srcX, srcY, 9, 7, test_ans, size*sizeof(int64_t));
     delete[] test;
     delete[] test_ans;
     std::cout<<"-------------------------------------mnsim over-------------------------------------"<<std::endl;
-    std::vector<int> hidden_size = {10, 15};
+    std::vector<int> hidden_size = {200, 300}; 
     std::vector<std::vector<double>> x_train, x_test;
     std::vector<std::vector<double>> y_train, y_test;
 
@@ -668,13 +775,16 @@ int main(int argc, char** argv) {
     Mat2_size[0] = -1;
     Mat2_size[1] = -1;
 
-    for(int i=0;i<2;i++){
-        for(int j=1;j<=2;j++){
-            InterChiplet::sendMessage(i, j, srcX, srcY, Mat1_size, 2 * sizeof(int64_t));
-            InterChiplet::sendMessage(i, j, srcX, srcY, Mat2_size, 2 * sizeof(int64_t));
-        }
+
+    for(int i=0;i<GPU_COUNT;i++){
+        InterChiplet::sendMessage(gpu_first_placement[i].first, gpu_first_placement[i].second, srcX, srcY, Mat1_size, 2 * sizeof(int64_t));
+        InterChiplet::sendMessage(gpu_first_placement[i].first, gpu_first_placement[i].second, srcX, srcY, Mat1_size, 2 * sizeof(int64_t));
+        InterChiplet::sendMessage(gpu_second_placement[i].first, gpu_second_placement[i].second, srcX, srcY, Mat2_size, 2 * sizeof(int64_t));
+        InterChiplet::sendMessage(gpu_second_placement[i].first, gpu_second_placement[i].second, srcX, srcY, Mat2_size, 2 * sizeof(int64_t));
     }
-    InterChiplet::sendMessage(2, 0, srcX, srcY, Mat1_size, 2 * sizeof(int64_t));
+
+    InterChiplet::sendMessage(9, 8, srcX, srcY, Mat1_size, 2 * sizeof(int64_t));
+    // InterChiplet::sendMessage(3, 3, srcX, srcY, Mat2_size, 2 * sizeof(int64_t));
 
     delete[] Mat1_size;
     delete[] Mat2_size;

@@ -1,0 +1,6244 @@
+=== ONNX Model: camera.backbone.onnx ===
+
+### Model Inputs ###
+Name: img, Type: tensor_type {
+  elem_type: 1
+  shape {
+    dim {
+      dim_value: 1
+    }
+    dim {
+      dim_value: 6
+    }
+    dim {
+      dim_value: 3
+    }
+    dim {
+      dim_value: 256
+    }
+    dim {
+      dim_value: 704
+    }
+  }
+}
+
+Name: depth, Type: tensor_type {
+  elem_type: 1
+  shape {
+    dim {
+      dim_value: 1
+    }
+    dim {
+      dim_value: 6
+    }
+    dim {
+      dim_value: 1
+    }
+    dim {
+      dim_value: 256
+    }
+    dim {
+      dim_value: 704
+    }
+  }
+}
+
+
+### Model Outputs ###
+Name: camera_feature, Type: tensor_type {
+  elem_type: 1
+  shape {
+    dim {
+      dim_value: 6
+    }
+    dim {
+      dim_value: 32
+    }
+    dim {
+      dim_value: 88
+    }
+    dim {
+      dim_value: 80
+    }
+  }
+}
+
+Name: camera_depth_weights, Type: tensor_type {
+  elem_type: 1
+  shape {
+    dim {
+      dim_value: 6
+    }
+    dim {
+      dim_value: 118
+    }
+    dim {
+      dim_value: 32
+    }
+    dim {
+      dim_value: 88
+    }
+  }
+}
+
+
+### Graph Nodes ###
+Node: Reshape_0
+  Operator Type: Reshape
+  Inputs: img, 11332
+  Outputs: 485
+  Attributes:
+
+Node: Conv_1
+  Operator Type: Conv
+  Inputs: 485, model.encoders.camera.backbone.patch_embed.projection.weight, model.encoders.camera.backbone.patch_embed.projection.bias
+  Outputs: 486
+  Attributes:
+    - dilations: [1, 1]
+    - group: 1
+    - kernel_shape: [4, 4]
+    - pads: [0, 0, 0, 0]
+    - strides: [4, 4]
+
+Node: Reshape_9
+  Operator Type: Reshape
+  Inputs: 486, 11623
+  Outputs: 496
+  Attributes:
+
+Node: Transpose_10
+  Operator Type: Transpose
+  Inputs: 496
+  Outputs: 497
+  Attributes:
+    - perm: [0, 2, 1]
+
+Node: ReduceMean_11
+  Operator Type: ReduceMean
+  Inputs: 497
+  Outputs: 498
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_12
+  Operator Type: Sub
+  Inputs: 497, 498
+  Outputs: 499
+  Attributes:
+
+Node: Pow_15
+  Operator Type: Pow
+  Inputs: 499, 501
+  Outputs: 502
+  Attributes:
+
+Node: ReduceMean_16
+  Operator Type: ReduceMean
+  Inputs: 502
+  Outputs: 503
+  Attributes:
+    - axes: [-1]
+
+Node: Add_18
+  Operator Type: Add
+  Inputs: 503, 504
+  Outputs: 505
+  Attributes:
+
+Node: Sqrt_19
+  Operator Type: Sqrt
+  Inputs: 505
+  Outputs: 506
+  Attributes:
+
+Node: Div_20
+  Operator Type: Div
+  Inputs: 499, 506
+  Outputs: 507
+  Attributes:
+
+Node: Mul_21
+  Operator Type: Mul
+  Inputs: 507, model.encoders.camera.backbone.patch_embed.norm.weight
+  Outputs: 508
+  Attributes:
+
+Node: Add_22
+  Operator Type: Add
+  Inputs: 508, model.encoders.camera.backbone.patch_embed.norm.bias
+  Outputs: 509
+  Attributes:
+
+Node: ReduceMean_23
+  Operator Type: ReduceMean
+  Inputs: 509
+  Outputs: 510
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_24
+  Operator Type: Sub
+  Inputs: 509, 510
+  Outputs: 511
+  Attributes:
+
+Node: Pow_27
+  Operator Type: Pow
+  Inputs: 511, 501
+  Outputs: 514
+  Attributes:
+
+Node: ReduceMean_28
+  Operator Type: ReduceMean
+  Inputs: 514
+  Outputs: 515
+  Attributes:
+    - axes: [-1]
+
+Node: Add_30
+  Operator Type: Add
+  Inputs: 515, 504
+  Outputs: 517
+  Attributes:
+
+Node: Sqrt_31
+  Operator Type: Sqrt
+  Inputs: 517
+  Outputs: 518
+  Attributes:
+
+Node: Div_32
+  Operator Type: Div
+  Inputs: 511, 518
+  Outputs: 519
+  Attributes:
+
+Node: Mul_33
+  Operator Type: Mul
+  Inputs: 519, model.encoders.camera.backbone.stages.0.blocks.0.norm1.weight
+  Outputs: 520
+  Attributes:
+
+Node: Add_34
+  Operator Type: Add
+  Inputs: 520, model.encoders.camera.backbone.stages.0.blocks.0.norm1.bias
+  Outputs: 521
+  Attributes:
+
+Node: Reshape_35
+  Operator Type: Reshape
+  Inputs: 521, 11337
+  Outputs: 533
+  Attributes:
+
+Node: Pad_50
+  Operator Type: Pad
+  Inputs: 533, 586, 587
+  Outputs: 588
+  Attributes:
+    - mode: constant
+
+Node: Reshape_86
+  Operator Type: Reshape
+  Inputs: 588, 629
+  Outputs: 630
+  Attributes:
+
+Node: Transpose_87
+  Operator Type: Transpose
+  Inputs: 630
+  Outputs: 631
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_91
+  Operator Type: Reshape
+  Inputs: 631, 11379
+  Outputs: 644
+  Attributes:
+
+Node: Reshape_92
+  Operator Type: Reshape
+  Inputs: 644, 11365
+  Outputs: 654
+  Attributes:
+
+Node: MatMul_102
+  Operator Type: MatMul
+  Inputs: 654, 11366
+  Outputs: 665
+  Attributes:
+
+Node: Add_103
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.0.blocks.0.attn.w_msa.qkv.bias, 665
+  Outputs: 666
+  Attributes:
+
+Node: Reshape_115
+  Operator Type: Reshape
+  Inputs: 666, 7090
+  Outputs: 684
+  Attributes:
+
+Node: Transpose_116
+  Operator Type: Transpose
+  Inputs: 684
+  Outputs: 685
+  Attributes:
+    - perm: [2, 0, 3, 1, 4]
+
+Node: Gather_118
+  Operator Type: Gather
+  Inputs: 685, 596
+  Outputs: 687
+  Attributes:
+    - axis: 0
+
+Node: Gather_120
+  Operator Type: Gather
+  Inputs: 685, 590
+  Outputs: 689
+  Attributes:
+    - axis: 0
+
+Node: Gather_122
+  Operator Type: Gather
+  Inputs: 685, 593
+  Outputs: 691
+  Attributes:
+    - axis: 0
+
+Node: Mul_124
+  Operator Type: Mul
+  Inputs: 687, 692
+  Outputs: 693
+  Attributes:
+
+Node: Transpose_125
+  Operator Type: Transpose
+  Inputs: 689
+  Outputs: 694
+  Attributes:
+    - perm: [0, 1, 3, 2]
+
+Node: MatMul_126
+  Operator Type: MatMul
+  Inputs: 693, 694
+  Outputs: 695
+  Attributes:
+
+Node: Add_127
+  Operator Type: Add
+  Inputs: 695, 11373
+  Outputs: 704
+  Attributes:
+
+Node: Softmax_128
+  Operator Type: Softmax
+  Inputs: 704
+  Outputs: 705
+  Attributes:
+    - axis: -1
+
+Node: MatMul_129
+  Operator Type: MatMul
+  Inputs: 705, 691
+  Outputs: 706
+  Attributes:
+
+Node: Transpose_130
+  Operator Type: Transpose
+  Inputs: 706
+  Outputs: 707
+  Attributes:
+    - perm: [0, 2, 1, 3]
+
+Node: Reshape_138
+  Operator Type: Reshape
+  Inputs: 707, 11365
+  Outputs: 715
+  Attributes:
+
+Node: MatMul_139
+  Operator Type: MatMul
+  Inputs: 715, 11374
+  Outputs: 717
+  Attributes:
+
+Node: Add_140
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.0.blocks.0.attn.w_msa.proj.bias, 717
+  Outputs: 718
+  Attributes:
+
+Node: Reshape_141
+  Operator Type: Reshape
+  Inputs: 718, 11379
+  Outputs: 731
+  Attributes:
+
+Node: Reshape_155
+  Operator Type: Reshape
+  Inputs: 731, 756
+  Outputs: 757
+  Attributes:
+
+Node: Transpose_156
+  Operator Type: Transpose
+  Inputs: 757
+  Outputs: 758
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_162
+  Operator Type: Reshape
+  Inputs: 758, 769
+  Outputs: 770
+  Attributes:
+
+Node: Slice_167
+  Operator Type: Slice
+  Inputs: 770, 490, 773, 11416, 11416
+  Outputs: 775
+  Attributes:
+
+Node: Slice_172
+  Operator Type: Slice
+  Inputs: 775, 490, 778, 492, 11416
+  Outputs: 780
+  Attributes:
+
+Node: Reshape_173
+  Operator Type: Reshape
+  Inputs: 780, 11389
+  Outputs: 789
+  Attributes:
+
+Node: Add_174
+  Operator Type: Add
+  Inputs: 789, 509
+  Outputs: 790
+  Attributes:
+
+Node: ReduceMean_175
+  Operator Type: ReduceMean
+  Inputs: 790
+  Outputs: 791
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_176
+  Operator Type: Sub
+  Inputs: 790, 791
+  Outputs: 792
+  Attributes:
+
+Node: Pow_179
+  Operator Type: Pow
+  Inputs: 792, 501
+  Outputs: 795
+  Attributes:
+
+Node: ReduceMean_180
+  Operator Type: ReduceMean
+  Inputs: 795
+  Outputs: 796
+  Attributes:
+    - axes: [-1]
+
+Node: Add_182
+  Operator Type: Add
+  Inputs: 796, 504
+  Outputs: 798
+  Attributes:
+
+Node: Sqrt_183
+  Operator Type: Sqrt
+  Inputs: 798
+  Outputs: 799
+  Attributes:
+
+Node: Div_184
+  Operator Type: Div
+  Inputs: 792, 799
+  Outputs: 800
+  Attributes:
+
+Node: Mul_185
+  Operator Type: Mul
+  Inputs: 800, model.encoders.camera.backbone.stages.0.blocks.0.norm2.weight
+  Outputs: 801
+  Attributes:
+
+Node: Add_186
+  Operator Type: Add
+  Inputs: 801, model.encoders.camera.backbone.stages.0.blocks.0.norm2.bias
+  Outputs: 802
+  Attributes:
+
+Node: MatMul_187
+  Operator Type: MatMul
+  Inputs: 802, 11390
+  Outputs: 804
+  Attributes:
+
+Node: Add_188
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.0.blocks.0.ffn.layers.0.0.bias, 804
+  Outputs: 805
+  Attributes:
+
+Node: Div_190
+  Operator Type: Div
+  Inputs: 805, 806
+  Outputs: 807
+  Attributes:
+
+Node: Erf_191
+  Operator Type: Erf
+  Inputs: 807
+  Outputs: 808
+  Attributes:
+
+Node: Add_193
+  Operator Type: Add
+  Inputs: 808, 809
+  Outputs: 810
+  Attributes:
+
+Node: Mul_194
+  Operator Type: Mul
+  Inputs: 805, 810
+  Outputs: 811
+  Attributes:
+
+Node: Mul_196
+  Operator Type: Mul
+  Inputs: 811, 812
+  Outputs: 813
+  Attributes:
+
+Node: MatMul_197
+  Operator Type: MatMul
+  Inputs: 813, 11391
+  Outputs: 815
+  Attributes:
+
+Node: Add_198
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.0.blocks.0.ffn.layers.1.bias, 815
+  Outputs: 816
+  Attributes:
+
+Node: Add_199
+  Operator Type: Add
+  Inputs: 790, 816
+  Outputs: 817
+  Attributes:
+
+Node: ReduceMean_200
+  Operator Type: ReduceMean
+  Inputs: 817
+  Outputs: 818
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_201
+  Operator Type: Sub
+  Inputs: 817, 818
+  Outputs: 819
+  Attributes:
+
+Node: Pow_204
+  Operator Type: Pow
+  Inputs: 819, 501
+  Outputs: 822
+  Attributes:
+
+Node: ReduceMean_205
+  Operator Type: ReduceMean
+  Inputs: 822
+  Outputs: 823
+  Attributes:
+    - axes: [-1]
+
+Node: Add_207
+  Operator Type: Add
+  Inputs: 823, 504
+  Outputs: 825
+  Attributes:
+
+Node: Sqrt_208
+  Operator Type: Sqrt
+  Inputs: 825
+  Outputs: 826
+  Attributes:
+
+Node: Div_209
+  Operator Type: Div
+  Inputs: 819, 826
+  Outputs: 827
+  Attributes:
+
+Node: Mul_210
+  Operator Type: Mul
+  Inputs: 827, model.encoders.camera.backbone.stages.0.blocks.1.norm1.weight
+  Outputs: 828
+  Attributes:
+
+Node: Add_211
+  Operator Type: Add
+  Inputs: 828, model.encoders.camera.backbone.stages.0.blocks.1.norm1.bias
+  Outputs: 829
+  Attributes:
+
+Node: Reshape_212
+  Operator Type: Reshape
+  Inputs: 829, 11337
+  Outputs: 841
+  Attributes:
+
+Node: Pad_227
+  Operator Type: Pad
+  Inputs: 841, 586, 587
+  Outputs: 896
+  Attributes:
+    - mode: constant
+
+Node: Slice_237
+  Operator Type: Slice
+  Inputs: 896, 11367, 905, 11416
+  Outputs: 906
+  Attributes:
+
+Node: Slice_241
+  Operator Type: Slice
+  Inputs: 896, 490, 11367, 11416
+  Outputs: 910
+  Attributes:
+
+Node: Concat_242
+  Operator Type: Concat
+  Inputs: 906, 910
+  Outputs: 911
+  Attributes:
+    - axis: 1
+
+Node: Slice_246
+  Operator Type: Slice
+  Inputs: 911, 11367, 905, 492
+  Outputs: 915
+  Attributes:
+
+Node: Slice_250
+  Operator Type: Slice
+  Inputs: 911, 490, 11367, 492
+  Outputs: 919
+  Attributes:
+
+Node: Concat_251
+  Operator Type: Concat
+  Inputs: 915, 919
+  Outputs: 920
+  Attributes:
+    - axis: 2
+
+Node: Reshape_1303
+  Operator Type: Reshape
+  Inputs: 920, 629
+  Outputs: 1999
+  Attributes:
+
+Node: Transpose_1304
+  Operator Type: Transpose
+  Inputs: 1999
+  Outputs: 2000
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_1308
+  Operator Type: Reshape
+  Inputs: 2000, 11379
+  Outputs: 2013
+  Attributes:
+
+Node: Reshape_1309
+  Operator Type: Reshape
+  Inputs: 2013, 11365
+  Outputs: 2023
+  Attributes:
+
+Node: MatMul_1319
+  Operator Type: MatMul
+  Inputs: 2023, 11432
+  Outputs: 2034
+  Attributes:
+
+Node: Add_1320
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.0.blocks.1.attn.w_msa.qkv.bias, 2034
+  Outputs: 2035
+  Attributes:
+
+Node: Reshape_1332
+  Operator Type: Reshape
+  Inputs: 2035, 7090
+  Outputs: 2053
+  Attributes:
+
+Node: Transpose_1333
+  Operator Type: Transpose
+  Inputs: 2053
+  Outputs: 2054
+  Attributes:
+    - perm: [2, 0, 3, 1, 4]
+
+Node: Gather_1335
+  Operator Type: Gather
+  Inputs: 2054, 596
+  Outputs: 2056
+  Attributes:
+    - axis: 0
+
+Node: Gather_1337
+  Operator Type: Gather
+  Inputs: 2054, 590
+  Outputs: 2058
+  Attributes:
+    - axis: 0
+
+Node: Gather_1339
+  Operator Type: Gather
+  Inputs: 2054, 593
+  Outputs: 2060
+  Attributes:
+    - axis: 0
+
+Node: Mul_1341
+  Operator Type: Mul
+  Inputs: 2056, 692
+  Outputs: 2062
+  Attributes:
+
+Node: Transpose_1342
+  Operator Type: Transpose
+  Inputs: 2058
+  Outputs: 2063
+  Attributes:
+    - perm: [0, 1, 3, 2]
+
+Node: MatMul_1343
+  Operator Type: MatMul
+  Inputs: 2062, 2063
+  Outputs: 2064
+  Attributes:
+
+Node: Add_1344
+  Operator Type: Add
+  Inputs: 2064, 11439
+  Outputs: 2073
+  Attributes:
+
+Node: Reshape_1360
+  Operator Type: Reshape
+  Inputs: 2073, 7100
+  Outputs: 2092
+  Attributes:
+
+Node: Add_1365
+  Operator Type: Add
+  Inputs: 2092, 2096
+  Outputs: 2097
+  Attributes:
+
+Node: Reshape_1371
+  Operator Type: Reshape
+  Inputs: 2097, 2108
+  Outputs: 2109
+  Attributes:
+
+Node: Softmax_1372
+  Operator Type: Softmax
+  Inputs: 2109
+  Outputs: 2110
+  Attributes:
+    - axis: -1
+
+Node: MatMul_1373
+  Operator Type: MatMul
+  Inputs: 2110, 2060
+  Outputs: 2111
+  Attributes:
+
+Node: Transpose_1374
+  Operator Type: Transpose
+  Inputs: 2111
+  Outputs: 2112
+  Attributes:
+    - perm: [0, 2, 1, 3]
+
+Node: Reshape_1382
+  Operator Type: Reshape
+  Inputs: 2112, 11365
+  Outputs: 2120
+  Attributes:
+
+Node: MatMul_1383
+  Operator Type: MatMul
+  Inputs: 2120, 11443
+  Outputs: 2122
+  Attributes:
+
+Node: Add_1384
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.0.blocks.1.attn.w_msa.proj.bias, 2122
+  Outputs: 2123
+  Attributes:
+
+Node: Reshape_1385
+  Operator Type: Reshape
+  Inputs: 2123, 11379
+  Outputs: 2136
+  Attributes:
+
+Node: Reshape_1399
+  Operator Type: Reshape
+  Inputs: 2136, 756
+  Outputs: 2162
+  Attributes:
+
+Node: Transpose_1400
+  Operator Type: Transpose
+  Inputs: 2162
+  Outputs: 2163
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_1406
+  Operator Type: Reshape
+  Inputs: 2163, 769
+  Outputs: 2175
+  Attributes:
+
+Node: Slice_1410
+  Operator Type: Slice
+  Inputs: 2175, 1047, 905, 11416
+  Outputs: 2179
+  Attributes:
+
+Node: Slice_1414
+  Operator Type: Slice
+  Inputs: 2175, 490, 1047, 11416
+  Outputs: 2183
+  Attributes:
+
+Node: Concat_1415
+  Operator Type: Concat
+  Inputs: 2179, 2183
+  Outputs: 2184
+  Attributes:
+    - axis: 1
+
+Node: Slice_1419
+  Operator Type: Slice
+  Inputs: 2184, 1047, 905, 492
+  Outputs: 2188
+  Attributes:
+
+Node: Slice_1423
+  Operator Type: Slice
+  Inputs: 2184, 490, 1047, 492
+  Outputs: 2192
+  Attributes:
+
+Node: Concat_1424
+  Operator Type: Concat
+  Inputs: 2188, 2192
+  Outputs: 2193
+  Attributes:
+    - axis: 2
+
+Node: Slice_1429
+  Operator Type: Slice
+  Inputs: 2193, 490, 773, 11416, 11416
+  Outputs: 2198
+  Attributes:
+
+Node: Slice_1434
+  Operator Type: Slice
+  Inputs: 2198, 490, 778, 492, 11416
+  Outputs: 2203
+  Attributes:
+
+Node: Reshape_1435
+  Operator Type: Reshape
+  Inputs: 2203, 11389
+  Outputs: 2212
+  Attributes:
+
+Node: Add_1436
+  Operator Type: Add
+  Inputs: 2212, 817
+  Outputs: 2213
+  Attributes:
+
+Node: ReduceMean_1437
+  Operator Type: ReduceMean
+  Inputs: 2213
+  Outputs: 2214
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_1438
+  Operator Type: Sub
+  Inputs: 2213, 2214
+  Outputs: 2215
+  Attributes:
+
+Node: Pow_1441
+  Operator Type: Pow
+  Inputs: 2215, 501
+  Outputs: 2218
+  Attributes:
+
+Node: ReduceMean_1442
+  Operator Type: ReduceMean
+  Inputs: 2218
+  Outputs: 2219
+  Attributes:
+    - axes: [-1]
+
+Node: Add_1444
+  Operator Type: Add
+  Inputs: 2219, 504
+  Outputs: 2221
+  Attributes:
+
+Node: Sqrt_1445
+  Operator Type: Sqrt
+  Inputs: 2221
+  Outputs: 2222
+  Attributes:
+
+Node: Div_1446
+  Operator Type: Div
+  Inputs: 2215, 2222
+  Outputs: 2223
+  Attributes:
+
+Node: Mul_1447
+  Operator Type: Mul
+  Inputs: 2223, model.encoders.camera.backbone.stages.0.blocks.1.norm2.weight
+  Outputs: 2224
+  Attributes:
+
+Node: Add_1448
+  Operator Type: Add
+  Inputs: 2224, model.encoders.camera.backbone.stages.0.blocks.1.norm2.bias
+  Outputs: 2225
+  Attributes:
+
+Node: MatMul_1449
+  Operator Type: MatMul
+  Inputs: 2225, 11459
+  Outputs: 2227
+  Attributes:
+
+Node: Add_1450
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.0.blocks.1.ffn.layers.0.0.bias, 2227
+  Outputs: 2228
+  Attributes:
+
+Node: Div_1452
+  Operator Type: Div
+  Inputs: 2228, 806
+  Outputs: 2230
+  Attributes:
+
+Node: Erf_1453
+  Operator Type: Erf
+  Inputs: 2230
+  Outputs: 2231
+  Attributes:
+
+Node: Add_1455
+  Operator Type: Add
+  Inputs: 2231, 809
+  Outputs: 2233
+  Attributes:
+
+Node: Mul_1456
+  Operator Type: Mul
+  Inputs: 2228, 2233
+  Outputs: 2234
+  Attributes:
+
+Node: Mul_1458
+  Operator Type: Mul
+  Inputs: 2234, 812
+  Outputs: 2236
+  Attributes:
+
+Node: MatMul_1459
+  Operator Type: MatMul
+  Inputs: 2236, 11460
+  Outputs: 2238
+  Attributes:
+
+Node: Add_1460
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.0.blocks.1.ffn.layers.1.bias, 2238
+  Outputs: 2239
+  Attributes:
+
+Node: Add_1461
+  Operator Type: Add
+  Inputs: 2213, 2239
+  Outputs: 2240
+  Attributes:
+
+Node: Reshape_1462
+  Operator Type: Reshape
+  Inputs: 2240, 11337
+  Outputs: 2252
+  Attributes:
+
+Node: Transpose_1463
+  Operator Type: Transpose
+  Inputs: 2252
+  Outputs: 2253
+  Attributes:
+    - perm: [0, 3, 1, 2]
+
+Node: Gather_1506
+  Operator Type: Gather
+  Inputs: 2253, 2272
+  Outputs: 2302
+  Attributes:
+    - axis: 2
+
+Node: Gather_1507
+  Operator Type: Gather
+  Inputs: 2302, 2285
+  Outputs: 2303
+  Attributes:
+    - axis: 4
+
+Node: Transpose_1508
+  Operator Type: Transpose
+  Inputs: 2303
+  Outputs: 2304
+  Attributes:
+    - perm: [0, 1, 2, 4, 3, 5]
+
+Node: Reshape_1509
+  Operator Type: Reshape
+  Inputs: 2304, 2299
+  Outputs: 2305
+  Attributes:
+
+Node: Transpose_1510
+  Operator Type: Transpose
+  Inputs: 2305
+  Outputs: 2308
+  Attributes:
+    - perm: [0, 2, 1]
+
+Node: ReduceMean_1511
+  Operator Type: ReduceMean
+  Inputs: 2308
+  Outputs: 2309
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_1512
+  Operator Type: Sub
+  Inputs: 2308, 2309
+  Outputs: 2310
+  Attributes:
+
+Node: Pow_1515
+  Operator Type: Pow
+  Inputs: 2310, 501
+  Outputs: 2313
+  Attributes:
+
+Node: ReduceMean_1516
+  Operator Type: ReduceMean
+  Inputs: 2313
+  Outputs: 2314
+  Attributes:
+    - axes: [-1]
+
+Node: Add_1518
+  Operator Type: Add
+  Inputs: 2314, 504
+  Outputs: 2316
+  Attributes:
+
+Node: Sqrt_1519
+  Operator Type: Sqrt
+  Inputs: 2316
+  Outputs: 2317
+  Attributes:
+
+Node: Div_1520
+  Operator Type: Div
+  Inputs: 2310, 2317
+  Outputs: 2318
+  Attributes:
+
+Node: Mul_1521
+  Operator Type: Mul
+  Inputs: 2318, model.encoders.camera.backbone.stages.0.downsample.norm.weight
+  Outputs: 2319
+  Attributes:
+
+Node: Add_1522
+  Operator Type: Add
+  Inputs: 2319, model.encoders.camera.backbone.stages.0.downsample.norm.bias
+  Outputs: 2320
+  Attributes:
+
+Node: MatMul_1523
+  Operator Type: MatMul
+  Inputs: 2320, 11468
+  Outputs: 2322
+  Attributes:
+
+Node: ReduceMean_1524
+  Operator Type: ReduceMean
+  Inputs: 2322
+  Outputs: 2323
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_1525
+  Operator Type: Sub
+  Inputs: 2322, 2323
+  Outputs: 2324
+  Attributes:
+
+Node: Pow_1528
+  Operator Type: Pow
+  Inputs: 2324, 501
+  Outputs: 2327
+  Attributes:
+
+Node: ReduceMean_1529
+  Operator Type: ReduceMean
+  Inputs: 2327
+  Outputs: 2328
+  Attributes:
+    - axes: [-1]
+
+Node: Add_1531
+  Operator Type: Add
+  Inputs: 2328, 504
+  Outputs: 2330
+  Attributes:
+
+Node: Sqrt_1532
+  Operator Type: Sqrt
+  Inputs: 2330
+  Outputs: 2331
+  Attributes:
+
+Node: Div_1533
+  Operator Type: Div
+  Inputs: 2324, 2331
+  Outputs: 2332
+  Attributes:
+
+Node: Mul_1534
+  Operator Type: Mul
+  Inputs: 2332, model.encoders.camera.backbone.stages.1.blocks.0.norm1.weight
+  Outputs: 2333
+  Attributes:
+
+Node: Add_1535
+  Operator Type: Add
+  Inputs: 2333, model.encoders.camera.backbone.stages.1.blocks.0.norm1.bias
+  Outputs: 2334
+  Attributes:
+
+Node: Reshape_1536
+  Operator Type: Reshape
+  Inputs: 2334, 11473
+  Outputs: 2346
+  Attributes:
+
+Node: Pad_1551
+  Operator Type: Pad
+  Inputs: 2346, 2399, 587
+  Outputs: 2401
+  Attributes:
+    - mode: constant
+
+Node: Reshape_1587
+  Operator Type: Reshape
+  Inputs: 2401, 2442
+  Outputs: 2443
+  Attributes:
+
+Node: Transpose_1588
+  Operator Type: Transpose
+  Inputs: 2443
+  Outputs: 2444
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_1592
+  Operator Type: Reshape
+  Inputs: 2444, 11515
+  Outputs: 2457
+  Attributes:
+
+Node: Reshape_1593
+  Operator Type: Reshape
+  Inputs: 2457, 11501
+  Outputs: 2467
+  Attributes:
+
+Node: MatMul_1603
+  Operator Type: MatMul
+  Inputs: 2467, 11502
+  Outputs: 2478
+  Attributes:
+
+Node: Add_1604
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.1.blocks.0.attn.w_msa.qkv.bias, 2478
+  Outputs: 2479
+  Attributes:
+
+Node: Reshape_1616
+  Operator Type: Reshape
+  Inputs: 2479, 7105
+  Outputs: 2497
+  Attributes:
+
+Node: Transpose_1617
+  Operator Type: Transpose
+  Inputs: 2497
+  Outputs: 2498
+  Attributes:
+    - perm: [2, 0, 3, 1, 4]
+
+Node: Gather_1619
+  Operator Type: Gather
+  Inputs: 2498, 596
+  Outputs: 2500
+  Attributes:
+    - axis: 0
+
+Node: Gather_1621
+  Operator Type: Gather
+  Inputs: 2498, 590
+  Outputs: 2502
+  Attributes:
+    - axis: 0
+
+Node: Gather_1623
+  Operator Type: Gather
+  Inputs: 2498, 593
+  Outputs: 2504
+  Attributes:
+    - axis: 0
+
+Node: Mul_1625
+  Operator Type: Mul
+  Inputs: 2500, 692
+  Outputs: 2506
+  Attributes:
+
+Node: Transpose_1626
+  Operator Type: Transpose
+  Inputs: 2502
+  Outputs: 2507
+  Attributes:
+    - perm: [0, 1, 3, 2]
+
+Node: MatMul_1627
+  Operator Type: MatMul
+  Inputs: 2506, 2507
+  Outputs: 2508
+  Attributes:
+
+Node: Add_1628
+  Operator Type: Add
+  Inputs: 2508, 11509
+  Outputs: 2517
+  Attributes:
+
+Node: Softmax_1629
+  Operator Type: Softmax
+  Inputs: 2517
+  Outputs: 2518
+  Attributes:
+    - axis: -1
+
+Node: MatMul_1630
+  Operator Type: MatMul
+  Inputs: 2518, 2504
+  Outputs: 2519
+  Attributes:
+
+Node: Transpose_1631
+  Operator Type: Transpose
+  Inputs: 2519
+  Outputs: 2520
+  Attributes:
+    - perm: [0, 2, 1, 3]
+
+Node: Reshape_1639
+  Operator Type: Reshape
+  Inputs: 2520, 11501
+  Outputs: 2528
+  Attributes:
+
+Node: MatMul_1640
+  Operator Type: MatMul
+  Inputs: 2528, 11510
+  Outputs: 2530
+  Attributes:
+
+Node: Add_1641
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.1.blocks.0.attn.w_msa.proj.bias, 2530
+  Outputs: 2531
+  Attributes:
+
+Node: Reshape_1642
+  Operator Type: Reshape
+  Inputs: 2531, 11515
+  Outputs: 2544
+  Attributes:
+
+Node: Reshape_1656
+  Operator Type: Reshape
+  Inputs: 2544, 2569
+  Outputs: 2570
+  Attributes:
+
+Node: Transpose_1657
+  Operator Type: Transpose
+  Inputs: 2570
+  Outputs: 2571
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_1663
+  Operator Type: Reshape
+  Inputs: 2571, 2582
+  Outputs: 2583
+  Attributes:
+
+Node: Slice_1668
+  Operator Type: Slice
+  Inputs: 2583, 490, 2586, 11416, 11416
+  Outputs: 2588
+  Attributes:
+
+Node: Slice_1673
+  Operator Type: Slice
+  Inputs: 2588, 490, 2591, 492, 11416
+  Outputs: 2593
+  Attributes:
+
+Node: Reshape_1674
+  Operator Type: Reshape
+  Inputs: 2593, 11525
+  Outputs: 2602
+  Attributes:
+
+Node: Add_1675
+  Operator Type: Add
+  Inputs: 2602, 2322
+  Outputs: 2603
+  Attributes:
+
+Node: ReduceMean_1676
+  Operator Type: ReduceMean
+  Inputs: 2603
+  Outputs: 2604
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_1677
+  Operator Type: Sub
+  Inputs: 2603, 2604
+  Outputs: 2605
+  Attributes:
+
+Node: Pow_1680
+  Operator Type: Pow
+  Inputs: 2605, 501
+  Outputs: 2608
+  Attributes:
+
+Node: ReduceMean_1681
+  Operator Type: ReduceMean
+  Inputs: 2608
+  Outputs: 2609
+  Attributes:
+    - axes: [-1]
+
+Node: Add_1683
+  Operator Type: Add
+  Inputs: 2609, 504
+  Outputs: 2611
+  Attributes:
+
+Node: Sqrt_1684
+  Operator Type: Sqrt
+  Inputs: 2611
+  Outputs: 2612
+  Attributes:
+
+Node: Div_1685
+  Operator Type: Div
+  Inputs: 2605, 2612
+  Outputs: 2613
+  Attributes:
+
+Node: Mul_1686
+  Operator Type: Mul
+  Inputs: 2613, model.encoders.camera.backbone.stages.1.blocks.0.norm2.weight
+  Outputs: 2614
+  Attributes:
+
+Node: Add_1687
+  Operator Type: Add
+  Inputs: 2614, model.encoders.camera.backbone.stages.1.blocks.0.norm2.bias
+  Outputs: 2615
+  Attributes:
+
+Node: MatMul_1688
+  Operator Type: MatMul
+  Inputs: 2615, 11526
+  Outputs: 2617
+  Attributes:
+
+Node: Add_1689
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.1.blocks.0.ffn.layers.0.0.bias, 2617
+  Outputs: 2618
+  Attributes:
+
+Node: Div_1691
+  Operator Type: Div
+  Inputs: 2618, 806
+  Outputs: 2620
+  Attributes:
+
+Node: Erf_1692
+  Operator Type: Erf
+  Inputs: 2620
+  Outputs: 2621
+  Attributes:
+
+Node: Add_1694
+  Operator Type: Add
+  Inputs: 2621, 809
+  Outputs: 2623
+  Attributes:
+
+Node: Mul_1695
+  Operator Type: Mul
+  Inputs: 2618, 2623
+  Outputs: 2624
+  Attributes:
+
+Node: Mul_1697
+  Operator Type: Mul
+  Inputs: 2624, 812
+  Outputs: 2626
+  Attributes:
+
+Node: MatMul_1698
+  Operator Type: MatMul
+  Inputs: 2626, 11527
+  Outputs: 2628
+  Attributes:
+
+Node: Add_1699
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.1.blocks.0.ffn.layers.1.bias, 2628
+  Outputs: 2629
+  Attributes:
+
+Node: Add_1700
+  Operator Type: Add
+  Inputs: 2603, 2629
+  Outputs: 2630
+  Attributes:
+
+Node: ReduceMean_1701
+  Operator Type: ReduceMean
+  Inputs: 2630
+  Outputs: 2631
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_1702
+  Operator Type: Sub
+  Inputs: 2630, 2631
+  Outputs: 2632
+  Attributes:
+
+Node: Pow_1705
+  Operator Type: Pow
+  Inputs: 2632, 501
+  Outputs: 2635
+  Attributes:
+
+Node: ReduceMean_1706
+  Operator Type: ReduceMean
+  Inputs: 2635
+  Outputs: 2636
+  Attributes:
+    - axes: [-1]
+
+Node: Add_1708
+  Operator Type: Add
+  Inputs: 2636, 504
+  Outputs: 2638
+  Attributes:
+
+Node: Sqrt_1709
+  Operator Type: Sqrt
+  Inputs: 2638
+  Outputs: 2639
+  Attributes:
+
+Node: Div_1710
+  Operator Type: Div
+  Inputs: 2632, 2639
+  Outputs: 2640
+  Attributes:
+
+Node: Mul_1711
+  Operator Type: Mul
+  Inputs: 2640, model.encoders.camera.backbone.stages.1.blocks.1.norm1.weight
+  Outputs: 2641
+  Attributes:
+
+Node: Add_1712
+  Operator Type: Add
+  Inputs: 2641, model.encoders.camera.backbone.stages.1.blocks.1.norm1.bias
+  Outputs: 2642
+  Attributes:
+
+Node: Reshape_1713
+  Operator Type: Reshape
+  Inputs: 2642, 11473
+  Outputs: 2654
+  Attributes:
+
+Node: Pad_1728
+  Operator Type: Pad
+  Inputs: 2654, 2399, 587
+  Outputs: 2709
+  Attributes:
+    - mode: constant
+
+Node: Slice_1738
+  Operator Type: Slice
+  Inputs: 2709, 11367, 905, 11416
+  Outputs: 2719
+  Attributes:
+
+Node: Slice_1742
+  Operator Type: Slice
+  Inputs: 2709, 490, 11367, 11416
+  Outputs: 2723
+  Attributes:
+
+Node: Concat_1743
+  Operator Type: Concat
+  Inputs: 2719, 2723
+  Outputs: 2724
+  Attributes:
+    - axis: 1
+
+Node: Slice_1747
+  Operator Type: Slice
+  Inputs: 2724, 11367, 905, 492
+  Outputs: 2728
+  Attributes:
+
+Node: Slice_1751
+  Operator Type: Slice
+  Inputs: 2724, 490, 11367, 492
+  Outputs: 2732
+  Attributes:
+
+Node: Concat_1752
+  Operator Type: Concat
+  Inputs: 2728, 2732
+  Outputs: 2733
+  Attributes:
+    - axis: 2
+
+Node: Reshape_2804
+  Operator Type: Reshape
+  Inputs: 2733, 2442
+  Outputs: 3812
+  Attributes:
+
+Node: Transpose_2805
+  Operator Type: Transpose
+  Inputs: 3812
+  Outputs: 3813
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_2809
+  Operator Type: Reshape
+  Inputs: 3813, 11515
+  Outputs: 3826
+  Attributes:
+
+Node: Reshape_2810
+  Operator Type: Reshape
+  Inputs: 3826, 11501
+  Outputs: 3836
+  Attributes:
+
+Node: MatMul_2820
+  Operator Type: MatMul
+  Inputs: 3836, 11568
+  Outputs: 3847
+  Attributes:
+
+Node: Add_2821
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.1.blocks.1.attn.w_msa.qkv.bias, 3847
+  Outputs: 3848
+  Attributes:
+
+Node: Reshape_2833
+  Operator Type: Reshape
+  Inputs: 3848, 7105
+  Outputs: 3866
+  Attributes:
+
+Node: Transpose_2834
+  Operator Type: Transpose
+  Inputs: 3866
+  Outputs: 3867
+  Attributes:
+    - perm: [2, 0, 3, 1, 4]
+
+Node: Gather_2836
+  Operator Type: Gather
+  Inputs: 3867, 596
+  Outputs: 3869
+  Attributes:
+    - axis: 0
+
+Node: Gather_2838
+  Operator Type: Gather
+  Inputs: 3867, 590
+  Outputs: 3871
+  Attributes:
+    - axis: 0
+
+Node: Gather_2840
+  Operator Type: Gather
+  Inputs: 3867, 593
+  Outputs: 3873
+  Attributes:
+    - axis: 0
+
+Node: Mul_2842
+  Operator Type: Mul
+  Inputs: 3869, 692
+  Outputs: 3875
+  Attributes:
+
+Node: Transpose_2843
+  Operator Type: Transpose
+  Inputs: 3871
+  Outputs: 3876
+  Attributes:
+    - perm: [0, 1, 3, 2]
+
+Node: MatMul_2844
+  Operator Type: MatMul
+  Inputs: 3875, 3876
+  Outputs: 3877
+  Attributes:
+
+Node: Add_2845
+  Operator Type: Add
+  Inputs: 3877, 11575
+  Outputs: 3886
+  Attributes:
+
+Node: Reshape_2861
+  Operator Type: Reshape
+  Inputs: 3886, 7114
+  Outputs: 3905
+  Attributes:
+
+Node: Add_2866
+  Operator Type: Add
+  Inputs: 3905, 3909
+  Outputs: 3910
+  Attributes:
+
+Node: Reshape_2872
+  Operator Type: Reshape
+  Inputs: 3910, 3921
+  Outputs: 3922
+  Attributes:
+
+Node: Softmax_2873
+  Operator Type: Softmax
+  Inputs: 3922
+  Outputs: 3923
+  Attributes:
+    - axis: -1
+
+Node: MatMul_2874
+  Operator Type: MatMul
+  Inputs: 3923, 3873
+  Outputs: 3924
+  Attributes:
+
+Node: Transpose_2875
+  Operator Type: Transpose
+  Inputs: 3924
+  Outputs: 3925
+  Attributes:
+    - perm: [0, 2, 1, 3]
+
+Node: Reshape_2883
+  Operator Type: Reshape
+  Inputs: 3925, 11501
+  Outputs: 3933
+  Attributes:
+
+Node: MatMul_2884
+  Operator Type: MatMul
+  Inputs: 3933, 11579
+  Outputs: 3935
+  Attributes:
+
+Node: Add_2885
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.1.blocks.1.attn.w_msa.proj.bias, 3935
+  Outputs: 3936
+  Attributes:
+
+Node: Reshape_2886
+  Operator Type: Reshape
+  Inputs: 3936, 11515
+  Outputs: 3949
+  Attributes:
+
+Node: Reshape_2900
+  Operator Type: Reshape
+  Inputs: 3949, 2569
+  Outputs: 3975
+  Attributes:
+
+Node: Transpose_2901
+  Operator Type: Transpose
+  Inputs: 3975
+  Outputs: 3976
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_2907
+  Operator Type: Reshape
+  Inputs: 3976, 2582
+  Outputs: 3988
+  Attributes:
+
+Node: Slice_2911
+  Operator Type: Slice
+  Inputs: 3988, 1047, 905, 11416
+  Outputs: 3992
+  Attributes:
+
+Node: Slice_2915
+  Operator Type: Slice
+  Inputs: 3988, 490, 1047, 11416
+  Outputs: 3996
+  Attributes:
+
+Node: Concat_2916
+  Operator Type: Concat
+  Inputs: 3992, 3996
+  Outputs: 3997
+  Attributes:
+    - axis: 1
+
+Node: Slice_2920
+  Operator Type: Slice
+  Inputs: 3997, 1047, 905, 492
+  Outputs: 4001
+  Attributes:
+
+Node: Slice_2924
+  Operator Type: Slice
+  Inputs: 3997, 490, 1047, 492
+  Outputs: 4005
+  Attributes:
+
+Node: Concat_2925
+  Operator Type: Concat
+  Inputs: 4001, 4005
+  Outputs: 4006
+  Attributes:
+    - axis: 2
+
+Node: Slice_2930
+  Operator Type: Slice
+  Inputs: 4006, 490, 2586, 11416, 11416
+  Outputs: 4011
+  Attributes:
+
+Node: Slice_2935
+  Operator Type: Slice
+  Inputs: 4011, 490, 2591, 492, 11416
+  Outputs: 4016
+  Attributes:
+
+Node: Reshape_2936
+  Operator Type: Reshape
+  Inputs: 4016, 11525
+  Outputs: 4025
+  Attributes:
+
+Node: Add_2937
+  Operator Type: Add
+  Inputs: 4025, 2630
+  Outputs: 4026
+  Attributes:
+
+Node: ReduceMean_2938
+  Operator Type: ReduceMean
+  Inputs: 4026
+  Outputs: 4027
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_2939
+  Operator Type: Sub
+  Inputs: 4026, 4027
+  Outputs: 4028
+  Attributes:
+
+Node: Pow_2942
+  Operator Type: Pow
+  Inputs: 4028, 501
+  Outputs: 4031
+  Attributes:
+
+Node: ReduceMean_2943
+  Operator Type: ReduceMean
+  Inputs: 4031
+  Outputs: 4032
+  Attributes:
+    - axes: [-1]
+
+Node: Add_2945
+  Operator Type: Add
+  Inputs: 4032, 504
+  Outputs: 4034
+  Attributes:
+
+Node: Sqrt_2946
+  Operator Type: Sqrt
+  Inputs: 4034
+  Outputs: 4035
+  Attributes:
+
+Node: Div_2947
+  Operator Type: Div
+  Inputs: 4028, 4035
+  Outputs: 4036
+  Attributes:
+
+Node: Mul_2948
+  Operator Type: Mul
+  Inputs: 4036, model.encoders.camera.backbone.stages.1.blocks.1.norm2.weight
+  Outputs: 4037
+  Attributes:
+
+Node: Add_2949
+  Operator Type: Add
+  Inputs: 4037, model.encoders.camera.backbone.stages.1.blocks.1.norm2.bias
+  Outputs: 4038
+  Attributes:
+
+Node: MatMul_2950
+  Operator Type: MatMul
+  Inputs: 4038, 11595
+  Outputs: 4040
+  Attributes:
+
+Node: Add_2951
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.1.blocks.1.ffn.layers.0.0.bias, 4040
+  Outputs: 4041
+  Attributes:
+
+Node: Div_2953
+  Operator Type: Div
+  Inputs: 4041, 806
+  Outputs: 4043
+  Attributes:
+
+Node: Erf_2954
+  Operator Type: Erf
+  Inputs: 4043
+  Outputs: 4044
+  Attributes:
+
+Node: Add_2956
+  Operator Type: Add
+  Inputs: 4044, 809
+  Outputs: 4046
+  Attributes:
+
+Node: Mul_2957
+  Operator Type: Mul
+  Inputs: 4041, 4046
+  Outputs: 4047
+  Attributes:
+
+Node: Mul_2959
+  Operator Type: Mul
+  Inputs: 4047, 812
+  Outputs: 4049
+  Attributes:
+
+Node: MatMul_2960
+  Operator Type: MatMul
+  Inputs: 4049, 11596
+  Outputs: 4051
+  Attributes:
+
+Node: Add_2961
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.1.blocks.1.ffn.layers.1.bias, 4051
+  Outputs: 4052
+  Attributes:
+
+Node: Add_2962
+  Operator Type: Add
+  Inputs: 4026, 4052
+  Outputs: 4053
+  Attributes:
+
+Node: Reshape_2963
+  Operator Type: Reshape
+  Inputs: 4053, 11473
+  Outputs: 4065
+  Attributes:
+
+Node: Transpose_2964
+  Operator Type: Transpose
+  Inputs: 4065
+  Outputs: 4066
+  Attributes:
+    - perm: [0, 3, 1, 2]
+
+Node: Gather_3007
+  Operator Type: Gather
+  Inputs: 4066, 4085
+  Outputs: 4115
+  Attributes:
+    - axis: 2
+
+Node: Gather_3008
+  Operator Type: Gather
+  Inputs: 4115, 4098
+  Outputs: 4116
+  Attributes:
+    - axis: 4
+
+Node: Transpose_3009
+  Operator Type: Transpose
+  Inputs: 4116
+  Outputs: 4117
+  Attributes:
+    - perm: [0, 1, 2, 4, 3, 5]
+
+Node: Reshape_3010
+  Operator Type: Reshape
+  Inputs: 4117, 4112
+  Outputs: 4118
+  Attributes:
+
+Node: Transpose_3011
+  Operator Type: Transpose
+  Inputs: 4118
+  Outputs: 4121
+  Attributes:
+    - perm: [0, 2, 1]
+
+Node: ReduceMean_3012
+  Operator Type: ReduceMean
+  Inputs: 4121
+  Outputs: 4122
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_3013
+  Operator Type: Sub
+  Inputs: 4121, 4122
+  Outputs: 4123
+  Attributes:
+
+Node: Pow_3016
+  Operator Type: Pow
+  Inputs: 4123, 501
+  Outputs: 4126
+  Attributes:
+
+Node: ReduceMean_3017
+  Operator Type: ReduceMean
+  Inputs: 4126
+  Outputs: 4127
+  Attributes:
+    - axes: [-1]
+
+Node: Add_3019
+  Operator Type: Add
+  Inputs: 4127, 504
+  Outputs: 4129
+  Attributes:
+
+Node: Sqrt_3020
+  Operator Type: Sqrt
+  Inputs: 4129
+  Outputs: 4130
+  Attributes:
+
+Node: Div_3021
+  Operator Type: Div
+  Inputs: 4123, 4130
+  Outputs: 4131
+  Attributes:
+
+Node: Mul_3022
+  Operator Type: Mul
+  Inputs: 4131, model.encoders.camera.backbone.stages.1.downsample.norm.weight
+  Outputs: 4132
+  Attributes:
+
+Node: Add_3023
+  Operator Type: Add
+  Inputs: 4132, model.encoders.camera.backbone.stages.1.downsample.norm.bias
+  Outputs: 4133
+  Attributes:
+
+Node: MatMul_3024
+  Operator Type: MatMul
+  Inputs: 4133, 11604
+  Outputs: 4135
+  Attributes:
+
+Node: ReduceMean_3025
+  Operator Type: ReduceMean
+  Inputs: 4053
+  Outputs: 4136
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_3026
+  Operator Type: Sub
+  Inputs: 4053, 4136
+  Outputs: 4137
+  Attributes:
+
+Node: Pow_3029
+  Operator Type: Pow
+  Inputs: 4137, 501
+  Outputs: 4140
+  Attributes:
+
+Node: ReduceMean_3030
+  Operator Type: ReduceMean
+  Inputs: 4140
+  Outputs: 4141
+  Attributes:
+    - axes: [-1]
+
+Node: Add_3032
+  Operator Type: Add
+  Inputs: 4141, 504
+  Outputs: 4143
+  Attributes:
+
+Node: Sqrt_3033
+  Operator Type: Sqrt
+  Inputs: 4143
+  Outputs: 4144
+  Attributes:
+
+Node: Div_3034
+  Operator Type: Div
+  Inputs: 4137, 4144
+  Outputs: 4145
+  Attributes:
+
+Node: Mul_3035
+  Operator Type: Mul
+  Inputs: 4145, model.encoders.camera.backbone.norm1.weight
+  Outputs: 4146
+  Attributes:
+
+Node: Add_3036
+  Operator Type: Add
+  Inputs: 4146, model.encoders.camera.backbone.norm1.bias
+  Outputs: 4147
+  Attributes:
+
+Node: Reshape_3037
+  Operator Type: Reshape
+  Inputs: 4147, 11609
+  Outputs: 4159
+  Attributes:
+
+Node: Transpose_3038
+  Operator Type: Transpose
+  Inputs: 4159
+  Outputs: 4160
+  Attributes:
+    - perm: [0, 3, 1, 2]
+
+Node: ReduceMean_3039
+  Operator Type: ReduceMean
+  Inputs: 4135
+  Outputs: 4161
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_3040
+  Operator Type: Sub
+  Inputs: 4135, 4161
+  Outputs: 4162
+  Attributes:
+
+Node: Pow_3043
+  Operator Type: Pow
+  Inputs: 4162, 501
+  Outputs: 4165
+  Attributes:
+
+Node: ReduceMean_3044
+  Operator Type: ReduceMean
+  Inputs: 4165
+  Outputs: 4166
+  Attributes:
+    - axes: [-1]
+
+Node: Add_3046
+  Operator Type: Add
+  Inputs: 4166, 504
+  Outputs: 4168
+  Attributes:
+
+Node: Sqrt_3047
+  Operator Type: Sqrt
+  Inputs: 4168
+  Outputs: 4169
+  Attributes:
+
+Node: Div_3048
+  Operator Type: Div
+  Inputs: 4162, 4169
+  Outputs: 4170
+  Attributes:
+
+Node: Mul_3049
+  Operator Type: Mul
+  Inputs: 4170, model.encoders.camera.backbone.stages.2.blocks.0.norm1.weight
+  Outputs: 4171
+  Attributes:
+
+Node: Add_3050
+  Operator Type: Add
+  Inputs: 4171, model.encoders.camera.backbone.stages.2.blocks.0.norm1.bias
+  Outputs: 4172
+  Attributes:
+
+Node: Reshape_3051
+  Operator Type: Reshape
+  Inputs: 4172, 11614
+  Outputs: 4184
+  Attributes:
+
+Node: Pad_3066
+  Operator Type: Pad
+  Inputs: 4184, 4237, 587
+  Outputs: 4239
+  Attributes:
+    - mode: constant
+
+Node: Reshape_3102
+  Operator Type: Reshape
+  Inputs: 4239, 4280
+  Outputs: 4281
+  Attributes:
+
+Node: Transpose_3103
+  Operator Type: Transpose
+  Inputs: 4281
+  Outputs: 4282
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_3107
+  Operator Type: Reshape
+  Inputs: 4282, 11656
+  Outputs: 4295
+  Attributes:
+
+Node: Reshape_3108
+  Operator Type: Reshape
+  Inputs: 4295, 11642
+  Outputs: 4305
+  Attributes:
+
+Node: MatMul_3118
+  Operator Type: MatMul
+  Inputs: 4305, 11643
+  Outputs: 4316
+  Attributes:
+
+Node: Add_3119
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.0.attn.w_msa.qkv.bias, 4316
+  Outputs: 4317
+  Attributes:
+
+Node: Reshape_3131
+  Operator Type: Reshape
+  Inputs: 4317, 7126
+  Outputs: 4335
+  Attributes:
+
+Node: Transpose_3132
+  Operator Type: Transpose
+  Inputs: 4335
+  Outputs: 4336
+  Attributes:
+    - perm: [2, 0, 3, 1, 4]
+
+Node: Gather_3134
+  Operator Type: Gather
+  Inputs: 4336, 596
+  Outputs: 4338
+  Attributes:
+    - axis: 0
+
+Node: Gather_3136
+  Operator Type: Gather
+  Inputs: 4336, 590
+  Outputs: 4340
+  Attributes:
+    - axis: 0
+
+Node: Gather_3138
+  Operator Type: Gather
+  Inputs: 4336, 593
+  Outputs: 4342
+  Attributes:
+    - axis: 0
+
+Node: Mul_3140
+  Operator Type: Mul
+  Inputs: 4338, 692
+  Outputs: 4344
+  Attributes:
+
+Node: Transpose_3141
+  Operator Type: Transpose
+  Inputs: 4340
+  Outputs: 4345
+  Attributes:
+    - perm: [0, 1, 3, 2]
+
+Node: MatMul_3142
+  Operator Type: MatMul
+  Inputs: 4344, 4345
+  Outputs: 4346
+  Attributes:
+
+Node: Add_3143
+  Operator Type: Add
+  Inputs: 4346, 11650
+  Outputs: 4355
+  Attributes:
+
+Node: Softmax_3144
+  Operator Type: Softmax
+  Inputs: 4355
+  Outputs: 4356
+  Attributes:
+    - axis: -1
+
+Node: MatMul_3145
+  Operator Type: MatMul
+  Inputs: 4356, 4342
+  Outputs: 4357
+  Attributes:
+
+Node: Transpose_3146
+  Operator Type: Transpose
+  Inputs: 4357
+  Outputs: 4358
+  Attributes:
+    - perm: [0, 2, 1, 3]
+
+Node: Reshape_3154
+  Operator Type: Reshape
+  Inputs: 4358, 11642
+  Outputs: 4366
+  Attributes:
+
+Node: MatMul_3155
+  Operator Type: MatMul
+  Inputs: 4366, 11651
+  Outputs: 4368
+  Attributes:
+
+Node: Add_3156
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.0.attn.w_msa.proj.bias, 4368
+  Outputs: 4369
+  Attributes:
+
+Node: Reshape_3157
+  Operator Type: Reshape
+  Inputs: 4369, 11656
+  Outputs: 4382
+  Attributes:
+
+Node: Reshape_3171
+  Operator Type: Reshape
+  Inputs: 4382, 4407
+  Outputs: 4408
+  Attributes:
+
+Node: Transpose_3172
+  Operator Type: Transpose
+  Inputs: 4408
+  Outputs: 4409
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_3178
+  Operator Type: Reshape
+  Inputs: 4409, 4420
+  Outputs: 4421
+  Attributes:
+
+Node: Slice_3183
+  Operator Type: Slice
+  Inputs: 4421, 490, 4424, 11416, 11416
+  Outputs: 4426
+  Attributes:
+
+Node: Slice_3188
+  Operator Type: Slice
+  Inputs: 4426, 490, 4429, 492, 11416
+  Outputs: 4431
+  Attributes:
+
+Node: Reshape_3189
+  Operator Type: Reshape
+  Inputs: 4431, 11666
+  Outputs: 4440
+  Attributes:
+
+Node: Add_3190
+  Operator Type: Add
+  Inputs: 4440, 4135
+  Outputs: 4441
+  Attributes:
+
+Node: ReduceMean_3191
+  Operator Type: ReduceMean
+  Inputs: 4441
+  Outputs: 4442
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_3192
+  Operator Type: Sub
+  Inputs: 4441, 4442
+  Outputs: 4443
+  Attributes:
+
+Node: Pow_3195
+  Operator Type: Pow
+  Inputs: 4443, 501
+  Outputs: 4446
+  Attributes:
+
+Node: ReduceMean_3196
+  Operator Type: ReduceMean
+  Inputs: 4446
+  Outputs: 4447
+  Attributes:
+    - axes: [-1]
+
+Node: Add_3198
+  Operator Type: Add
+  Inputs: 4447, 504
+  Outputs: 4449
+  Attributes:
+
+Node: Sqrt_3199
+  Operator Type: Sqrt
+  Inputs: 4449
+  Outputs: 4450
+  Attributes:
+
+Node: Div_3200
+  Operator Type: Div
+  Inputs: 4443, 4450
+  Outputs: 4451
+  Attributes:
+
+Node: Mul_3201
+  Operator Type: Mul
+  Inputs: 4451, model.encoders.camera.backbone.stages.2.blocks.0.norm2.weight
+  Outputs: 4452
+  Attributes:
+
+Node: Add_3202
+  Operator Type: Add
+  Inputs: 4452, model.encoders.camera.backbone.stages.2.blocks.0.norm2.bias
+  Outputs: 4453
+  Attributes:
+
+Node: MatMul_3203
+  Operator Type: MatMul
+  Inputs: 4453, 11667
+  Outputs: 4455
+  Attributes:
+
+Node: Add_3204
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.0.ffn.layers.0.0.bias, 4455
+  Outputs: 4456
+  Attributes:
+
+Node: Div_3206
+  Operator Type: Div
+  Inputs: 4456, 806
+  Outputs: 4458
+  Attributes:
+
+Node: Erf_3207
+  Operator Type: Erf
+  Inputs: 4458
+  Outputs: 4459
+  Attributes:
+
+Node: Add_3209
+  Operator Type: Add
+  Inputs: 4459, 809
+  Outputs: 4461
+  Attributes:
+
+Node: Mul_3210
+  Operator Type: Mul
+  Inputs: 4456, 4461
+  Outputs: 4462
+  Attributes:
+
+Node: Mul_3212
+  Operator Type: Mul
+  Inputs: 4462, 812
+  Outputs: 4464
+  Attributes:
+
+Node: MatMul_3213
+  Operator Type: MatMul
+  Inputs: 4464, 11668
+  Outputs: 4466
+  Attributes:
+
+Node: Add_3214
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.0.ffn.layers.1.bias, 4466
+  Outputs: 4467
+  Attributes:
+
+Node: Add_3215
+  Operator Type: Add
+  Inputs: 4441, 4467
+  Outputs: 4468
+  Attributes:
+
+Node: ReduceMean_3216
+  Operator Type: ReduceMean
+  Inputs: 4468
+  Outputs: 4469
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_3217
+  Operator Type: Sub
+  Inputs: 4468, 4469
+  Outputs: 4470
+  Attributes:
+
+Node: Pow_3220
+  Operator Type: Pow
+  Inputs: 4470, 501
+  Outputs: 4473
+  Attributes:
+
+Node: ReduceMean_3221
+  Operator Type: ReduceMean
+  Inputs: 4473
+  Outputs: 4474
+  Attributes:
+    - axes: [-1]
+
+Node: Add_3223
+  Operator Type: Add
+  Inputs: 4474, 504
+  Outputs: 4476
+  Attributes:
+
+Node: Sqrt_3224
+  Operator Type: Sqrt
+  Inputs: 4476
+  Outputs: 4477
+  Attributes:
+
+Node: Div_3225
+  Operator Type: Div
+  Inputs: 4470, 4477
+  Outputs: 4478
+  Attributes:
+
+Node: Mul_3226
+  Operator Type: Mul
+  Inputs: 4478, model.encoders.camera.backbone.stages.2.blocks.1.norm1.weight
+  Outputs: 4479
+  Attributes:
+
+Node: Add_3227
+  Operator Type: Add
+  Inputs: 4479, model.encoders.camera.backbone.stages.2.blocks.1.norm1.bias
+  Outputs: 4480
+  Attributes:
+
+Node: Reshape_3228
+  Operator Type: Reshape
+  Inputs: 4480, 11614
+  Outputs: 4492
+  Attributes:
+
+Node: Pad_3243
+  Operator Type: Pad
+  Inputs: 4492, 4237, 587
+  Outputs: 4547
+  Attributes:
+    - mode: constant
+
+Node: Slice_3253
+  Operator Type: Slice
+  Inputs: 4547, 11367, 905, 11416
+  Outputs: 4557
+  Attributes:
+
+Node: Slice_3257
+  Operator Type: Slice
+  Inputs: 4547, 490, 11367, 11416
+  Outputs: 4561
+  Attributes:
+
+Node: Concat_3258
+  Operator Type: Concat
+  Inputs: 4557, 4561
+  Outputs: 4562
+  Attributes:
+    - axis: 1
+
+Node: Slice_3262
+  Operator Type: Slice
+  Inputs: 4562, 11367, 905, 492
+  Outputs: 4566
+  Attributes:
+
+Node: Slice_3266
+  Operator Type: Slice
+  Inputs: 4562, 490, 11367, 492
+  Outputs: 4570
+  Attributes:
+
+Node: Concat_3267
+  Operator Type: Concat
+  Inputs: 4566, 4570
+  Outputs: 4571
+  Attributes:
+    - axis: 2
+
+Node: Reshape_4319
+  Operator Type: Reshape
+  Inputs: 4571, 4280
+  Outputs: 5650
+  Attributes:
+
+Node: Transpose_4320
+  Operator Type: Transpose
+  Inputs: 5650
+  Outputs: 5651
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_4324
+  Operator Type: Reshape
+  Inputs: 5651, 11656
+  Outputs: 5664
+  Attributes:
+
+Node: Reshape_4325
+  Operator Type: Reshape
+  Inputs: 5664, 11642
+  Outputs: 5674
+  Attributes:
+
+Node: MatMul_4335
+  Operator Type: MatMul
+  Inputs: 5674, 11709
+  Outputs: 5685
+  Attributes:
+
+Node: Add_4336
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.1.attn.w_msa.qkv.bias, 5685
+  Outputs: 5686
+  Attributes:
+
+Node: Reshape_4348
+  Operator Type: Reshape
+  Inputs: 5686, 7126
+  Outputs: 5704
+  Attributes:
+
+Node: Transpose_4349
+  Operator Type: Transpose
+  Inputs: 5704
+  Outputs: 5705
+  Attributes:
+    - perm: [2, 0, 3, 1, 4]
+
+Node: Gather_4351
+  Operator Type: Gather
+  Inputs: 5705, 596
+  Outputs: 5707
+  Attributes:
+    - axis: 0
+
+Node: Gather_4353
+  Operator Type: Gather
+  Inputs: 5705, 590
+  Outputs: 5709
+  Attributes:
+    - axis: 0
+
+Node: Gather_4355
+  Operator Type: Gather
+  Inputs: 5705, 593
+  Outputs: 5711
+  Attributes:
+    - axis: 0
+
+Node: Mul_4357
+  Operator Type: Mul
+  Inputs: 5707, 692
+  Outputs: 5713
+  Attributes:
+
+Node: Transpose_4358
+  Operator Type: Transpose
+  Inputs: 5709
+  Outputs: 5714
+  Attributes:
+    - perm: [0, 1, 3, 2]
+
+Node: MatMul_4359
+  Operator Type: MatMul
+  Inputs: 5713, 5714
+  Outputs: 5715
+  Attributes:
+
+Node: Add_4360
+  Operator Type: Add
+  Inputs: 5715, 11716
+  Outputs: 5724
+  Attributes:
+
+Node: Reshape_4376
+  Operator Type: Reshape
+  Inputs: 5724, 7144
+  Outputs: 5743
+  Attributes:
+
+Node: Add_4381
+  Operator Type: Add
+  Inputs: 5743, 5747
+  Outputs: 5748
+  Attributes:
+
+Node: Reshape_4387
+  Operator Type: Reshape
+  Inputs: 5748, 5759
+  Outputs: 5760
+  Attributes:
+
+Node: Softmax_4388
+  Operator Type: Softmax
+  Inputs: 5760
+  Outputs: 5761
+  Attributes:
+    - axis: -1
+
+Node: MatMul_4389
+  Operator Type: MatMul
+  Inputs: 5761, 5711
+  Outputs: 5762
+  Attributes:
+
+Node: Transpose_4390
+  Operator Type: Transpose
+  Inputs: 5762
+  Outputs: 5763
+  Attributes:
+    - perm: [0, 2, 1, 3]
+
+Node: Reshape_4398
+  Operator Type: Reshape
+  Inputs: 5763, 11642
+  Outputs: 5771
+  Attributes:
+
+Node: MatMul_4399
+  Operator Type: MatMul
+  Inputs: 5771, 11720
+  Outputs: 5773
+  Attributes:
+
+Node: Add_4400
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.1.attn.w_msa.proj.bias, 5773
+  Outputs: 5774
+  Attributes:
+
+Node: Reshape_4401
+  Operator Type: Reshape
+  Inputs: 5774, 11656
+  Outputs: 5787
+  Attributes:
+
+Node: Reshape_4415
+  Operator Type: Reshape
+  Inputs: 5787, 4407
+  Outputs: 5813
+  Attributes:
+
+Node: Transpose_4416
+  Operator Type: Transpose
+  Inputs: 5813
+  Outputs: 5814
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_4422
+  Operator Type: Reshape
+  Inputs: 5814, 4420
+  Outputs: 5826
+  Attributes:
+
+Node: Slice_4426
+  Operator Type: Slice
+  Inputs: 5826, 1047, 905, 11416
+  Outputs: 5830
+  Attributes:
+
+Node: Slice_4430
+  Operator Type: Slice
+  Inputs: 5826, 490, 1047, 11416
+  Outputs: 5834
+  Attributes:
+
+Node: Concat_4431
+  Operator Type: Concat
+  Inputs: 5830, 5834
+  Outputs: 5835
+  Attributes:
+    - axis: 1
+
+Node: Slice_4435
+  Operator Type: Slice
+  Inputs: 5835, 1047, 905, 492
+  Outputs: 5839
+  Attributes:
+
+Node: Slice_4439
+  Operator Type: Slice
+  Inputs: 5835, 490, 1047, 492
+  Outputs: 5843
+  Attributes:
+
+Node: Concat_4440
+  Operator Type: Concat
+  Inputs: 5839, 5843
+  Outputs: 5844
+  Attributes:
+    - axis: 2
+
+Node: Slice_4445
+  Operator Type: Slice
+  Inputs: 5844, 490, 4424, 11416, 11416
+  Outputs: 5849
+  Attributes:
+
+Node: Slice_4450
+  Operator Type: Slice
+  Inputs: 5849, 490, 4429, 492, 11416
+  Outputs: 5854
+  Attributes:
+
+Node: Reshape_4451
+  Operator Type: Reshape
+  Inputs: 5854, 11666
+  Outputs: 5863
+  Attributes:
+
+Node: Add_4452
+  Operator Type: Add
+  Inputs: 5863, 4468
+  Outputs: 5864
+  Attributes:
+
+Node: ReduceMean_4453
+  Operator Type: ReduceMean
+  Inputs: 5864
+  Outputs: 5865
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_4454
+  Operator Type: Sub
+  Inputs: 5864, 5865
+  Outputs: 5866
+  Attributes:
+
+Node: Pow_4457
+  Operator Type: Pow
+  Inputs: 5866, 501
+  Outputs: 5869
+  Attributes:
+
+Node: ReduceMean_4458
+  Operator Type: ReduceMean
+  Inputs: 5869
+  Outputs: 5870
+  Attributes:
+    - axes: [-1]
+
+Node: Add_4460
+  Operator Type: Add
+  Inputs: 5870, 504
+  Outputs: 5872
+  Attributes:
+
+Node: Sqrt_4461
+  Operator Type: Sqrt
+  Inputs: 5872
+  Outputs: 5873
+  Attributes:
+
+Node: Div_4462
+  Operator Type: Div
+  Inputs: 5866, 5873
+  Outputs: 5874
+  Attributes:
+
+Node: Mul_4463
+  Operator Type: Mul
+  Inputs: 5874, model.encoders.camera.backbone.stages.2.blocks.1.norm2.weight
+  Outputs: 5875
+  Attributes:
+
+Node: Add_4464
+  Operator Type: Add
+  Inputs: 5875, model.encoders.camera.backbone.stages.2.blocks.1.norm2.bias
+  Outputs: 5876
+  Attributes:
+
+Node: MatMul_4465
+  Operator Type: MatMul
+  Inputs: 5876, 11736
+  Outputs: 5878
+  Attributes:
+
+Node: Add_4466
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.1.ffn.layers.0.0.bias, 5878
+  Outputs: 5879
+  Attributes:
+
+Node: Div_4468
+  Operator Type: Div
+  Inputs: 5879, 806
+  Outputs: 5881
+  Attributes:
+
+Node: Erf_4469
+  Operator Type: Erf
+  Inputs: 5881
+  Outputs: 5882
+  Attributes:
+
+Node: Add_4471
+  Operator Type: Add
+  Inputs: 5882, 809
+  Outputs: 5884
+  Attributes:
+
+Node: Mul_4472
+  Operator Type: Mul
+  Inputs: 5879, 5884
+  Outputs: 5885
+  Attributes:
+
+Node: Mul_4474
+  Operator Type: Mul
+  Inputs: 5885, 812
+  Outputs: 5887
+  Attributes:
+
+Node: MatMul_4475
+  Operator Type: MatMul
+  Inputs: 5887, 11737
+  Outputs: 5889
+  Attributes:
+
+Node: Add_4476
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.1.ffn.layers.1.bias, 5889
+  Outputs: 5890
+  Attributes:
+
+Node: Add_4477
+  Operator Type: Add
+  Inputs: 5864, 5890
+  Outputs: 5891
+  Attributes:
+
+Node: ReduceMean_4478
+  Operator Type: ReduceMean
+  Inputs: 5891
+  Outputs: 5892
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_4479
+  Operator Type: Sub
+  Inputs: 5891, 5892
+  Outputs: 5893
+  Attributes:
+
+Node: Pow_4482
+  Operator Type: Pow
+  Inputs: 5893, 501
+  Outputs: 5896
+  Attributes:
+
+Node: ReduceMean_4483
+  Operator Type: ReduceMean
+  Inputs: 5896
+  Outputs: 5897
+  Attributes:
+    - axes: [-1]
+
+Node: Add_4485
+  Operator Type: Add
+  Inputs: 5897, 504
+  Outputs: 5899
+  Attributes:
+
+Node: Sqrt_4486
+  Operator Type: Sqrt
+  Inputs: 5899
+  Outputs: 5900
+  Attributes:
+
+Node: Div_4487
+  Operator Type: Div
+  Inputs: 5893, 5900
+  Outputs: 5901
+  Attributes:
+
+Node: Mul_4488
+  Operator Type: Mul
+  Inputs: 5901, model.encoders.camera.backbone.stages.2.blocks.2.norm1.weight
+  Outputs: 5902
+  Attributes:
+
+Node: Add_4489
+  Operator Type: Add
+  Inputs: 5902, model.encoders.camera.backbone.stages.2.blocks.2.norm1.bias
+  Outputs: 5903
+  Attributes:
+
+Node: Reshape_4490
+  Operator Type: Reshape
+  Inputs: 5903, 11614
+  Outputs: 5915
+  Attributes:
+
+Node: Pad_4505
+  Operator Type: Pad
+  Inputs: 5915, 4237, 587
+  Outputs: 5970
+  Attributes:
+    - mode: constant
+
+Node: Reshape_4541
+  Operator Type: Reshape
+  Inputs: 5970, 4280
+  Outputs: 6012
+  Attributes:
+
+Node: Transpose_4542
+  Operator Type: Transpose
+  Inputs: 6012
+  Outputs: 6013
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_4546
+  Operator Type: Reshape
+  Inputs: 6013, 11656
+  Outputs: 6026
+  Attributes:
+
+Node: Reshape_4547
+  Operator Type: Reshape
+  Inputs: 6026, 11642
+  Outputs: 6036
+  Attributes:
+
+Node: MatMul_4557
+  Operator Type: MatMul
+  Inputs: 6036, 11771
+  Outputs: 6047
+  Attributes:
+
+Node: Add_4558
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.2.attn.w_msa.qkv.bias, 6047
+  Outputs: 6048
+  Attributes:
+
+Node: Reshape_4570
+  Operator Type: Reshape
+  Inputs: 6048, 7126
+  Outputs: 6066
+  Attributes:
+
+Node: Transpose_4571
+  Operator Type: Transpose
+  Inputs: 6066
+  Outputs: 6067
+  Attributes:
+    - perm: [2, 0, 3, 1, 4]
+
+Node: Gather_4573
+  Operator Type: Gather
+  Inputs: 6067, 596
+  Outputs: 6069
+  Attributes:
+    - axis: 0
+
+Node: Gather_4575
+  Operator Type: Gather
+  Inputs: 6067, 590
+  Outputs: 6071
+  Attributes:
+    - axis: 0
+
+Node: Gather_4577
+  Operator Type: Gather
+  Inputs: 6067, 593
+  Outputs: 6073
+  Attributes:
+    - axis: 0
+
+Node: Mul_4579
+  Operator Type: Mul
+  Inputs: 6069, 692
+  Outputs: 6075
+  Attributes:
+
+Node: Transpose_4580
+  Operator Type: Transpose
+  Inputs: 6071
+  Outputs: 6076
+  Attributes:
+    - perm: [0, 1, 3, 2]
+
+Node: MatMul_4581
+  Operator Type: MatMul
+  Inputs: 6075, 6076
+  Outputs: 6077
+  Attributes:
+
+Node: Add_4582
+  Operator Type: Add
+  Inputs: 6077, 11778
+  Outputs: 6086
+  Attributes:
+
+Node: Softmax_4583
+  Operator Type: Softmax
+  Inputs: 6086
+  Outputs: 6087
+  Attributes:
+    - axis: -1
+
+Node: MatMul_4584
+  Operator Type: MatMul
+  Inputs: 6087, 6073
+  Outputs: 6088
+  Attributes:
+
+Node: Transpose_4585
+  Operator Type: Transpose
+  Inputs: 6088
+  Outputs: 6089
+  Attributes:
+    - perm: [0, 2, 1, 3]
+
+Node: Reshape_4593
+  Operator Type: Reshape
+  Inputs: 6089, 11642
+  Outputs: 6097
+  Attributes:
+
+Node: MatMul_4594
+  Operator Type: MatMul
+  Inputs: 6097, 11779
+  Outputs: 6099
+  Attributes:
+
+Node: Add_4595
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.2.attn.w_msa.proj.bias, 6099
+  Outputs: 6100
+  Attributes:
+
+Node: Reshape_4596
+  Operator Type: Reshape
+  Inputs: 6100, 11656
+  Outputs: 6113
+  Attributes:
+
+Node: Reshape_4610
+  Operator Type: Reshape
+  Inputs: 6113, 4407
+  Outputs: 6139
+  Attributes:
+
+Node: Transpose_4611
+  Operator Type: Transpose
+  Inputs: 6139
+  Outputs: 6140
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_4617
+  Operator Type: Reshape
+  Inputs: 6140, 4420
+  Outputs: 6152
+  Attributes:
+
+Node: Slice_4622
+  Operator Type: Slice
+  Inputs: 6152, 490, 4424, 11416, 11416
+  Outputs: 6157
+  Attributes:
+
+Node: Slice_4627
+  Operator Type: Slice
+  Inputs: 6157, 490, 4429, 492, 11416
+  Outputs: 6162
+  Attributes:
+
+Node: Reshape_4628
+  Operator Type: Reshape
+  Inputs: 6162, 11666
+  Outputs: 6171
+  Attributes:
+
+Node: Add_4629
+  Operator Type: Add
+  Inputs: 6171, 5891
+  Outputs: 6172
+  Attributes:
+
+Node: ReduceMean_4630
+  Operator Type: ReduceMean
+  Inputs: 6172
+  Outputs: 6173
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_4631
+  Operator Type: Sub
+  Inputs: 6172, 6173
+  Outputs: 6174
+  Attributes:
+
+Node: Pow_4634
+  Operator Type: Pow
+  Inputs: 6174, 501
+  Outputs: 6177
+  Attributes:
+
+Node: ReduceMean_4635
+  Operator Type: ReduceMean
+  Inputs: 6177
+  Outputs: 6178
+  Attributes:
+    - axes: [-1]
+
+Node: Add_4637
+  Operator Type: Add
+  Inputs: 6178, 504
+  Outputs: 6180
+  Attributes:
+
+Node: Sqrt_4638
+  Operator Type: Sqrt
+  Inputs: 6180
+  Outputs: 6181
+  Attributes:
+
+Node: Div_4639
+  Operator Type: Div
+  Inputs: 6174, 6181
+  Outputs: 6182
+  Attributes:
+
+Node: Mul_4640
+  Operator Type: Mul
+  Inputs: 6182, model.encoders.camera.backbone.stages.2.blocks.2.norm2.weight
+  Outputs: 6183
+  Attributes:
+
+Node: Add_4641
+  Operator Type: Add
+  Inputs: 6183, model.encoders.camera.backbone.stages.2.blocks.2.norm2.bias
+  Outputs: 6184
+  Attributes:
+
+Node: MatMul_4642
+  Operator Type: MatMul
+  Inputs: 6184, 11795
+  Outputs: 6186
+  Attributes:
+
+Node: Add_4643
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.2.ffn.layers.0.0.bias, 6186
+  Outputs: 6187
+  Attributes:
+
+Node: Div_4645
+  Operator Type: Div
+  Inputs: 6187, 806
+  Outputs: 6189
+  Attributes:
+
+Node: Erf_4646
+  Operator Type: Erf
+  Inputs: 6189
+  Outputs: 6190
+  Attributes:
+
+Node: Add_4648
+  Operator Type: Add
+  Inputs: 6190, 809
+  Outputs: 6192
+  Attributes:
+
+Node: Mul_4649
+  Operator Type: Mul
+  Inputs: 6187, 6192
+  Outputs: 6193
+  Attributes:
+
+Node: Mul_4651
+  Operator Type: Mul
+  Inputs: 6193, 812
+  Outputs: 6195
+  Attributes:
+
+Node: MatMul_4652
+  Operator Type: MatMul
+  Inputs: 6195, 11796
+  Outputs: 6197
+  Attributes:
+
+Node: Add_4653
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.2.ffn.layers.1.bias, 6197
+  Outputs: 6198
+  Attributes:
+
+Node: Add_4654
+  Operator Type: Add
+  Inputs: 6172, 6198
+  Outputs: 6199
+  Attributes:
+
+Node: ReduceMean_4655
+  Operator Type: ReduceMean
+  Inputs: 6199
+  Outputs: 6200
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_4656
+  Operator Type: Sub
+  Inputs: 6199, 6200
+  Outputs: 6201
+  Attributes:
+
+Node: Pow_4659
+  Operator Type: Pow
+  Inputs: 6201, 501
+  Outputs: 6204
+  Attributes:
+
+Node: ReduceMean_4660
+  Operator Type: ReduceMean
+  Inputs: 6204
+  Outputs: 6205
+  Attributes:
+    - axes: [-1]
+
+Node: Add_4662
+  Operator Type: Add
+  Inputs: 6205, 504
+  Outputs: 6207
+  Attributes:
+
+Node: Sqrt_4663
+  Operator Type: Sqrt
+  Inputs: 6207
+  Outputs: 6208
+  Attributes:
+
+Node: Div_4664
+  Operator Type: Div
+  Inputs: 6201, 6208
+  Outputs: 6209
+  Attributes:
+
+Node: Mul_4665
+  Operator Type: Mul
+  Inputs: 6209, model.encoders.camera.backbone.stages.2.blocks.3.norm1.weight
+  Outputs: 6210
+  Attributes:
+
+Node: Add_4666
+  Operator Type: Add
+  Inputs: 6210, model.encoders.camera.backbone.stages.2.blocks.3.norm1.bias
+  Outputs: 6211
+  Attributes:
+
+Node: Reshape_4667
+  Operator Type: Reshape
+  Inputs: 6211, 11614
+  Outputs: 6223
+  Attributes:
+
+Node: Pad_4682
+  Operator Type: Pad
+  Inputs: 6223, 4237, 587
+  Outputs: 6278
+  Attributes:
+    - mode: constant
+
+Node: Slice_4692
+  Operator Type: Slice
+  Inputs: 6278, 11367, 905, 11416
+  Outputs: 6288
+  Attributes:
+
+Node: Slice_4696
+  Operator Type: Slice
+  Inputs: 6278, 490, 11367, 11416
+  Outputs: 6292
+  Attributes:
+
+Node: Concat_4697
+  Operator Type: Concat
+  Inputs: 6288, 6292
+  Outputs: 6293
+  Attributes:
+    - axis: 1
+
+Node: Slice_4701
+  Operator Type: Slice
+  Inputs: 6293, 11367, 905, 492
+  Outputs: 6297
+  Attributes:
+
+Node: Slice_4705
+  Operator Type: Slice
+  Inputs: 6293, 490, 11367, 492
+  Outputs: 6301
+  Attributes:
+
+Node: Concat_4706
+  Operator Type: Concat
+  Inputs: 6297, 6301
+  Outputs: 6302
+  Attributes:
+    - axis: 2
+
+Node: Reshape_5758
+  Operator Type: Reshape
+  Inputs: 6302, 4280
+  Outputs: 7381
+  Attributes:
+
+Node: Transpose_5759
+  Operator Type: Transpose
+  Inputs: 7381
+  Outputs: 7382
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_5763
+  Operator Type: Reshape
+  Inputs: 7382, 11656
+  Outputs: 7395
+  Attributes:
+
+Node: Reshape_5764
+  Operator Type: Reshape
+  Inputs: 7395, 11642
+  Outputs: 7405
+  Attributes:
+
+Node: MatMul_5774
+  Operator Type: MatMul
+  Inputs: 7405, 11837
+  Outputs: 7416
+  Attributes:
+
+Node: Add_5775
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.3.attn.w_msa.qkv.bias, 7416
+  Outputs: 7417
+  Attributes:
+
+Node: Reshape_5787
+  Operator Type: Reshape
+  Inputs: 7417, 7126
+  Outputs: 7435
+  Attributes:
+
+Node: Transpose_5788
+  Operator Type: Transpose
+  Inputs: 7435
+  Outputs: 7436
+  Attributes:
+    - perm: [2, 0, 3, 1, 4]
+
+Node: Gather_5790
+  Operator Type: Gather
+  Inputs: 7436, 596
+  Outputs: 7438
+  Attributes:
+    - axis: 0
+
+Node: Gather_5792
+  Operator Type: Gather
+  Inputs: 7436, 590
+  Outputs: 7440
+  Attributes:
+    - axis: 0
+
+Node: Gather_5794
+  Operator Type: Gather
+  Inputs: 7436, 593
+  Outputs: 7442
+  Attributes:
+    - axis: 0
+
+Node: Mul_5796
+  Operator Type: Mul
+  Inputs: 7438, 692
+  Outputs: 7444
+  Attributes:
+
+Node: Transpose_5797
+  Operator Type: Transpose
+  Inputs: 7440
+  Outputs: 7445
+  Attributes:
+    - perm: [0, 1, 3, 2]
+
+Node: MatMul_5798
+  Operator Type: MatMul
+  Inputs: 7444, 7445
+  Outputs: 7446
+  Attributes:
+
+Node: Add_5799
+  Operator Type: Add
+  Inputs: 7446, 11844
+  Outputs: 7455
+  Attributes:
+
+Node: Reshape_5815
+  Operator Type: Reshape
+  Inputs: 7455, 7144
+  Outputs: 7474
+  Attributes:
+
+Node: Add_5820
+  Operator Type: Add
+  Inputs: 7474, 5747
+  Outputs: 7479
+  Attributes:
+
+Node: Reshape_5826
+  Operator Type: Reshape
+  Inputs: 7479, 5759
+  Outputs: 7491
+  Attributes:
+
+Node: Softmax_5827
+  Operator Type: Softmax
+  Inputs: 7491
+  Outputs: 7492
+  Attributes:
+    - axis: -1
+
+Node: MatMul_5828
+  Operator Type: MatMul
+  Inputs: 7492, 7442
+  Outputs: 7493
+  Attributes:
+
+Node: Transpose_5829
+  Operator Type: Transpose
+  Inputs: 7493
+  Outputs: 7494
+  Attributes:
+    - perm: [0, 2, 1, 3]
+
+Node: Reshape_5837
+  Operator Type: Reshape
+  Inputs: 7494, 11642
+  Outputs: 7502
+  Attributes:
+
+Node: MatMul_5838
+  Operator Type: MatMul
+  Inputs: 7502, 11848
+  Outputs: 7504
+  Attributes:
+
+Node: Add_5839
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.3.attn.w_msa.proj.bias, 7504
+  Outputs: 7505
+  Attributes:
+
+Node: Reshape_5840
+  Operator Type: Reshape
+  Inputs: 7505, 11656
+  Outputs: 7518
+  Attributes:
+
+Node: Reshape_5854
+  Operator Type: Reshape
+  Inputs: 7518, 4407
+  Outputs: 7544
+  Attributes:
+
+Node: Transpose_5855
+  Operator Type: Transpose
+  Inputs: 7544
+  Outputs: 7545
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_5861
+  Operator Type: Reshape
+  Inputs: 7545, 4420
+  Outputs: 7557
+  Attributes:
+
+Node: Slice_5865
+  Operator Type: Slice
+  Inputs: 7557, 1047, 905, 11416
+  Outputs: 7561
+  Attributes:
+
+Node: Slice_5869
+  Operator Type: Slice
+  Inputs: 7557, 490, 1047, 11416
+  Outputs: 7565
+  Attributes:
+
+Node: Concat_5870
+  Operator Type: Concat
+  Inputs: 7561, 7565
+  Outputs: 7566
+  Attributes:
+    - axis: 1
+
+Node: Slice_5874
+  Operator Type: Slice
+  Inputs: 7566, 1047, 905, 492
+  Outputs: 7570
+  Attributes:
+
+Node: Slice_5878
+  Operator Type: Slice
+  Inputs: 7566, 490, 1047, 492
+  Outputs: 7574
+  Attributes:
+
+Node: Concat_5879
+  Operator Type: Concat
+  Inputs: 7570, 7574
+  Outputs: 7575
+  Attributes:
+    - axis: 2
+
+Node: Slice_5884
+  Operator Type: Slice
+  Inputs: 7575, 490, 4424, 11416, 11416
+  Outputs: 7580
+  Attributes:
+
+Node: Slice_5889
+  Operator Type: Slice
+  Inputs: 7580, 490, 4429, 492, 11416
+  Outputs: 7585
+  Attributes:
+
+Node: Reshape_5890
+  Operator Type: Reshape
+  Inputs: 7585, 11666
+  Outputs: 7594
+  Attributes:
+
+Node: Add_5891
+  Operator Type: Add
+  Inputs: 7594, 6199
+  Outputs: 7595
+  Attributes:
+
+Node: ReduceMean_5892
+  Operator Type: ReduceMean
+  Inputs: 7595
+  Outputs: 7596
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_5893
+  Operator Type: Sub
+  Inputs: 7595, 7596
+  Outputs: 7597
+  Attributes:
+
+Node: Pow_5896
+  Operator Type: Pow
+  Inputs: 7597, 501
+  Outputs: 7600
+  Attributes:
+
+Node: ReduceMean_5897
+  Operator Type: ReduceMean
+  Inputs: 7600
+  Outputs: 7601
+  Attributes:
+    - axes: [-1]
+
+Node: Add_5899
+  Operator Type: Add
+  Inputs: 7601, 504
+  Outputs: 7603
+  Attributes:
+
+Node: Sqrt_5900
+  Operator Type: Sqrt
+  Inputs: 7603
+  Outputs: 7604
+  Attributes:
+
+Node: Div_5901
+  Operator Type: Div
+  Inputs: 7597, 7604
+  Outputs: 7605
+  Attributes:
+
+Node: Mul_5902
+  Operator Type: Mul
+  Inputs: 7605, model.encoders.camera.backbone.stages.2.blocks.3.norm2.weight
+  Outputs: 7606
+  Attributes:
+
+Node: Add_5903
+  Operator Type: Add
+  Inputs: 7606, model.encoders.camera.backbone.stages.2.blocks.3.norm2.bias
+  Outputs: 7607
+  Attributes:
+
+Node: MatMul_5904
+  Operator Type: MatMul
+  Inputs: 7607, 11864
+  Outputs: 7609
+  Attributes:
+
+Node: Add_5905
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.3.ffn.layers.0.0.bias, 7609
+  Outputs: 7610
+  Attributes:
+
+Node: Div_5907
+  Operator Type: Div
+  Inputs: 7610, 806
+  Outputs: 7612
+  Attributes:
+
+Node: Erf_5908
+  Operator Type: Erf
+  Inputs: 7612
+  Outputs: 7613
+  Attributes:
+
+Node: Add_5910
+  Operator Type: Add
+  Inputs: 7613, 809
+  Outputs: 7615
+  Attributes:
+
+Node: Mul_5911
+  Operator Type: Mul
+  Inputs: 7610, 7615
+  Outputs: 7616
+  Attributes:
+
+Node: Mul_5913
+  Operator Type: Mul
+  Inputs: 7616, 812
+  Outputs: 7618
+  Attributes:
+
+Node: MatMul_5914
+  Operator Type: MatMul
+  Inputs: 7618, 11865
+  Outputs: 7620
+  Attributes:
+
+Node: Add_5915
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.3.ffn.layers.1.bias, 7620
+  Outputs: 7621
+  Attributes:
+
+Node: Add_5916
+  Operator Type: Add
+  Inputs: 7595, 7621
+  Outputs: 7622
+  Attributes:
+
+Node: ReduceMean_5917
+  Operator Type: ReduceMean
+  Inputs: 7622
+  Outputs: 7623
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_5918
+  Operator Type: Sub
+  Inputs: 7622, 7623
+  Outputs: 7624
+  Attributes:
+
+Node: Pow_5921
+  Operator Type: Pow
+  Inputs: 7624, 501
+  Outputs: 7627
+  Attributes:
+
+Node: ReduceMean_5922
+  Operator Type: ReduceMean
+  Inputs: 7627
+  Outputs: 7628
+  Attributes:
+    - axes: [-1]
+
+Node: Add_5924
+  Operator Type: Add
+  Inputs: 7628, 504
+  Outputs: 7630
+  Attributes:
+
+Node: Sqrt_5925
+  Operator Type: Sqrt
+  Inputs: 7630
+  Outputs: 7631
+  Attributes:
+
+Node: Div_5926
+  Operator Type: Div
+  Inputs: 7624, 7631
+  Outputs: 7632
+  Attributes:
+
+Node: Mul_5927
+  Operator Type: Mul
+  Inputs: 7632, model.encoders.camera.backbone.stages.2.blocks.4.norm1.weight
+  Outputs: 7633
+  Attributes:
+
+Node: Add_5928
+  Operator Type: Add
+  Inputs: 7633, model.encoders.camera.backbone.stages.2.blocks.4.norm1.bias
+  Outputs: 7634
+  Attributes:
+
+Node: Reshape_5929
+  Operator Type: Reshape
+  Inputs: 7634, 11614
+  Outputs: 7646
+  Attributes:
+
+Node: Pad_5944
+  Operator Type: Pad
+  Inputs: 7646, 4237, 587
+  Outputs: 7701
+  Attributes:
+    - mode: constant
+
+Node: Reshape_5980
+  Operator Type: Reshape
+  Inputs: 7701, 4280
+  Outputs: 7743
+  Attributes:
+
+Node: Transpose_5981
+  Operator Type: Transpose
+  Inputs: 7743
+  Outputs: 7744
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_5985
+  Operator Type: Reshape
+  Inputs: 7744, 11656
+  Outputs: 7757
+  Attributes:
+
+Node: Reshape_5986
+  Operator Type: Reshape
+  Inputs: 7757, 11642
+  Outputs: 7767
+  Attributes:
+
+Node: MatMul_5996
+  Operator Type: MatMul
+  Inputs: 7767, 11899
+  Outputs: 7778
+  Attributes:
+
+Node: Add_5997
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.4.attn.w_msa.qkv.bias, 7778
+  Outputs: 7779
+  Attributes:
+
+Node: Reshape_6009
+  Operator Type: Reshape
+  Inputs: 7779, 7126
+  Outputs: 7797
+  Attributes:
+
+Node: Transpose_6010
+  Operator Type: Transpose
+  Inputs: 7797
+  Outputs: 7798
+  Attributes:
+    - perm: [2, 0, 3, 1, 4]
+
+Node: Gather_6012
+  Operator Type: Gather
+  Inputs: 7798, 596
+  Outputs: 7800
+  Attributes:
+    - axis: 0
+
+Node: Gather_6014
+  Operator Type: Gather
+  Inputs: 7798, 590
+  Outputs: 7802
+  Attributes:
+    - axis: 0
+
+Node: Gather_6016
+  Operator Type: Gather
+  Inputs: 7798, 593
+  Outputs: 7804
+  Attributes:
+    - axis: 0
+
+Node: Mul_6018
+  Operator Type: Mul
+  Inputs: 7800, 692
+  Outputs: 7806
+  Attributes:
+
+Node: Transpose_6019
+  Operator Type: Transpose
+  Inputs: 7802
+  Outputs: 7807
+  Attributes:
+    - perm: [0, 1, 3, 2]
+
+Node: MatMul_6020
+  Operator Type: MatMul
+  Inputs: 7806, 7807
+  Outputs: 7808
+  Attributes:
+
+Node: Add_6021
+  Operator Type: Add
+  Inputs: 7808, 11906
+  Outputs: 7817
+  Attributes:
+
+Node: Softmax_6022
+  Operator Type: Softmax
+  Inputs: 7817
+  Outputs: 7818
+  Attributes:
+    - axis: -1
+
+Node: MatMul_6023
+  Operator Type: MatMul
+  Inputs: 7818, 7804
+  Outputs: 7819
+  Attributes:
+
+Node: Transpose_6024
+  Operator Type: Transpose
+  Inputs: 7819
+  Outputs: 7820
+  Attributes:
+    - perm: [0, 2, 1, 3]
+
+Node: Reshape_6032
+  Operator Type: Reshape
+  Inputs: 7820, 11642
+  Outputs: 7828
+  Attributes:
+
+Node: MatMul_6033
+  Operator Type: MatMul
+  Inputs: 7828, 11907
+  Outputs: 7830
+  Attributes:
+
+Node: Add_6034
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.4.attn.w_msa.proj.bias, 7830
+  Outputs: 7831
+  Attributes:
+
+Node: Reshape_6035
+  Operator Type: Reshape
+  Inputs: 7831, 11656
+  Outputs: 7844
+  Attributes:
+
+Node: Reshape_6049
+  Operator Type: Reshape
+  Inputs: 7844, 4407
+  Outputs: 7870
+  Attributes:
+
+Node: Transpose_6050
+  Operator Type: Transpose
+  Inputs: 7870
+  Outputs: 7871
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_6056
+  Operator Type: Reshape
+  Inputs: 7871, 4420
+  Outputs: 7883
+  Attributes:
+
+Node: Slice_6061
+  Operator Type: Slice
+  Inputs: 7883, 490, 4424, 11416, 11416
+  Outputs: 7888
+  Attributes:
+
+Node: Slice_6066
+  Operator Type: Slice
+  Inputs: 7888, 490, 4429, 492, 11416
+  Outputs: 7893
+  Attributes:
+
+Node: Reshape_6067
+  Operator Type: Reshape
+  Inputs: 7893, 11666
+  Outputs: 7902
+  Attributes:
+
+Node: Add_6068
+  Operator Type: Add
+  Inputs: 7902, 7622
+  Outputs: 7903
+  Attributes:
+
+Node: ReduceMean_6069
+  Operator Type: ReduceMean
+  Inputs: 7903
+  Outputs: 7904
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_6070
+  Operator Type: Sub
+  Inputs: 7903, 7904
+  Outputs: 7905
+  Attributes:
+
+Node: Pow_6073
+  Operator Type: Pow
+  Inputs: 7905, 501
+  Outputs: 7908
+  Attributes:
+
+Node: ReduceMean_6074
+  Operator Type: ReduceMean
+  Inputs: 7908
+  Outputs: 7909
+  Attributes:
+    - axes: [-1]
+
+Node: Add_6076
+  Operator Type: Add
+  Inputs: 7909, 504
+  Outputs: 7911
+  Attributes:
+
+Node: Sqrt_6077
+  Operator Type: Sqrt
+  Inputs: 7911
+  Outputs: 7912
+  Attributes:
+
+Node: Div_6078
+  Operator Type: Div
+  Inputs: 7905, 7912
+  Outputs: 7913
+  Attributes:
+
+Node: Mul_6079
+  Operator Type: Mul
+  Inputs: 7913, model.encoders.camera.backbone.stages.2.blocks.4.norm2.weight
+  Outputs: 7914
+  Attributes:
+
+Node: Add_6080
+  Operator Type: Add
+  Inputs: 7914, model.encoders.camera.backbone.stages.2.blocks.4.norm2.bias
+  Outputs: 7915
+  Attributes:
+
+Node: MatMul_6081
+  Operator Type: MatMul
+  Inputs: 7915, 11923
+  Outputs: 7917
+  Attributes:
+
+Node: Add_6082
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.4.ffn.layers.0.0.bias, 7917
+  Outputs: 7918
+  Attributes:
+
+Node: Div_6084
+  Operator Type: Div
+  Inputs: 7918, 806
+  Outputs: 7920
+  Attributes:
+
+Node: Erf_6085
+  Operator Type: Erf
+  Inputs: 7920
+  Outputs: 7921
+  Attributes:
+
+Node: Add_6087
+  Operator Type: Add
+  Inputs: 7921, 809
+  Outputs: 7923
+  Attributes:
+
+Node: Mul_6088
+  Operator Type: Mul
+  Inputs: 7918, 7923
+  Outputs: 7924
+  Attributes:
+
+Node: Mul_6090
+  Operator Type: Mul
+  Inputs: 7924, 812
+  Outputs: 7926
+  Attributes:
+
+Node: MatMul_6091
+  Operator Type: MatMul
+  Inputs: 7926, 11924
+  Outputs: 7928
+  Attributes:
+
+Node: Add_6092
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.4.ffn.layers.1.bias, 7928
+  Outputs: 7929
+  Attributes:
+
+Node: Add_6093
+  Operator Type: Add
+  Inputs: 7903, 7929
+  Outputs: 7930
+  Attributes:
+
+Node: ReduceMean_6094
+  Operator Type: ReduceMean
+  Inputs: 7930
+  Outputs: 7931
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_6095
+  Operator Type: Sub
+  Inputs: 7930, 7931
+  Outputs: 7932
+  Attributes:
+
+Node: Pow_6098
+  Operator Type: Pow
+  Inputs: 7932, 501
+  Outputs: 7935
+  Attributes:
+
+Node: ReduceMean_6099
+  Operator Type: ReduceMean
+  Inputs: 7935
+  Outputs: 7936
+  Attributes:
+    - axes: [-1]
+
+Node: Add_6101
+  Operator Type: Add
+  Inputs: 7936, 504
+  Outputs: 7938
+  Attributes:
+
+Node: Sqrt_6102
+  Operator Type: Sqrt
+  Inputs: 7938
+  Outputs: 7939
+  Attributes:
+
+Node: Div_6103
+  Operator Type: Div
+  Inputs: 7932, 7939
+  Outputs: 7940
+  Attributes:
+
+Node: Mul_6104
+  Operator Type: Mul
+  Inputs: 7940, model.encoders.camera.backbone.stages.2.blocks.5.norm1.weight
+  Outputs: 7941
+  Attributes:
+
+Node: Add_6105
+  Operator Type: Add
+  Inputs: 7941, model.encoders.camera.backbone.stages.2.blocks.5.norm1.bias
+  Outputs: 7942
+  Attributes:
+
+Node: Reshape_6106
+  Operator Type: Reshape
+  Inputs: 7942, 11614
+  Outputs: 7954
+  Attributes:
+
+Node: Pad_6121
+  Operator Type: Pad
+  Inputs: 7954, 4237, 587
+  Outputs: 8009
+  Attributes:
+    - mode: constant
+
+Node: Slice_6131
+  Operator Type: Slice
+  Inputs: 8009, 11367, 905, 11416
+  Outputs: 8019
+  Attributes:
+
+Node: Slice_6135
+  Operator Type: Slice
+  Inputs: 8009, 490, 11367, 11416
+  Outputs: 8023
+  Attributes:
+
+Node: Concat_6136
+  Operator Type: Concat
+  Inputs: 8019, 8023
+  Outputs: 8024
+  Attributes:
+    - axis: 1
+
+Node: Slice_6140
+  Operator Type: Slice
+  Inputs: 8024, 11367, 905, 492
+  Outputs: 8028
+  Attributes:
+
+Node: Slice_6144
+  Operator Type: Slice
+  Inputs: 8024, 490, 11367, 492
+  Outputs: 8032
+  Attributes:
+
+Node: Concat_6145
+  Operator Type: Concat
+  Inputs: 8028, 8032
+  Outputs: 8033
+  Attributes:
+    - axis: 2
+
+Node: Reshape_7197
+  Operator Type: Reshape
+  Inputs: 8033, 4280
+  Outputs: 9112
+  Attributes:
+
+Node: Transpose_7198
+  Operator Type: Transpose
+  Inputs: 9112
+  Outputs: 9113
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_7202
+  Operator Type: Reshape
+  Inputs: 9113, 11656
+  Outputs: 9126
+  Attributes:
+
+Node: Reshape_7203
+  Operator Type: Reshape
+  Inputs: 9126, 11642
+  Outputs: 9136
+  Attributes:
+
+Node: MatMul_7213
+  Operator Type: MatMul
+  Inputs: 9136, 11965
+  Outputs: 9147
+  Attributes:
+
+Node: Add_7214
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.5.attn.w_msa.qkv.bias, 9147
+  Outputs: 9148
+  Attributes:
+
+Node: Reshape_7226
+  Operator Type: Reshape
+  Inputs: 9148, 7126
+  Outputs: 9166
+  Attributes:
+
+Node: Transpose_7227
+  Operator Type: Transpose
+  Inputs: 9166
+  Outputs: 9167
+  Attributes:
+    - perm: [2, 0, 3, 1, 4]
+
+Node: Gather_7229
+  Operator Type: Gather
+  Inputs: 9167, 596
+  Outputs: 9169
+  Attributes:
+    - axis: 0
+
+Node: Gather_7231
+  Operator Type: Gather
+  Inputs: 9167, 590
+  Outputs: 9171
+  Attributes:
+    - axis: 0
+
+Node: Gather_7233
+  Operator Type: Gather
+  Inputs: 9167, 593
+  Outputs: 9173
+  Attributes:
+    - axis: 0
+
+Node: Mul_7235
+  Operator Type: Mul
+  Inputs: 9169, 692
+  Outputs: 9175
+  Attributes:
+
+Node: Transpose_7236
+  Operator Type: Transpose
+  Inputs: 9171
+  Outputs: 9176
+  Attributes:
+    - perm: [0, 1, 3, 2]
+
+Node: MatMul_7237
+  Operator Type: MatMul
+  Inputs: 9175, 9176
+  Outputs: 9177
+  Attributes:
+
+Node: Add_7238
+  Operator Type: Add
+  Inputs: 9177, 11972
+  Outputs: 9186
+  Attributes:
+
+Node: Reshape_7254
+  Operator Type: Reshape
+  Inputs: 9186, 7144
+  Outputs: 9205
+  Attributes:
+
+Node: Add_7259
+  Operator Type: Add
+  Inputs: 9205, 5747
+  Outputs: 9210
+  Attributes:
+
+Node: Reshape_7265
+  Operator Type: Reshape
+  Inputs: 9210, 5759
+  Outputs: 9222
+  Attributes:
+
+Node: Softmax_7266
+  Operator Type: Softmax
+  Inputs: 9222
+  Outputs: 9223
+  Attributes:
+    - axis: -1
+
+Node: MatMul_7267
+  Operator Type: MatMul
+  Inputs: 9223, 9173
+  Outputs: 9224
+  Attributes:
+
+Node: Transpose_7268
+  Operator Type: Transpose
+  Inputs: 9224
+  Outputs: 9225
+  Attributes:
+    - perm: [0, 2, 1, 3]
+
+Node: Reshape_7276
+  Operator Type: Reshape
+  Inputs: 9225, 11642
+  Outputs: 9233
+  Attributes:
+
+Node: MatMul_7277
+  Operator Type: MatMul
+  Inputs: 9233, 11976
+  Outputs: 9235
+  Attributes:
+
+Node: Add_7278
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.5.attn.w_msa.proj.bias, 9235
+  Outputs: 9236
+  Attributes:
+
+Node: Reshape_7279
+  Operator Type: Reshape
+  Inputs: 9236, 11656
+  Outputs: 9249
+  Attributes:
+
+Node: Reshape_7293
+  Operator Type: Reshape
+  Inputs: 9249, 4407
+  Outputs: 9275
+  Attributes:
+
+Node: Transpose_7294
+  Operator Type: Transpose
+  Inputs: 9275
+  Outputs: 9276
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_7300
+  Operator Type: Reshape
+  Inputs: 9276, 4420
+  Outputs: 9288
+  Attributes:
+
+Node: Slice_7304
+  Operator Type: Slice
+  Inputs: 9288, 1047, 905, 11416
+  Outputs: 9292
+  Attributes:
+
+Node: Slice_7308
+  Operator Type: Slice
+  Inputs: 9288, 490, 1047, 11416
+  Outputs: 9296
+  Attributes:
+
+Node: Concat_7309
+  Operator Type: Concat
+  Inputs: 9292, 9296
+  Outputs: 9297
+  Attributes:
+    - axis: 1
+
+Node: Slice_7313
+  Operator Type: Slice
+  Inputs: 9297, 1047, 905, 492
+  Outputs: 9301
+  Attributes:
+
+Node: Slice_7317
+  Operator Type: Slice
+  Inputs: 9297, 490, 1047, 492
+  Outputs: 9305
+  Attributes:
+
+Node: Concat_7318
+  Operator Type: Concat
+  Inputs: 9301, 9305
+  Outputs: 9306
+  Attributes:
+    - axis: 2
+
+Node: Slice_7323
+  Operator Type: Slice
+  Inputs: 9306, 490, 4424, 11416, 11416
+  Outputs: 9311
+  Attributes:
+
+Node: Slice_7328
+  Operator Type: Slice
+  Inputs: 9311, 490, 4429, 492, 11416
+  Outputs: 9316
+  Attributes:
+
+Node: Reshape_7329
+  Operator Type: Reshape
+  Inputs: 9316, 11666
+  Outputs: 9325
+  Attributes:
+
+Node: Add_7330
+  Operator Type: Add
+  Inputs: 9325, 7930
+  Outputs: 9326
+  Attributes:
+
+Node: ReduceMean_7331
+  Operator Type: ReduceMean
+  Inputs: 9326
+  Outputs: 9327
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_7332
+  Operator Type: Sub
+  Inputs: 9326, 9327
+  Outputs: 9328
+  Attributes:
+
+Node: Pow_7335
+  Operator Type: Pow
+  Inputs: 9328, 501
+  Outputs: 9331
+  Attributes:
+
+Node: ReduceMean_7336
+  Operator Type: ReduceMean
+  Inputs: 9331
+  Outputs: 9332
+  Attributes:
+    - axes: [-1]
+
+Node: Add_7338
+  Operator Type: Add
+  Inputs: 9332, 504
+  Outputs: 9334
+  Attributes:
+
+Node: Sqrt_7339
+  Operator Type: Sqrt
+  Inputs: 9334
+  Outputs: 9335
+  Attributes:
+
+Node: Div_7340
+  Operator Type: Div
+  Inputs: 9328, 9335
+  Outputs: 9336
+  Attributes:
+
+Node: Mul_7341
+  Operator Type: Mul
+  Inputs: 9336, model.encoders.camera.backbone.stages.2.blocks.5.norm2.weight
+  Outputs: 9337
+  Attributes:
+
+Node: Add_7342
+  Operator Type: Add
+  Inputs: 9337, model.encoders.camera.backbone.stages.2.blocks.5.norm2.bias
+  Outputs: 9338
+  Attributes:
+
+Node: MatMul_7343
+  Operator Type: MatMul
+  Inputs: 9338, 11992
+  Outputs: 9340
+  Attributes:
+
+Node: Add_7344
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.5.ffn.layers.0.0.bias, 9340
+  Outputs: 9341
+  Attributes:
+
+Node: Div_7346
+  Operator Type: Div
+  Inputs: 9341, 806
+  Outputs: 9343
+  Attributes:
+
+Node: Erf_7347
+  Operator Type: Erf
+  Inputs: 9343
+  Outputs: 9344
+  Attributes:
+
+Node: Add_7349
+  Operator Type: Add
+  Inputs: 9344, 809
+  Outputs: 9346
+  Attributes:
+
+Node: Mul_7350
+  Operator Type: Mul
+  Inputs: 9341, 9346
+  Outputs: 9347
+  Attributes:
+
+Node: Mul_7352
+  Operator Type: Mul
+  Inputs: 9347, 812
+  Outputs: 9349
+  Attributes:
+
+Node: MatMul_7353
+  Operator Type: MatMul
+  Inputs: 9349, 11993
+  Outputs: 9351
+  Attributes:
+
+Node: Add_7354
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.2.blocks.5.ffn.layers.1.bias, 9351
+  Outputs: 9352
+  Attributes:
+
+Node: Add_7355
+  Operator Type: Add
+  Inputs: 9326, 9352
+  Outputs: 9353
+  Attributes:
+
+Node: Reshape_7356
+  Operator Type: Reshape
+  Inputs: 9353, 11614
+  Outputs: 9365
+  Attributes:
+
+Node: Transpose_7357
+  Operator Type: Transpose
+  Inputs: 9365
+  Outputs: 9366
+  Attributes:
+    - perm: [0, 3, 1, 2]
+
+Node: Gather_7400
+  Operator Type: Gather
+  Inputs: 9366, 9385
+  Outputs: 9415
+  Attributes:
+    - axis: 2
+
+Node: Gather_7401
+  Operator Type: Gather
+  Inputs: 9415, 9398
+  Outputs: 9416
+  Attributes:
+    - axis: 4
+
+Node: Transpose_7402
+  Operator Type: Transpose
+  Inputs: 9416
+  Outputs: 9417
+  Attributes:
+    - perm: [0, 1, 2, 4, 3, 5]
+
+Node: Reshape_7403
+  Operator Type: Reshape
+  Inputs: 9417, 9412
+  Outputs: 9418
+  Attributes:
+
+Node: Transpose_7404
+  Operator Type: Transpose
+  Inputs: 9418
+  Outputs: 9421
+  Attributes:
+    - perm: [0, 2, 1]
+
+Node: ReduceMean_7405
+  Operator Type: ReduceMean
+  Inputs: 9421
+  Outputs: 9422
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_7406
+  Operator Type: Sub
+  Inputs: 9421, 9422
+  Outputs: 9423
+  Attributes:
+
+Node: Pow_7409
+  Operator Type: Pow
+  Inputs: 9423, 501
+  Outputs: 9426
+  Attributes:
+
+Node: ReduceMean_7410
+  Operator Type: ReduceMean
+  Inputs: 9426
+  Outputs: 9427
+  Attributes:
+    - axes: [-1]
+
+Node: Add_7412
+  Operator Type: Add
+  Inputs: 9427, 504
+  Outputs: 9429
+  Attributes:
+
+Node: Sqrt_7413
+  Operator Type: Sqrt
+  Inputs: 9429
+  Outputs: 9430
+  Attributes:
+
+Node: Div_7414
+  Operator Type: Div
+  Inputs: 9423, 9430
+  Outputs: 9431
+  Attributes:
+
+Node: Mul_7415
+  Operator Type: Mul
+  Inputs: 9431, model.encoders.camera.backbone.stages.2.downsample.norm.weight
+  Outputs: 9432
+  Attributes:
+
+Node: Add_7416
+  Operator Type: Add
+  Inputs: 9432, model.encoders.camera.backbone.stages.2.downsample.norm.bias
+  Outputs: 9433
+  Attributes:
+
+Node: MatMul_7417
+  Operator Type: MatMul
+  Inputs: 9433, 12001
+  Outputs: 9435
+  Attributes:
+
+Node: ReduceMean_7418
+  Operator Type: ReduceMean
+  Inputs: 9353
+  Outputs: 9436
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_7419
+  Operator Type: Sub
+  Inputs: 9353, 9436
+  Outputs: 9437
+  Attributes:
+
+Node: Pow_7422
+  Operator Type: Pow
+  Inputs: 9437, 501
+  Outputs: 9440
+  Attributes:
+
+Node: ReduceMean_7423
+  Operator Type: ReduceMean
+  Inputs: 9440
+  Outputs: 9441
+  Attributes:
+    - axes: [-1]
+
+Node: Add_7425
+  Operator Type: Add
+  Inputs: 9441, 504
+  Outputs: 9443
+  Attributes:
+
+Node: Sqrt_7426
+  Operator Type: Sqrt
+  Inputs: 9443
+  Outputs: 9444
+  Attributes:
+
+Node: Div_7427
+  Operator Type: Div
+  Inputs: 9437, 9444
+  Outputs: 9445
+  Attributes:
+
+Node: Mul_7428
+  Operator Type: Mul
+  Inputs: 9445, model.encoders.camera.backbone.norm2.weight
+  Outputs: 9446
+  Attributes:
+
+Node: Add_7429
+  Operator Type: Add
+  Inputs: 9446, model.encoders.camera.backbone.norm2.bias
+  Outputs: 9447
+  Attributes:
+
+Node: Reshape_7430
+  Operator Type: Reshape
+  Inputs: 9447, 12006
+  Outputs: 9459
+  Attributes:
+
+Node: Transpose_7431
+  Operator Type: Transpose
+  Inputs: 9459
+  Outputs: 9460
+  Attributes:
+    - perm: [0, 3, 1, 2]
+
+Node: ReduceMean_7432
+  Operator Type: ReduceMean
+  Inputs: 9435
+  Outputs: 9461
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_7433
+  Operator Type: Sub
+  Inputs: 9435, 9461
+  Outputs: 9462
+  Attributes:
+
+Node: Pow_7436
+  Operator Type: Pow
+  Inputs: 9462, 501
+  Outputs: 9465
+  Attributes:
+
+Node: ReduceMean_7437
+  Operator Type: ReduceMean
+  Inputs: 9465
+  Outputs: 9466
+  Attributes:
+    - axes: [-1]
+
+Node: Add_7439
+  Operator Type: Add
+  Inputs: 9466, 504
+  Outputs: 9468
+  Attributes:
+
+Node: Sqrt_7440
+  Operator Type: Sqrt
+  Inputs: 9468
+  Outputs: 9469
+  Attributes:
+
+Node: Div_7441
+  Operator Type: Div
+  Inputs: 9462, 9469
+  Outputs: 9470
+  Attributes:
+
+Node: Mul_7442
+  Operator Type: Mul
+  Inputs: 9470, model.encoders.camera.backbone.stages.3.blocks.0.norm1.weight
+  Outputs: 9471
+  Attributes:
+
+Node: Add_7443
+  Operator Type: Add
+  Inputs: 9471, model.encoders.camera.backbone.stages.3.blocks.0.norm1.bias
+  Outputs: 9472
+  Attributes:
+
+Node: Reshape_7444
+  Operator Type: Reshape
+  Inputs: 9472, 12011
+  Outputs: 9484
+  Attributes:
+
+Node: Pad_7459
+  Operator Type: Pad
+  Inputs: 9484, 586, 587
+  Outputs: 9539
+  Attributes:
+    - mode: constant
+
+Node: Reshape_7495
+  Operator Type: Reshape
+  Inputs: 9539, 9580
+  Outputs: 9581
+  Attributes:
+
+Node: Transpose_7496
+  Operator Type: Transpose
+  Inputs: 9581
+  Outputs: 9582
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_7500
+  Operator Type: Reshape
+  Inputs: 9582, 12053
+  Outputs: 9595
+  Attributes:
+
+Node: Reshape_7501
+  Operator Type: Reshape
+  Inputs: 9595, 12039
+  Outputs: 9605
+  Attributes:
+
+Node: MatMul_7511
+  Operator Type: MatMul
+  Inputs: 9605, 12040
+  Outputs: 9616
+  Attributes:
+
+Node: Add_7512
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.3.blocks.0.attn.w_msa.qkv.bias, 9616
+  Outputs: 9617
+  Attributes:
+
+Node: Reshape_7524
+  Operator Type: Reshape
+  Inputs: 9617, 7195
+  Outputs: 9635
+  Attributes:
+
+Node: Transpose_7525
+  Operator Type: Transpose
+  Inputs: 9635
+  Outputs: 9636
+  Attributes:
+    - perm: [2, 0, 3, 1, 4]
+
+Node: Gather_7527
+  Operator Type: Gather
+  Inputs: 9636, 596
+  Outputs: 9638
+  Attributes:
+    - axis: 0
+
+Node: Gather_7529
+  Operator Type: Gather
+  Inputs: 9636, 590
+  Outputs: 9640
+  Attributes:
+    - axis: 0
+
+Node: Gather_7531
+  Operator Type: Gather
+  Inputs: 9636, 593
+  Outputs: 9642
+  Attributes:
+    - axis: 0
+
+Node: Mul_7533
+  Operator Type: Mul
+  Inputs: 9638, 692
+  Outputs: 9644
+  Attributes:
+
+Node: Transpose_7534
+  Operator Type: Transpose
+  Inputs: 9640
+  Outputs: 9645
+  Attributes:
+    - perm: [0, 1, 3, 2]
+
+Node: MatMul_7535
+  Operator Type: MatMul
+  Inputs: 9644, 9645
+  Outputs: 9646
+  Attributes:
+
+Node: Add_7536
+  Operator Type: Add
+  Inputs: 9646, 12047
+  Outputs: 9655
+  Attributes:
+
+Node: Softmax_7537
+  Operator Type: Softmax
+  Inputs: 9655
+  Outputs: 9656
+  Attributes:
+    - axis: -1
+
+Node: MatMul_7538
+  Operator Type: MatMul
+  Inputs: 9656, 9642
+  Outputs: 9657
+  Attributes:
+
+Node: Transpose_7539
+  Operator Type: Transpose
+  Inputs: 9657
+  Outputs: 9658
+  Attributes:
+    - perm: [0, 2, 1, 3]
+
+Node: Reshape_7547
+  Operator Type: Reshape
+  Inputs: 9658, 12039
+  Outputs: 9666
+  Attributes:
+
+Node: MatMul_7548
+  Operator Type: MatMul
+  Inputs: 9666, 12048
+  Outputs: 9668
+  Attributes:
+
+Node: Add_7549
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.3.blocks.0.attn.w_msa.proj.bias, 9668
+  Outputs: 9669
+  Attributes:
+
+Node: Reshape_7550
+  Operator Type: Reshape
+  Inputs: 9669, 12053
+  Outputs: 9682
+  Attributes:
+
+Node: Reshape_7564
+  Operator Type: Reshape
+  Inputs: 9682, 9707
+  Outputs: 9708
+  Attributes:
+
+Node: Transpose_7565
+  Operator Type: Transpose
+  Inputs: 9708
+  Outputs: 9709
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_7571
+  Operator Type: Reshape
+  Inputs: 9709, 9720
+  Outputs: 9721
+  Attributes:
+
+Node: Slice_7576
+  Operator Type: Slice
+  Inputs: 9721, 490, 9724, 11416, 11416
+  Outputs: 9726
+  Attributes:
+
+Node: Slice_7581
+  Operator Type: Slice
+  Inputs: 9726, 490, 9729, 492, 11416
+  Outputs: 9731
+  Attributes:
+
+Node: Reshape_7582
+  Operator Type: Reshape
+  Inputs: 9731, 12063
+  Outputs: 9740
+  Attributes:
+
+Node: Add_7583
+  Operator Type: Add
+  Inputs: 9740, 9435
+  Outputs: 9741
+  Attributes:
+
+Node: ReduceMean_7584
+  Operator Type: ReduceMean
+  Inputs: 9741
+  Outputs: 9742
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_7585
+  Operator Type: Sub
+  Inputs: 9741, 9742
+  Outputs: 9743
+  Attributes:
+
+Node: Pow_7588
+  Operator Type: Pow
+  Inputs: 9743, 501
+  Outputs: 9746
+  Attributes:
+
+Node: ReduceMean_7589
+  Operator Type: ReduceMean
+  Inputs: 9746
+  Outputs: 9747
+  Attributes:
+    - axes: [-1]
+
+Node: Add_7591
+  Operator Type: Add
+  Inputs: 9747, 504
+  Outputs: 9749
+  Attributes:
+
+Node: Sqrt_7592
+  Operator Type: Sqrt
+  Inputs: 9749
+  Outputs: 9750
+  Attributes:
+
+Node: Div_7593
+  Operator Type: Div
+  Inputs: 9743, 9750
+  Outputs: 9751
+  Attributes:
+
+Node: Mul_7594
+  Operator Type: Mul
+  Inputs: 9751, model.encoders.camera.backbone.stages.3.blocks.0.norm2.weight
+  Outputs: 9752
+  Attributes:
+
+Node: Add_7595
+  Operator Type: Add
+  Inputs: 9752, model.encoders.camera.backbone.stages.3.blocks.0.norm2.bias
+  Outputs: 9753
+  Attributes:
+
+Node: MatMul_7596
+  Operator Type: MatMul
+  Inputs: 9753, 12064
+  Outputs: 9755
+  Attributes:
+
+Node: Add_7597
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.3.blocks.0.ffn.layers.0.0.bias, 9755
+  Outputs: 9756
+  Attributes:
+
+Node: Div_7599
+  Operator Type: Div
+  Inputs: 9756, 806
+  Outputs: 9758
+  Attributes:
+
+Node: Erf_7600
+  Operator Type: Erf
+  Inputs: 9758
+  Outputs: 9759
+  Attributes:
+
+Node: Add_7602
+  Operator Type: Add
+  Inputs: 9759, 809
+  Outputs: 9761
+  Attributes:
+
+Node: Mul_7603
+  Operator Type: Mul
+  Inputs: 9756, 9761
+  Outputs: 9762
+  Attributes:
+
+Node: Mul_7605
+  Operator Type: Mul
+  Inputs: 9762, 812
+  Outputs: 9764
+  Attributes:
+
+Node: MatMul_7606
+  Operator Type: MatMul
+  Inputs: 9764, 12065
+  Outputs: 9766
+  Attributes:
+
+Node: Add_7607
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.3.blocks.0.ffn.layers.1.bias, 9766
+  Outputs: 9767
+  Attributes:
+
+Node: Add_7608
+  Operator Type: Add
+  Inputs: 9741, 9767
+  Outputs: 9768
+  Attributes:
+
+Node: ReduceMean_7609
+  Operator Type: ReduceMean
+  Inputs: 9768
+  Outputs: 9769
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_7610
+  Operator Type: Sub
+  Inputs: 9768, 9769
+  Outputs: 9770
+  Attributes:
+
+Node: Pow_7613
+  Operator Type: Pow
+  Inputs: 9770, 501
+  Outputs: 9773
+  Attributes:
+
+Node: ReduceMean_7614
+  Operator Type: ReduceMean
+  Inputs: 9773
+  Outputs: 9774
+  Attributes:
+    - axes: [-1]
+
+Node: Add_7616
+  Operator Type: Add
+  Inputs: 9774, 504
+  Outputs: 9776
+  Attributes:
+
+Node: Sqrt_7617
+  Operator Type: Sqrt
+  Inputs: 9776
+  Outputs: 9777
+  Attributes:
+
+Node: Div_7618
+  Operator Type: Div
+  Inputs: 9770, 9777
+  Outputs: 9778
+  Attributes:
+
+Node: Mul_7619
+  Operator Type: Mul
+  Inputs: 9778, model.encoders.camera.backbone.stages.3.blocks.1.norm1.weight
+  Outputs: 9779
+  Attributes:
+
+Node: Add_7620
+  Operator Type: Add
+  Inputs: 9779, model.encoders.camera.backbone.stages.3.blocks.1.norm1.bias
+  Outputs: 9780
+  Attributes:
+
+Node: Reshape_7621
+  Operator Type: Reshape
+  Inputs: 9780, 12011
+  Outputs: 9792
+  Attributes:
+
+Node: Pad_7636
+  Operator Type: Pad
+  Inputs: 9792, 586, 587
+  Outputs: 9847
+  Attributes:
+    - mode: constant
+
+Node: Slice_7646
+  Operator Type: Slice
+  Inputs: 9847, 11367, 905, 11416
+  Outputs: 9857
+  Attributes:
+
+Node: Slice_7650
+  Operator Type: Slice
+  Inputs: 9847, 490, 11367, 11416
+  Outputs: 9861
+  Attributes:
+
+Node: Concat_7651
+  Operator Type: Concat
+  Inputs: 9857, 9861
+  Outputs: 9862
+  Attributes:
+    - axis: 1
+
+Node: Slice_7655
+  Operator Type: Slice
+  Inputs: 9862, 11367, 905, 492
+  Outputs: 9866
+  Attributes:
+
+Node: Slice_7659
+  Operator Type: Slice
+  Inputs: 9862, 490, 11367, 492
+  Outputs: 9870
+  Attributes:
+
+Node: Concat_7660
+  Operator Type: Concat
+  Inputs: 9866, 9870
+  Outputs: 9871
+  Attributes:
+    - axis: 2
+
+Node: Reshape_8712
+  Operator Type: Reshape
+  Inputs: 9871, 9580
+  Outputs: 10950
+  Attributes:
+
+Node: Transpose_8713
+  Operator Type: Transpose
+  Inputs: 10950
+  Outputs: 10951
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_8717
+  Operator Type: Reshape
+  Inputs: 10951, 12053
+  Outputs: 10964
+  Attributes:
+
+Node: Reshape_8718
+  Operator Type: Reshape
+  Inputs: 10964, 12039
+  Outputs: 10974
+  Attributes:
+
+Node: MatMul_8728
+  Operator Type: MatMul
+  Inputs: 10974, 12106
+  Outputs: 10985
+  Attributes:
+
+Node: Add_8729
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.3.blocks.1.attn.w_msa.qkv.bias, 10985
+  Outputs: 10986
+  Attributes:
+
+Node: Reshape_8741
+  Operator Type: Reshape
+  Inputs: 10986, 7195
+  Outputs: 11004
+  Attributes:
+
+Node: Transpose_8742
+  Operator Type: Transpose
+  Inputs: 11004
+  Outputs: 11005
+  Attributes:
+    - perm: [2, 0, 3, 1, 4]
+
+Node: Gather_8744
+  Operator Type: Gather
+  Inputs: 11005, 596
+  Outputs: 11007
+  Attributes:
+    - axis: 0
+
+Node: Gather_8746
+  Operator Type: Gather
+  Inputs: 11005, 590
+  Outputs: 11009
+  Attributes:
+    - axis: 0
+
+Node: Gather_8748
+  Operator Type: Gather
+  Inputs: 11005, 593
+  Outputs: 11011
+  Attributes:
+    - axis: 0
+
+Node: Mul_8750
+  Operator Type: Mul
+  Inputs: 11007, 692
+  Outputs: 11013
+  Attributes:
+
+Node: Transpose_8751
+  Operator Type: Transpose
+  Inputs: 11009
+  Outputs: 11014
+  Attributes:
+    - perm: [0, 1, 3, 2]
+
+Node: MatMul_8752
+  Operator Type: MatMul
+  Inputs: 11013, 11014
+  Outputs: 11015
+  Attributes:
+
+Node: Add_8753
+  Operator Type: Add
+  Inputs: 11015, 12113
+  Outputs: 11024
+  Attributes:
+
+Node: Reshape_8769
+  Operator Type: Reshape
+  Inputs: 11024, 7202
+  Outputs: 11043
+  Attributes:
+
+Node: Add_8774
+  Operator Type: Add
+  Inputs: 11043, 11047
+  Outputs: 11048
+  Attributes:
+
+Node: Reshape_8780
+  Operator Type: Reshape
+  Inputs: 11048, 11059
+  Outputs: 11060
+  Attributes:
+
+Node: Softmax_8781
+  Operator Type: Softmax
+  Inputs: 11060
+  Outputs: 11061
+  Attributes:
+    - axis: -1
+
+Node: MatMul_8782
+  Operator Type: MatMul
+  Inputs: 11061, 11011
+  Outputs: 11062
+  Attributes:
+
+Node: Transpose_8783
+  Operator Type: Transpose
+  Inputs: 11062
+  Outputs: 11063
+  Attributes:
+    - perm: [0, 2, 1, 3]
+
+Node: Reshape_8791
+  Operator Type: Reshape
+  Inputs: 11063, 12039
+  Outputs: 11071
+  Attributes:
+
+Node: MatMul_8792
+  Operator Type: MatMul
+  Inputs: 11071, 12117
+  Outputs: 11073
+  Attributes:
+
+Node: Add_8793
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.3.blocks.1.attn.w_msa.proj.bias, 11073
+  Outputs: 11074
+  Attributes:
+
+Node: Reshape_8794
+  Operator Type: Reshape
+  Inputs: 11074, 12053
+  Outputs: 11087
+  Attributes:
+
+Node: Reshape_8808
+  Operator Type: Reshape
+  Inputs: 11087, 9707
+  Outputs: 11113
+  Attributes:
+
+Node: Transpose_8809
+  Operator Type: Transpose
+  Inputs: 11113
+  Outputs: 11114
+  Attributes:
+    - perm: [0, 1, 3, 2, 4, 5]
+
+Node: Reshape_8815
+  Operator Type: Reshape
+  Inputs: 11114, 9720
+  Outputs: 11126
+  Attributes:
+
+Node: Slice_8819
+  Operator Type: Slice
+  Inputs: 11126, 1047, 905, 11416
+  Outputs: 11130
+  Attributes:
+
+Node: Slice_8823
+  Operator Type: Slice
+  Inputs: 11126, 490, 1047, 11416
+  Outputs: 11134
+  Attributes:
+
+Node: Concat_8824
+  Operator Type: Concat
+  Inputs: 11130, 11134
+  Outputs: 11135
+  Attributes:
+    - axis: 1
+
+Node: Slice_8828
+  Operator Type: Slice
+  Inputs: 11135, 1047, 905, 492
+  Outputs: 11139
+  Attributes:
+
+Node: Slice_8832
+  Operator Type: Slice
+  Inputs: 11135, 490, 1047, 492
+  Outputs: 11143
+  Attributes:
+
+Node: Concat_8833
+  Operator Type: Concat
+  Inputs: 11139, 11143
+  Outputs: 11144
+  Attributes:
+    - axis: 2
+
+Node: Slice_8838
+  Operator Type: Slice
+  Inputs: 11144, 490, 9724, 11416, 11416
+  Outputs: 11149
+  Attributes:
+
+Node: Slice_8843
+  Operator Type: Slice
+  Inputs: 11149, 490, 9729, 492, 11416
+  Outputs: 11154
+  Attributes:
+
+Node: Reshape_8844
+  Operator Type: Reshape
+  Inputs: 11154, 12063
+  Outputs: 11163
+  Attributes:
+
+Node: Add_8845
+  Operator Type: Add
+  Inputs: 11163, 9768
+  Outputs: 11164
+  Attributes:
+
+Node: ReduceMean_8846
+  Operator Type: ReduceMean
+  Inputs: 11164
+  Outputs: 11165
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_8847
+  Operator Type: Sub
+  Inputs: 11164, 11165
+  Outputs: 11166
+  Attributes:
+
+Node: Pow_8850
+  Operator Type: Pow
+  Inputs: 11166, 501
+  Outputs: 11169
+  Attributes:
+
+Node: ReduceMean_8851
+  Operator Type: ReduceMean
+  Inputs: 11169
+  Outputs: 11170
+  Attributes:
+    - axes: [-1]
+
+Node: Add_8853
+  Operator Type: Add
+  Inputs: 11170, 504
+  Outputs: 11172
+  Attributes:
+
+Node: Sqrt_8854
+  Operator Type: Sqrt
+  Inputs: 11172
+  Outputs: 11173
+  Attributes:
+
+Node: Div_8855
+  Operator Type: Div
+  Inputs: 11166, 11173
+  Outputs: 11174
+  Attributes:
+
+Node: Mul_8856
+  Operator Type: Mul
+  Inputs: 11174, model.encoders.camera.backbone.stages.3.blocks.1.norm2.weight
+  Outputs: 11175
+  Attributes:
+
+Node: Add_8857
+  Operator Type: Add
+  Inputs: 11175, model.encoders.camera.backbone.stages.3.blocks.1.norm2.bias
+  Outputs: 11176
+  Attributes:
+
+Node: MatMul_8858
+  Operator Type: MatMul
+  Inputs: 11176, 12133
+  Outputs: 11178
+  Attributes:
+
+Node: Add_8859
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.3.blocks.1.ffn.layers.0.0.bias, 11178
+  Outputs: 11179
+  Attributes:
+
+Node: Div_8861
+  Operator Type: Div
+  Inputs: 11179, 806
+  Outputs: 11181
+  Attributes:
+
+Node: Erf_8862
+  Operator Type: Erf
+  Inputs: 11181
+  Outputs: 11182
+  Attributes:
+
+Node: Add_8864
+  Operator Type: Add
+  Inputs: 11182, 809
+  Outputs: 11184
+  Attributes:
+
+Node: Mul_8865
+  Operator Type: Mul
+  Inputs: 11179, 11184
+  Outputs: 11185
+  Attributes:
+
+Node: Mul_8867
+  Operator Type: Mul
+  Inputs: 11185, 812
+  Outputs: 11187
+  Attributes:
+
+Node: MatMul_8868
+  Operator Type: MatMul
+  Inputs: 11187, 12134
+  Outputs: 11189
+  Attributes:
+
+Node: Add_8869
+  Operator Type: Add
+  Inputs: model.encoders.camera.backbone.stages.3.blocks.1.ffn.layers.1.bias, 11189
+  Outputs: 11190
+  Attributes:
+
+Node: Add_8870
+  Operator Type: Add
+  Inputs: 11164, 11190
+  Outputs: 11191
+  Attributes:
+
+Node: ReduceMean_8871
+  Operator Type: ReduceMean
+  Inputs: 11191
+  Outputs: 11192
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_8872
+  Operator Type: Sub
+  Inputs: 11191, 11192
+  Outputs: 11193
+  Attributes:
+
+Node: Pow_8875
+  Operator Type: Pow
+  Inputs: 11193, 501
+  Outputs: 11196
+  Attributes:
+
+Node: ReduceMean_8876
+  Operator Type: ReduceMean
+  Inputs: 11196
+  Outputs: 11197
+  Attributes:
+    - axes: [-1]
+
+Node: Add_8878
+  Operator Type: Add
+  Inputs: 11197, 504
+  Outputs: 11199
+  Attributes:
+
+Node: Sqrt_8879
+  Operator Type: Sqrt
+  Inputs: 11199
+  Outputs: 11200
+  Attributes:
+
+Node: Div_8880
+  Operator Type: Div
+  Inputs: 11193, 11200
+  Outputs: 11201
+  Attributes:
+
+Node: Mul_8881
+  Operator Type: Mul
+  Inputs: 11201, model.encoders.camera.backbone.norm3.weight
+  Outputs: 11202
+  Attributes:
+
+Node: Add_8882
+  Operator Type: Add
+  Inputs: 11202, model.encoders.camera.backbone.norm3.bias
+  Outputs: 11203
+  Attributes:
+
+Node: Reshape_8883
+  Operator Type: Reshape
+  Inputs: 11203, 12139
+  Outputs: 11215
+  Attributes:
+
+Node: Transpose_8884
+  Operator Type: Transpose
+  Inputs: 11215
+  Outputs: 11216
+  Attributes:
+    - perm: [0, 3, 1, 2]
+
+Node: Cast_8885
+  Operator Type: Cast
+  Inputs: 4160
+  Outputs: 11217
+  Attributes:
+    - to: 10
+
+Node: Cast_8886
+  Operator Type: Cast
+  Inputs: 9460
+  Outputs: 11218
+  Attributes:
+    - to: 10
+
+Node: Cast_8887
+  Operator Type: Cast
+  Inputs: 11216
+  Outputs: 11219
+  Attributes:
+    - to: 10
+
+Node: Resize_8894
+  Operator Type: Resize
+  Inputs: 11219, , , 11233
+  Outputs: 11236
+  Attributes:
+    - coordinate_transformation_mode: pytorch_half_pixel
+    - cubic_coeff_a: -0.75
+    - mode: linear
+    - nearest_mode: floor
+
+Node: Concat_8895
+  Operator Type: Concat
+  Inputs: 11218, 11236
+  Outputs: 11237
+  Attributes:
+    - axis: 1
+
+Node: Conv_8896
+  Operator Type: Conv
+  Inputs: 11237, 12145, 12144
+  Outputs: 11240
+  Attributes:
+    - dilations: [1, 1]
+    - group: 1
+    - kernel_shape: [1, 1]
+    - pads: [0, 0, 0, 0]
+    - strides: [1, 1]
+
+Node: Relu_8897
+  Operator Type: Relu
+  Inputs: 11240
+  Outputs: 11241
+  Attributes:
+
+Node: Conv_8898
+  Operator Type: Conv
+  Inputs: 11241, 12147, 12146
+  Outputs: 11244
+  Attributes:
+    - dilations: [1, 1]
+    - group: 1
+    - kernel_shape: [3, 3]
+    - pads: [1, 1, 1, 1]
+    - strides: [1, 1]
+
+Node: Relu_8899
+  Operator Type: Relu
+  Inputs: 11244
+  Outputs: 11245
+  Attributes:
+
+Node: Resize_8906
+  Operator Type: Resize
+  Inputs: 11245, , , 11302
+  Outputs: 11262
+  Attributes:
+    - coordinate_transformation_mode: pytorch_half_pixel
+    - cubic_coeff_a: -0.75
+    - mode: linear
+    - nearest_mode: floor
+
+Node: Concat_8907
+  Operator Type: Concat
+  Inputs: 11217, 11262
+  Outputs: 11263
+  Attributes:
+    - axis: 1
+
+Node: Conv_8908
+  Operator Type: Conv
+  Inputs: 11263, 12153, 12152
+  Outputs: 11266
+  Attributes:
+    - dilations: [1, 1]
+    - group: 1
+    - kernel_shape: [1, 1]
+    - pads: [0, 0, 0, 0]
+    - strides: [1, 1]
+
+Node: Relu_8909
+  Operator Type: Relu
+  Inputs: 11266
+  Outputs: 11267
+  Attributes:
+
+Node: Conv_8910
+  Operator Type: Conv
+  Inputs: 11267, 12155, 12154
+  Outputs: 11270
+  Attributes:
+    - dilations: [1, 1]
+    - group: 1
+    - kernel_shape: [3, 3]
+    - pads: [1, 1, 1, 1]
+    - strides: [1, 1]
+
+Node: Relu_8911
+  Operator Type: Relu
+  Inputs: 11270
+  Outputs: 11271
+  Attributes:
+
+Node: Reshape_8912
+  Operator Type: Reshape
+  Inputs: 11271, 12161
+  Outputs: 11287
+  Attributes:
+
+Node: Reshape_8913
+  Operator Type: Reshape
+  Inputs: depth, 12166
+  Outputs: 11301
+  Attributes:
+
+Node: Reshape_8915
+  Operator Type: Reshape
+  Inputs: 11287, 11302
+  Outputs: 11303
+  Attributes:
+
+Node: Conv_8916
+  Operator Type: Conv
+  Inputs: 11301, model.encoders.camera.vtransform.dtransform.0.weight, model.encoders.camera.vtransform.dtransform.0.bias
+  Outputs: 11304
+  Attributes:
+    - dilations: [1, 1]
+    - group: 1
+    - kernel_shape: [1, 1]
+    - pads: [0, 0, 0, 0]
+    - strides: [1, 1]
+
+Node: Relu_8917
+  Operator Type: Relu
+  Inputs: 11304
+  Outputs: 11305
+  Attributes:
+
+Node: Conv_8918
+  Operator Type: Conv
+  Inputs: 11305, model.encoders.camera.vtransform.dtransform.3.weight, model.encoders.camera.vtransform.dtransform.3.bias
+  Outputs: 11306
+  Attributes:
+    - dilations: [1, 1]
+    - group: 1
+    - kernel_shape: [5, 5]
+    - pads: [2, 2, 2, 2]
+    - strides: [4, 4]
+
+Node: Relu_8919
+  Operator Type: Relu
+  Inputs: 11306
+  Outputs: 11307
+  Attributes:
+
+Node: Conv_8920
+  Operator Type: Conv
+  Inputs: 11307, model.encoders.camera.vtransform.dtransform.6.weight, model.encoders.camera.vtransform.dtransform.6.bias
+  Outputs: 11308
+  Attributes:
+    - dilations: [1, 1]
+    - group: 1
+    - kernel_shape: [5, 5]
+    - pads: [2, 2, 2, 2]
+    - strides: [2, 2]
+
+Node: Relu_8921
+  Operator Type: Relu
+  Inputs: 11308
+  Outputs: 11309
+  Attributes:
+
+Node: Concat_8922
+  Operator Type: Concat
+  Inputs: 11309, 11303
+  Outputs: 11310
+  Attributes:
+    - axis: 1
+
+Node: Conv_8923
+  Operator Type: Conv
+  Inputs: 11310, model.encoders.camera.vtransform.depthnet.0.weight, model.encoders.camera.vtransform.depthnet.0.bias
+  Outputs: 11311
+  Attributes:
+    - dilations: [1, 1]
+    - group: 1
+    - kernel_shape: [3, 3]
+    - pads: [1, 1, 1, 1]
+    - strides: [1, 1]
+
+Node: Relu_8924
+  Operator Type: Relu
+  Inputs: 11311
+  Outputs: 11312
+  Attributes:
+
+Node: Conv_8925
+  Operator Type: Conv
+  Inputs: 11312, model.encoders.camera.vtransform.depthnet.3.weight, model.encoders.camera.vtransform.depthnet.3.bias
+  Outputs: 11313
+  Attributes:
+    - dilations: [1, 1]
+    - group: 1
+    - kernel_shape: [3, 3]
+    - pads: [1, 1, 1, 1]
+    - strides: [1, 1]
+
+Node: Relu_8926
+  Operator Type: Relu
+  Inputs: 11313
+  Outputs: 11314
+  Attributes:
+
+Node: Conv_8927
+  Operator Type: Conv
+  Inputs: 11314, model.encoders.camera.vtransform.depthnet.6.weight, model.encoders.camera.vtransform.depthnet.6.bias
+  Outputs: 11315
+  Attributes:
+    - dilations: [1, 1]
+    - group: 1
+    - kernel_shape: [1, 1]
+    - pads: [0, 0, 0, 0]
+    - strides: [1, 1]
+
+Node: Slice_8932
+  Operator Type: Slice
+  Inputs: 11315, 490, 11318, 11416, 11416
+  Outputs: 11320
+  Attributes:
+
+Node: Softmax_8933
+  Operator Type: Softmax
+  Inputs: 11320
+  Outputs: camera_depth_weights
+  Attributes:
+    - axis: 1
+
+Node: Slice_8938
+  Operator Type: Slice
+  Inputs: 11315, 11318, 11324, 11416, 11416
+  Outputs: 11326
+  Attributes:
+
+Node: Transpose_8939
+  Operator Type: Transpose
+  Inputs: 11326
+  Outputs: camera_feature
+  Attributes:
+    - perm: [0, 2, 3, 1]
+
+### Initializer (Weights and Constants) ###
+Name: model.encoders.camera.backbone.patch_embed.projection.weight, Shape: [96, 3, 4, 4], Data Type: 1
+Name: model.encoders.camera.backbone.patch_embed.projection.bias, Shape: [96], Data Type: 1
+Name: model.encoders.camera.backbone.patch_embed.norm.weight, Shape: [96], Data Type: 1
+Name: model.encoders.camera.backbone.patch_embed.norm.bias, Shape: [96], Data Type: 1
+Name: model.encoders.camera.backbone.stages.0.blocks.0.norm1.weight, Shape: [96], Data Type: 1
+Name: model.encoders.camera.backbone.stages.0.blocks.0.norm1.bias, Shape: [96], Data Type: 1
+Name: model.encoders.camera.backbone.stages.0.blocks.0.attn.w_msa.qkv.bias, Shape: [288], Data Type: 1
+Name: model.encoders.camera.backbone.stages.0.blocks.0.attn.w_msa.proj.bias, Shape: [96], Data Type: 1
+Name: model.encoders.camera.backbone.stages.0.blocks.0.norm2.weight, Shape: [96], Data Type: 1
+Name: model.encoders.camera.backbone.stages.0.blocks.0.norm2.bias, Shape: [96], Data Type: 1
+Name: model.encoders.camera.backbone.stages.0.blocks.0.ffn.layers.0.0.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.0.blocks.0.ffn.layers.1.bias, Shape: [96], Data Type: 1
+Name: model.encoders.camera.backbone.stages.0.blocks.1.norm1.weight, Shape: [96], Data Type: 1
+Name: model.encoders.camera.backbone.stages.0.blocks.1.norm1.bias, Shape: [96], Data Type: 1
+Name: model.encoders.camera.backbone.stages.0.blocks.1.attn.w_msa.qkv.bias, Shape: [288], Data Type: 1
+Name: model.encoders.camera.backbone.stages.0.blocks.1.attn.w_msa.proj.bias, Shape: [96], Data Type: 1
+Name: model.encoders.camera.backbone.stages.0.blocks.1.norm2.weight, Shape: [96], Data Type: 1
+Name: model.encoders.camera.backbone.stages.0.blocks.1.norm2.bias, Shape: [96], Data Type: 1
+Name: model.encoders.camera.backbone.stages.0.blocks.1.ffn.layers.0.0.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.0.blocks.1.ffn.layers.1.bias, Shape: [96], Data Type: 1
+Name: model.encoders.camera.backbone.stages.0.downsample.norm.weight, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.0.downsample.norm.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.1.blocks.0.norm1.weight, Shape: [192], Data Type: 1
+Name: model.encoders.camera.backbone.stages.1.blocks.0.norm1.bias, Shape: [192], Data Type: 1
+Name: model.encoders.camera.backbone.stages.1.blocks.0.attn.w_msa.qkv.bias, Shape: [576], Data Type: 1
+Name: model.encoders.camera.backbone.stages.1.blocks.0.attn.w_msa.proj.bias, Shape: [192], Data Type: 1
+Name: model.encoders.camera.backbone.stages.1.blocks.0.norm2.weight, Shape: [192], Data Type: 1
+Name: model.encoders.camera.backbone.stages.1.blocks.0.norm2.bias, Shape: [192], Data Type: 1
+Name: model.encoders.camera.backbone.stages.1.blocks.0.ffn.layers.0.0.bias, Shape: [768], Data Type: 1
+Name: model.encoders.camera.backbone.stages.1.blocks.0.ffn.layers.1.bias, Shape: [192], Data Type: 1
+Name: model.encoders.camera.backbone.stages.1.blocks.1.norm1.weight, Shape: [192], Data Type: 1
+Name: model.encoders.camera.backbone.stages.1.blocks.1.norm1.bias, Shape: [192], Data Type: 1
+Name: model.encoders.camera.backbone.stages.1.blocks.1.attn.w_msa.qkv.bias, Shape: [576], Data Type: 1
+Name: model.encoders.camera.backbone.stages.1.blocks.1.attn.w_msa.proj.bias, Shape: [192], Data Type: 1
+Name: model.encoders.camera.backbone.stages.1.blocks.1.norm2.weight, Shape: [192], Data Type: 1
+Name: model.encoders.camera.backbone.stages.1.blocks.1.norm2.bias, Shape: [192], Data Type: 1
+Name: model.encoders.camera.backbone.stages.1.blocks.1.ffn.layers.0.0.bias, Shape: [768], Data Type: 1
+Name: model.encoders.camera.backbone.stages.1.blocks.1.ffn.layers.1.bias, Shape: [192], Data Type: 1
+Name: model.encoders.camera.backbone.stages.1.downsample.norm.weight, Shape: [768], Data Type: 1
+Name: model.encoders.camera.backbone.stages.1.downsample.norm.bias, Shape: [768], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.0.norm1.weight, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.0.norm1.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.0.attn.w_msa.qkv.bias, Shape: [1152], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.0.attn.w_msa.proj.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.0.norm2.weight, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.0.norm2.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.0.ffn.layers.0.0.bias, Shape: [1536], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.0.ffn.layers.1.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.1.norm1.weight, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.1.norm1.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.1.attn.w_msa.qkv.bias, Shape: [1152], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.1.attn.w_msa.proj.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.1.norm2.weight, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.1.norm2.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.1.ffn.layers.0.0.bias, Shape: [1536], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.1.ffn.layers.1.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.2.norm1.weight, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.2.norm1.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.2.attn.w_msa.qkv.bias, Shape: [1152], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.2.attn.w_msa.proj.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.2.norm2.weight, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.2.norm2.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.2.ffn.layers.0.0.bias, Shape: [1536], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.2.ffn.layers.1.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.3.norm1.weight, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.3.norm1.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.3.attn.w_msa.qkv.bias, Shape: [1152], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.3.attn.w_msa.proj.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.3.norm2.weight, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.3.norm2.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.3.ffn.layers.0.0.bias, Shape: [1536], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.3.ffn.layers.1.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.4.norm1.weight, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.4.norm1.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.4.attn.w_msa.qkv.bias, Shape: [1152], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.4.attn.w_msa.proj.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.4.norm2.weight, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.4.norm2.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.4.ffn.layers.0.0.bias, Shape: [1536], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.4.ffn.layers.1.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.5.norm1.weight, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.5.norm1.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.5.attn.w_msa.qkv.bias, Shape: [1152], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.5.attn.w_msa.proj.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.5.norm2.weight, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.5.norm2.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.5.ffn.layers.0.0.bias, Shape: [1536], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.blocks.5.ffn.layers.1.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.downsample.norm.weight, Shape: [1536], Data Type: 1
+Name: model.encoders.camera.backbone.stages.2.downsample.norm.bias, Shape: [1536], Data Type: 1
+Name: model.encoders.camera.backbone.stages.3.blocks.0.norm1.weight, Shape: [768], Data Type: 1
+Name: model.encoders.camera.backbone.stages.3.blocks.0.norm1.bias, Shape: [768], Data Type: 1
+Name: model.encoders.camera.backbone.stages.3.blocks.0.attn.w_msa.qkv.bias, Shape: [2304], Data Type: 1
+Name: model.encoders.camera.backbone.stages.3.blocks.0.attn.w_msa.proj.bias, Shape: [768], Data Type: 1
+Name: model.encoders.camera.backbone.stages.3.blocks.0.norm2.weight, Shape: [768], Data Type: 1
+Name: model.encoders.camera.backbone.stages.3.blocks.0.norm2.bias, Shape: [768], Data Type: 1
+Name: model.encoders.camera.backbone.stages.3.blocks.0.ffn.layers.0.0.bias, Shape: [3072], Data Type: 1
+Name: model.encoders.camera.backbone.stages.3.blocks.0.ffn.layers.1.bias, Shape: [768], Data Type: 1
+Name: model.encoders.camera.backbone.stages.3.blocks.1.norm1.weight, Shape: [768], Data Type: 1
+Name: model.encoders.camera.backbone.stages.3.blocks.1.norm1.bias, Shape: [768], Data Type: 1
+Name: model.encoders.camera.backbone.stages.3.blocks.1.attn.w_msa.qkv.bias, Shape: [2304], Data Type: 1
+Name: model.encoders.camera.backbone.stages.3.blocks.1.attn.w_msa.proj.bias, Shape: [768], Data Type: 1
+Name: model.encoders.camera.backbone.stages.3.blocks.1.norm2.weight, Shape: [768], Data Type: 1
+Name: model.encoders.camera.backbone.stages.3.blocks.1.norm2.bias, Shape: [768], Data Type: 1
+Name: model.encoders.camera.backbone.stages.3.blocks.1.ffn.layers.0.0.bias, Shape: [3072], Data Type: 1
+Name: model.encoders.camera.backbone.stages.3.blocks.1.ffn.layers.1.bias, Shape: [768], Data Type: 1
+Name: model.encoders.camera.backbone.norm1.weight, Shape: [192], Data Type: 1
+Name: model.encoders.camera.backbone.norm1.bias, Shape: [192], Data Type: 1
+Name: model.encoders.camera.backbone.norm2.weight, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.norm2.bias, Shape: [384], Data Type: 1
+Name: model.encoders.camera.backbone.norm3.weight, Shape: [768], Data Type: 1
+Name: model.encoders.camera.backbone.norm3.bias, Shape: [768], Data Type: 1
+Name: model.encoders.camera.vtransform.dtransform.0.weight, Shape: [8, 1, 1, 1], Data Type: 1
+Name: model.encoders.camera.vtransform.dtransform.0.bias, Shape: [8], Data Type: 1
+Name: model.encoders.camera.vtransform.dtransform.3.weight, Shape: [32, 8, 5, 5], Data Type: 1
+Name: model.encoders.camera.vtransform.dtransform.3.bias, Shape: [32], Data Type: 1
+Name: model.encoders.camera.vtransform.dtransform.6.weight, Shape: [64, 32, 5, 5], Data Type: 1
+Name: model.encoders.camera.vtransform.dtransform.6.bias, Shape: [64], Data Type: 1
+Name: model.encoders.camera.vtransform.depthnet.0.weight, Shape: [256, 320, 3, 3], Data Type: 1
+Name: model.encoders.camera.vtransform.depthnet.0.bias, Shape: [256], Data Type: 1
+Name: model.encoders.camera.vtransform.depthnet.3.weight, Shape: [256, 256, 3, 3], Data Type: 1
+Name: model.encoders.camera.vtransform.depthnet.3.bias, Shape: [256], Data Type: 1
+Name: model.encoders.camera.vtransform.depthnet.6.weight, Shape: [198, 256, 1, 1], Data Type: 1
+Name: model.encoders.camera.vtransform.depthnet.6.bias, Shape: [198], Data Type: 1
+Name: 11332, Shape: [4], Data Type: 7
+Name: 11337, Shape: [4], Data Type: 7
+Name: 11365, Shape: [3], Data Type: 7
+Name: 11366, Shape: [96, 288], Data Type: 1
+Name: 11367, Shape: [1], Data Type: 7
+Name: 11373, Shape: [1, 3, 49, 49], Data Type: 1
+Name: 11374, Shape: [96, 96], Data Type: 1
+Name: 11379, Shape: [4], Data Type: 7
+Name: 11389, Shape: [3], Data Type: 7
+Name: 11390, Shape: [96, 384], Data Type: 1
+Name: 11391, Shape: [384, 96], Data Type: 1
+Name: 11416, Shape: [1], Data Type: 7
+Name: 11432, Shape: [96, 288], Data Type: 1
+Name: 11439, Shape: [1, 3, 49, 49], Data Type: 1
+Name: 11443, Shape: [96, 96], Data Type: 1
+Name: 11459, Shape: [96, 384], Data Type: 1
+Name: 11460, Shape: [384, 96], Data Type: 1
+Name: 11468, Shape: [384, 192], Data Type: 1
+Name: 11473, Shape: [4], Data Type: 7
+Name: 11501, Shape: [3], Data Type: 7
+Name: 11502, Shape: [192, 576], Data Type: 1
+Name: 11509, Shape: [1, 6, 49, 49], Data Type: 1
+Name: 11510, Shape: [192, 192], Data Type: 1
+Name: 11515, Shape: [4], Data Type: 7
+Name: 11525, Shape: [3], Data Type: 7
+Name: 11526, Shape: [192, 768], Data Type: 1
+Name: 11527, Shape: [768, 192], Data Type: 1
+Name: 11568, Shape: [192, 576], Data Type: 1
+Name: 11575, Shape: [1, 6, 49, 49], Data Type: 1
+Name: 11579, Shape: [192, 192], Data Type: 1
+Name: 11595, Shape: [192, 768], Data Type: 1
+Name: 11596, Shape: [768, 192], Data Type: 1
+Name: 11604, Shape: [768, 384], Data Type: 1
+Name: 11609, Shape: [4], Data Type: 7
+Name: 11614, Shape: [4], Data Type: 7
+Name: 11642, Shape: [3], Data Type: 7
+Name: 11643, Shape: [384, 1152], Data Type: 1
+Name: 11650, Shape: [1, 12, 49, 49], Data Type: 1
+Name: 11651, Shape: [384, 384], Data Type: 1
+Name: 11656, Shape: [4], Data Type: 7
+Name: 11666, Shape: [3], Data Type: 7
+Name: 11667, Shape: [384, 1536], Data Type: 1
+Name: 11668, Shape: [1536, 384], Data Type: 1
+Name: 11709, Shape: [384, 1152], Data Type: 1
+Name: 11716, Shape: [1, 12, 49, 49], Data Type: 1
+Name: 11720, Shape: [384, 384], Data Type: 1
+Name: 11736, Shape: [384, 1536], Data Type: 1
+Name: 11737, Shape: [1536, 384], Data Type: 1
+Name: 11771, Shape: [384, 1152], Data Type: 1
+Name: 11778, Shape: [1, 12, 49, 49], Data Type: 1
+Name: 11779, Shape: [384, 384], Data Type: 1
+Name: 11795, Shape: [384, 1536], Data Type: 1
+Name: 11796, Shape: [1536, 384], Data Type: 1
+Name: 11837, Shape: [384, 1152], Data Type: 1
+Name: 11844, Shape: [1, 12, 49, 49], Data Type: 1
+Name: 11848, Shape: [384, 384], Data Type: 1
+Name: 11864, Shape: [384, 1536], Data Type: 1
+Name: 11865, Shape: [1536, 384], Data Type: 1
+Name: 11899, Shape: [384, 1152], Data Type: 1
+Name: 11906, Shape: [1, 12, 49, 49], Data Type: 1
+Name: 11907, Shape: [384, 384], Data Type: 1
+Name: 11923, Shape: [384, 1536], Data Type: 1
+Name: 11924, Shape: [1536, 384], Data Type: 1
+Name: 11965, Shape: [384, 1152], Data Type: 1
+Name: 11972, Shape: [1, 12, 49, 49], Data Type: 1
+Name: 11976, Shape: [384, 384], Data Type: 1
+Name: 11992, Shape: [384, 1536], Data Type: 1
+Name: 11993, Shape: [1536, 384], Data Type: 1
+Name: 12001, Shape: [1536, 768], Data Type: 1
+Name: 12006, Shape: [4], Data Type: 7
+Name: 12011, Shape: [4], Data Type: 7
+Name: 12039, Shape: [3], Data Type: 7
+Name: 12040, Shape: [768, 2304], Data Type: 1
+Name: 12047, Shape: [1, 24, 49, 49], Data Type: 1
+Name: 12048, Shape: [768, 768], Data Type: 1
+Name: 12053, Shape: [4], Data Type: 7
+Name: 12063, Shape: [3], Data Type: 7
+Name: 12064, Shape: [768, 3072], Data Type: 1
+Name: 12065, Shape: [3072, 768], Data Type: 1
+Name: 12106, Shape: [768, 2304], Data Type: 1
+Name: 12113, Shape: [1, 24, 49, 49], Data Type: 1
+Name: 12117, Shape: [768, 768], Data Type: 1
+Name: 12133, Shape: [768, 3072], Data Type: 1
+Name: 12134, Shape: [3072, 768], Data Type: 1
+Name: 12139, Shape: [4], Data Type: 7
+Name: 12144, Shape: [256], Data Type: 10
+Name: 12145, Shape: [256, 1152, 1, 1], Data Type: 10
+Name: 12146, Shape: [256], Data Type: 10
+Name: 12147, Shape: [256, 256, 3, 3], Data Type: 10
+Name: 12152, Shape: [256], Data Type: 10
+Name: 12153, Shape: [256, 448, 1, 1], Data Type: 10
+Name: 12154, Shape: [256], Data Type: 10
+Name: 12155, Shape: [256, 256, 3, 3], Data Type: 10
+Name: 12161, Shape: [5], Data Type: 7
+Name: 12166, Shape: [4], Data Type: 7
+Name: 490, Shape: [1], Data Type: 7
+Name: 492, Shape: [1], Data Type: 7
+Name: 501, Shape: [], Data Type: 1
+Name: 504, Shape: [], Data Type: 1
+Name: 586, Shape: [8], Data Type: 7
+Name: 587, Shape: [], Data Type: 1
+Name: 590, Shape: [], Data Type: 7
+Name: 593, Shape: [], Data Type: 7
+Name: 596, Shape: [], Data Type: 7
+Name: 692, Shape: [], Data Type: 1
+Name: 773, Shape: [1], Data Type: 7
+Name: 778, Shape: [1], Data Type: 7
+Name: 806, Shape: [], Data Type: 1
+Name: 809, Shape: [], Data Type: 1
+Name: 812, Shape: [], Data Type: 1
+Name: 905, Shape: [1], Data Type: 7
+Name: 1047, Shape: [1], Data Type: 7
+Name: 2399, Shape: [8], Data Type: 7
+Name: 2586, Shape: [1], Data Type: 7
+Name: 2591, Shape: [1], Data Type: 7
+Name: 4237, Shape: [8], Data Type: 7
+Name: 4424, Shape: [1], Data Type: 7
+Name: 4429, Shape: [1], Data Type: 7
+Name: 9724, Shape: [1], Data Type: 7
+Name: 9729, Shape: [1], Data Type: 7
+Name: 11302, Shape: [4], Data Type: 7
+Name: 11318, Shape: [1], Data Type: 7
+Name: 11324, Shape: [1], Data Type: 7
+Name: 11623, Shape: [3], Data Type: 7
+Name: 629, Shape: [6], Data Type: 7
+Name: 756, Shape: [6], Data Type: 7
+Name: 769, Shape: [4], Data Type: 7
+Name: 2096, Shape: [1, 260, 1, 49, 49], Data Type: 1
+Name: 2108, Shape: [4], Data Type: 7
+Name: 2272, Shape: [2, 32], Data Type: 7
+Name: 2285, Shape: [2, 88], Data Type: 7
+Name: 2299, Shape: [3], Data Type: 7
+Name: 2442, Shape: [6], Data Type: 7
+Name: 2569, Shape: [6], Data Type: 7
+Name: 2582, Shape: [4], Data Type: 7
+Name: 3909, Shape: [1, 65, 1, 49, 49], Data Type: 1
+Name: 3921, Shape: [4], Data Type: 7
+Name: 4085, Shape: [2, 16], Data Type: 7
+Name: 4098, Shape: [2, 44], Data Type: 7
+Name: 4112, Shape: [3], Data Type: 7
+Name: 4280, Shape: [6], Data Type: 7
+Name: 4407, Shape: [6], Data Type: 7
+Name: 4420, Shape: [4], Data Type: 7
+Name: 5747, Shape: [1, 21, 1, 49, 49], Data Type: 1
+Name: 5759, Shape: [4], Data Type: 7
+Name: 9385, Shape: [2, 8], Data Type: 7
+Name: 9398, Shape: [2, 22], Data Type: 7
+Name: 9412, Shape: [3], Data Type: 7
+Name: 9580, Shape: [6], Data Type: 7
+Name: 9707, Shape: [6], Data Type: 7
+Name: 9720, Shape: [4], Data Type: 7
+Name: 11047, Shape: [1, 8, 1, 49, 49], Data Type: 1
+Name: 11059, Shape: [4], Data Type: 7
+Name: 7090, Shape: [5], Data Type: 7
+Name: 7100, Shape: [5], Data Type: 7
+Name: 7105, Shape: [5], Data Type: 7
+Name: 7114, Shape: [5], Data Type: 7
+Name: 7126, Shape: [5], Data Type: 7
+Name: 7144, Shape: [5], Data Type: 7
+Name: 7195, Shape: [5], Data Type: 7
+Name: 7202, Shape: [5], Data Type: 7
+Name: 11233, Shape: [4], Data Type: 7
+
+=== End of ONNX Model Info ===

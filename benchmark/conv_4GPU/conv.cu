@@ -48,10 +48,10 @@ __global__ void conv(float* M1, float* kernel, float* M_out, int width, int heig
 int main(int argc, char **argv){
     int idX = atoi(argv[1]);
     int idY = atoi(argv[2]);
-    int width = 64;
-    int height = 64;
-    int in_channels = 3;
-    int out_channels = 64;
+    int width = 512;
+    int height = 7;
+    int in_channels = 14;
+    int out_channels = 14;
     int kernel_size = 3;
     int stride = 1;
     int padding = 1;

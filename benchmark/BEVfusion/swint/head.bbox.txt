@@ -1,0 +1,3349 @@
+=== ONNX Model: head.bbox.onnx ===
+
+### Model Inputs ###
+Name: middle, Type: tensor_type {
+  elem_type: 1
+  shape {
+    dim {
+      dim_value: 1
+    }
+    dim {
+      dim_value: 512
+    }
+    dim {
+      dim_value: 180
+    }
+    dim {
+      dim_value: 180
+    }
+  }
+}
+
+
+### Model Outputs ###
+Name: score, Type: tensor_type {
+  elem_type: 10
+  shape {
+    dim {
+      dim_value: 200
+    }
+    dim {
+      dim_value: 10
+    }
+    dim {
+      dim_value: 200
+    }
+  }
+}
+
+Name: rot, Type: tensor_type {
+  elem_type: 10
+  shape {
+    dim {
+      dim_value: 200
+    }
+    dim {
+      dim_value: 2
+    }
+    dim {
+      dim_value: 200
+    }
+  }
+}
+
+Name: dim, Type: tensor_type {
+  elem_type: 10
+  shape {
+    dim {
+      dim_value: 200
+    }
+    dim {
+      dim_value: 3
+    }
+    dim {
+      dim_value: 200
+    }
+  }
+}
+
+Name: reg, Type: tensor_type {
+  elem_type: 10
+  shape {
+    dim {
+      dim_value: 200
+    }
+    dim {
+      dim_value: 2
+    }
+    dim {
+      dim_value: 200
+    }
+  }
+}
+
+Name: height, Type: tensor_type {
+  elem_type: 10
+  shape {
+    dim {
+      dim_value: 200
+    }
+    dim {
+      dim_value: 1
+    }
+    dim {
+      dim_value: 200
+    }
+  }
+}
+
+Name: vel, Type: tensor_type {
+  elem_type: 10
+  shape {
+    dim {
+      dim_value: 200
+    }
+    dim {
+      dim_value: 2
+    }
+    dim {
+      dim_value: 200
+    }
+  }
+}
+
+
+### Graph Nodes ###
+Node: Cast_0
+  Operator Type: Cast
+  Inputs: middle
+  Outputs: 471
+  Attributes:
+    - to: 10
+
+Node: Conv_1
+  Operator Type: Conv
+  Inputs: 471, 1122, 1121
+  Outputs: 476
+  Attributes:
+    - dilations: [1, 1]
+    - group: 1
+    - kernel_shape: [3, 3]
+    - pads: [1, 1, 1, 1]
+    - strides: [1, 1]
+
+Node: Reshape_2
+  Operator Type: Reshape
+  Inputs: 476, 1126
+  Outputs: 486
+  Attributes:
+    - allowzero: 0
+
+Node: Constant_3
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 487
+  Attributes:
+    - value: {"dims": [1, 32400, 2], "data_type": 10}
+
+Node: ConstantOfShape_4
+  Operator Type: ConstantOfShape
+  Inputs: 1135
+  Outputs: 505
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Expand_5
+  Operator Type: Expand
+  Inputs: 487, 505
+  Outputs: 506
+  Attributes:
+
+Node: Tile_6
+  Operator Type: Tile
+  Inputs: 506, 1134
+  Outputs: 507
+  Attributes:
+
+Node: Cast_7
+  Operator Type: Cast
+  Inputs: 507
+  Outputs: 508
+  Attributes:
+    - to: 10
+
+Node: Conv_8
+  Operator Type: Conv
+  Inputs: 476, 1137, 1136
+  Outputs: 511
+  Attributes:
+    - dilations: [1, 1]
+    - group: 1
+    - kernel_shape: [3, 3]
+    - pads: [1, 1, 1, 1]
+    - strides: [1, 1]
+
+Node: Relu_9
+  Operator Type: Relu
+  Inputs: 511
+  Outputs: 512
+  Attributes:
+
+Node: Conv_10
+  Operator Type: Conv
+  Inputs: 512, 1139, 1138
+  Outputs: 515
+  Attributes:
+    - dilations: [1, 1]
+    - group: 1
+    - kernel_shape: [3, 3]
+    - pads: [1, 1, 1, 1]
+    - strides: [1, 1]
+
+Node: Sigmoid_11
+  Operator Type: Sigmoid
+  Inputs: 515
+  Outputs: 516
+  Attributes:
+
+Node: Constant_12
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 517
+  Attributes:
+    - value: {"dims": [1, 10, 180, 180], "data_type": 10}
+
+Node: MaxPool_13
+  Operator Type: MaxPool
+  Inputs: 516
+  Outputs: 518
+  Attributes:
+    - ceil_mode: 0
+    - kernel_shape: [3, 3]
+    - pads: [0, 0, 0, 0]
+    - strides: [1, 1]
+
+Node: Expand_14
+  Operator Type: Expand
+  Inputs: 518, 1140
+  Outputs: 521
+  Attributes:
+
+Node: Constant_15
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 522
+  Attributes:
+    - value: {"dims": [178], "data_type": 7}
+
+Node: Constant_16
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 523
+  Attributes:
+    - value: {"dims": [1, 1, 1, 1], "data_type": 7}
+
+Node: Constant_17
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 524
+  Attributes:
+    - value: {"dims": [10, 1, 1], "data_type": 7}
+
+Node: Constant_18
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 525
+  Attributes:
+    - value: {"dims": [178, 1], "data_type": 7}
+
+Node: ConstantOfShape_19
+  Operator Type: ConstantOfShape
+  Inputs: 1145
+  Outputs: 535
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Constant_20
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 536
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Mul_21
+  Operator Type: Mul
+  Inputs: 535, 536
+  Outputs: 537
+  Attributes:
+
+Node: Equal_22
+  Operator Type: Equal
+  Inputs: 1144, 537
+  Outputs: 538
+  Attributes:
+
+Node: Where_23
+  Operator Type: Where
+  Inputs: 538, 535, 1144
+  Outputs: 539
+  Attributes:
+
+Node: Expand_24
+  Operator Type: Expand
+  Inputs: 523, 539
+  Outputs: 540
+  Attributes:
+
+Node: Constant_25
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 541
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_26
+  Operator Type: Unsqueeze
+  Inputs: 540, 541
+  Outputs: 542
+  Attributes:
+
+Node: ConstantOfShape_27
+  Operator Type: ConstantOfShape
+  Inputs: 1146
+  Outputs: 544
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Constant_28
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 545
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Mul_29
+  Operator Type: Mul
+  Inputs: 544, 545
+  Outputs: 546
+  Attributes:
+
+Node: Equal_30
+  Operator Type: Equal
+  Inputs: 1144, 546
+  Outputs: 547
+  Attributes:
+
+Node: Where_31
+  Operator Type: Where
+  Inputs: 547, 544, 1144
+  Outputs: 548
+  Attributes:
+
+Node: Expand_32
+  Operator Type: Expand
+  Inputs: 524, 548
+  Outputs: 549
+  Attributes:
+
+Node: Constant_33
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 550
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_34
+  Operator Type: Unsqueeze
+  Inputs: 549, 550
+  Outputs: 551
+  Attributes:
+
+Node: ConstantOfShape_35
+  Operator Type: ConstantOfShape
+  Inputs: 1147
+  Outputs: 553
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Constant_36
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 554
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Mul_37
+  Operator Type: Mul
+  Inputs: 553, 554
+  Outputs: 555
+  Attributes:
+
+Node: Equal_38
+  Operator Type: Equal
+  Inputs: 1144, 555
+  Outputs: 556
+  Attributes:
+
+Node: Where_39
+  Operator Type: Where
+  Inputs: 556, 553, 1144
+  Outputs: 557
+  Attributes:
+
+Node: Expand_40
+  Operator Type: Expand
+  Inputs: 525, 557
+  Outputs: 558
+  Attributes:
+
+Node: Constant_41
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 559
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_42
+  Operator Type: Unsqueeze
+  Inputs: 558, 559
+  Outputs: 560
+  Attributes:
+
+Node: ConstantOfShape_43
+  Operator Type: ConstantOfShape
+  Inputs: 1148
+  Outputs: 562
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Constant_44
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 563
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Mul_45
+  Operator Type: Mul
+  Inputs: 562, 563
+  Outputs: 564
+  Attributes:
+
+Node: Equal_46
+  Operator Type: Equal
+  Inputs: 1144, 564
+  Outputs: 565
+  Attributes:
+
+Node: Where_47
+  Operator Type: Where
+  Inputs: 565, 562, 1144
+  Outputs: 566
+  Attributes:
+
+Node: Expand_48
+  Operator Type: Expand
+  Inputs: 522, 566
+  Outputs: 567
+  Attributes:
+
+Node: Constant_49
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 568
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_50
+  Operator Type: Unsqueeze
+  Inputs: 567, 568
+  Outputs: 569
+  Attributes:
+
+Node: Concat_51
+  Operator Type: Concat
+  Inputs: 542, 551, 560, 569
+  Outputs: 570
+  Attributes:
+    - axis: -1
+
+Node: Reshape_52
+  Operator Type: Reshape
+  Inputs: 521, 1151
+  Outputs: 577
+  Attributes:
+    - allowzero: 0
+
+Node: ScatterND_53
+  Operator Type: ScatterND
+  Inputs: 517, 570, 577
+  Outputs: 578
+  Attributes:
+
+Node: Constant_54
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 579
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Gather_55
+  Operator Type: Gather
+  Inputs: 516, 579
+  Outputs: 580
+  Attributes:
+    - axis: 1
+
+Node: Constant_56
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 581
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Gather_57
+  Operator Type: Gather
+  Inputs: 578, 581
+  Outputs: 582
+  Attributes:
+    - axis: 1
+
+Node: Shape_58
+  Operator Type: Shape
+  Inputs: 582
+  Outputs: 583
+  Attributes:
+
+Node: Expand_59
+  Operator Type: Expand
+  Inputs: 580, 583
+  Outputs: 584
+  Attributes:
+
+Node: Constant_60
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 585
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Constant_61
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 586
+  Attributes:
+    - value: {"dims": [1, 1], "data_type": 7}
+
+Node: ConstantOfShape_62
+  Operator Type: ConstantOfShape
+  Inputs: 1154
+  Outputs: 592
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Constant_63
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 593
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Mul_64
+  Operator Type: Mul
+  Inputs: 592, 593
+  Outputs: 594
+  Attributes:
+
+Node: Equal_65
+  Operator Type: Equal
+  Inputs: 1153, 594
+  Outputs: 595
+  Attributes:
+
+Node: Where_66
+  Operator Type: Where
+  Inputs: 595, 592, 1153
+  Outputs: 596
+  Attributes:
+
+Node: Expand_67
+  Operator Type: Expand
+  Inputs: 586, 596
+  Outputs: 597
+  Attributes:
+
+Node: Constant_68
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 598
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_69
+  Operator Type: Unsqueeze
+  Inputs: 597, 598
+  Outputs: 599
+  Attributes:
+
+Node: ConstantOfShape_70
+  Operator Type: ConstantOfShape
+  Inputs: 1155
+  Outputs: 601
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Constant_71
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 602
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Mul_72
+  Operator Type: Mul
+  Inputs: 601, 602
+  Outputs: 603
+  Attributes:
+
+Node: Equal_73
+  Operator Type: Equal
+  Inputs: 1153, 603
+  Outputs: 604
+  Attributes:
+
+Node: Where_74
+  Operator Type: Where
+  Inputs: 604, 601, 1153
+  Outputs: 605
+  Attributes:
+
+Node: Expand_75
+  Operator Type: Expand
+  Inputs: 585, 605
+  Outputs: 606
+  Attributes:
+
+Node: Constant_76
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 607
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_77
+  Operator Type: Unsqueeze
+  Inputs: 606, 607
+  Outputs: 608
+  Attributes:
+
+Node: Concat_78
+  Operator Type: Concat
+  Inputs: 599, 608
+  Outputs: 609
+  Attributes:
+    - axis: -1
+
+Node: Shape_79
+  Operator Type: Shape
+  Inputs: 578
+  Outputs: 610
+  Attributes:
+
+Node: Constant_80
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 611
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Constant_81
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 612
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Constant_82
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 613
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Slice_83
+  Operator Type: Slice
+  Inputs: 610, 612, 613, 611
+  Outputs: 614
+  Attributes:
+
+Node: Concat_84
+  Operator Type: Concat
+  Inputs: 1153, 614
+  Outputs: 615
+  Attributes:
+    - axis: 0
+
+Node: Reshape_85
+  Operator Type: Reshape
+  Inputs: 584, 615
+  Outputs: 616
+  Attributes:
+    - allowzero: 0
+
+Node: ScatterND_86
+  Operator Type: ScatterND
+  Inputs: 578, 609, 616
+  Outputs: 617
+  Attributes:
+
+Node: Constant_87
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 618
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Gather_88
+  Operator Type: Gather
+  Inputs: 516, 618
+  Outputs: 619
+  Attributes:
+    - axis: 1
+
+Node: Constant_89
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 620
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Gather_90
+  Operator Type: Gather
+  Inputs: 617, 620
+  Outputs: 621
+  Attributes:
+    - axis: 1
+
+Node: Shape_91
+  Operator Type: Shape
+  Inputs: 621
+  Outputs: 622
+  Attributes:
+
+Node: Expand_92
+  Operator Type: Expand
+  Inputs: 619, 622
+  Outputs: 623
+  Attributes:
+
+Node: Constant_93
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 624
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Constant_94
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 625
+  Attributes:
+    - value: {"dims": [1, 1], "data_type": 7}
+
+Node: ConstantOfShape_95
+  Operator Type: ConstantOfShape
+  Inputs: 1158
+  Outputs: 631
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Constant_96
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 632
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Mul_97
+  Operator Type: Mul
+  Inputs: 631, 632
+  Outputs: 633
+  Attributes:
+
+Node: Equal_98
+  Operator Type: Equal
+  Inputs: 1157, 633
+  Outputs: 634
+  Attributes:
+
+Node: Where_99
+  Operator Type: Where
+  Inputs: 634, 631, 1157
+  Outputs: 635
+  Attributes:
+
+Node: Expand_100
+  Operator Type: Expand
+  Inputs: 625, 635
+  Outputs: 636
+  Attributes:
+
+Node: Constant_101
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 637
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_102
+  Operator Type: Unsqueeze
+  Inputs: 636, 637
+  Outputs: 638
+  Attributes:
+
+Node: ConstantOfShape_103
+  Operator Type: ConstantOfShape
+  Inputs: 1159
+  Outputs: 640
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Constant_104
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 641
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Mul_105
+  Operator Type: Mul
+  Inputs: 640, 641
+  Outputs: 642
+  Attributes:
+
+Node: Equal_106
+  Operator Type: Equal
+  Inputs: 1157, 642
+  Outputs: 643
+  Attributes:
+
+Node: Where_107
+  Operator Type: Where
+  Inputs: 643, 640, 1157
+  Outputs: 644
+  Attributes:
+
+Node: Expand_108
+  Operator Type: Expand
+  Inputs: 624, 644
+  Outputs: 645
+  Attributes:
+
+Node: Constant_109
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 646
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_110
+  Operator Type: Unsqueeze
+  Inputs: 645, 646
+  Outputs: 647
+  Attributes:
+
+Node: Concat_111
+  Operator Type: Concat
+  Inputs: 638, 647
+  Outputs: 648
+  Attributes:
+    - axis: -1
+
+Node: Shape_112
+  Operator Type: Shape
+  Inputs: 617
+  Outputs: 649
+  Attributes:
+
+Node: Constant_113
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 650
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Constant_114
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 651
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Constant_115
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 652
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Slice_116
+  Operator Type: Slice
+  Inputs: 649, 651, 652, 650
+  Outputs: 653
+  Attributes:
+
+Node: Concat_117
+  Operator Type: Concat
+  Inputs: 1157, 653
+  Outputs: 654
+  Attributes:
+    - axis: 0
+
+Node: Reshape_118
+  Operator Type: Reshape
+  Inputs: 623, 654
+  Outputs: 655
+  Attributes:
+    - allowzero: 0
+
+Node: ScatterND_119
+  Operator Type: ScatterND
+  Inputs: 617, 648, 655
+  Outputs: 656
+  Attributes:
+
+Node: Equal_120
+  Operator Type: Equal
+  Inputs: 516, 656
+  Outputs: 657
+  Attributes:
+
+Node: Cast_121
+  Operator Type: Cast
+  Inputs: 657
+  Outputs: 658
+  Attributes:
+    - to: 10
+
+Node: Mul_122
+  Operator Type: Mul
+  Inputs: 516, 658
+  Outputs: 659
+  Attributes:
+
+Node: Reshape_123
+  Operator Type: Reshape
+  Inputs: 659, 1163
+  Outputs: 669
+  Attributes:
+    - allowzero: 0
+
+Node: Reshape_124
+  Operator Type: Reshape
+  Inputs: 669, 1166
+  Outputs: 676
+  Attributes:
+    - allowzero: 0
+
+Node: TopK_125
+  Operator Type: TopK
+  Inputs: 676, 1167
+  Outputs: 680, 681
+  Attributes:
+    - axis: -1
+    - largest: 1
+    - sorted: 1
+
+Node: Constant_126
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 682
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Div_127
+  Operator Type: Div
+  Inputs: 681, 682
+  Outputs: 683
+  Attributes:
+
+Node: Cast_128
+  Operator Type: Cast
+  Inputs: 683
+  Outputs: 684
+  Attributes:
+    - to: 7
+
+Node: Cast_129
+  Operator Type: Cast
+  Inputs: 684
+  Outputs: 685
+  Attributes:
+    - to: 7
+
+Node: Constant_130
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 686
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Div_131
+  Operator Type: Div
+  Inputs: 681, 686
+  Outputs: 687
+  Attributes:
+
+Node: Constant_132
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 688
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Mul_133
+  Operator Type: Mul
+  Inputs: 687, 688
+  Outputs: 689
+  Attributes:
+
+Node: Sub_134
+  Operator Type: Sub
+  Inputs: 681, 689
+  Outputs: 690
+  Attributes:
+
+Node: Constant_135
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 691
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_136
+  Operator Type: Unsqueeze
+  Inputs: 690, 691
+  Outputs: 692
+  Attributes:
+
+Node: ConstantOfShape_137
+  Operator Type: ConstantOfShape
+  Inputs: 1173
+  Outputs: 706
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Constant_138
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 707
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Mul_139
+  Operator Type: Mul
+  Inputs: 706, 707
+  Outputs: 708
+  Attributes:
+
+Node: Equal_140
+  Operator Type: Equal
+  Inputs: 1172, 708
+  Outputs: 709
+  Attributes:
+
+Node: Where_141
+  Operator Type: Where
+  Inputs: 709, 706, 1172
+  Outputs: 710
+  Attributes:
+
+Node: Expand_142
+  Operator Type: Expand
+  Inputs: 692, 710
+  Outputs: 711
+  Attributes:
+
+Node: GatherElements_143
+  Operator Type: GatherElements
+  Inputs: 486, 711
+  Outputs: 712
+  Attributes:
+    - axis: -1
+
+Node: Constant_144
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 713
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Reshape_145
+  Operator Type: Reshape
+  Inputs: 685, 713
+  Outputs: 714
+  Attributes:
+    - allowzero: 0
+
+Node: Gather_146
+  Operator Type: Gather
+  Inputs: 1120, 714
+  Outputs: 715
+  Attributes:
+    - axis: 0
+
+Node: Constant_147
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 716
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_148
+  Operator Type: Unsqueeze
+  Inputs: 715, 716
+  Outputs: 717
+  Attributes:
+
+Node: Transpose_149
+  Operator Type: Transpose
+  Inputs: 717
+  Outputs: 718
+  Attributes:
+    - perm: [0, 2, 1]
+
+Node: Conv_150
+  Operator Type: Conv
+  Inputs: 718, 1175, 1174
+  Outputs: 721
+  Attributes:
+    - dilations: [1]
+    - group: 1
+    - kernel_shape: [1]
+    - pads: [0, 0]
+    - strides: [1]
+
+Node: Add_151
+  Operator Type: Add
+  Inputs: 712, 721
+  Outputs: 722
+  Attributes:
+
+Node: Constant_152
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 723
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_153
+  Operator Type: Unsqueeze
+  Inputs: 690, 723
+  Outputs: 724
+  Attributes:
+
+Node: Transpose_154
+  Operator Type: Transpose
+  Inputs: 724
+  Outputs: 725
+  Attributes:
+    - perm: [0, 2, 1]
+
+Node: ConstantOfShape_155
+  Operator Type: ConstantOfShape
+  Inputs: 1181
+  Outputs: 739
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Constant_156
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 740
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Mul_157
+  Operator Type: Mul
+  Inputs: 739, 740
+  Outputs: 741
+  Attributes:
+
+Node: Equal_158
+  Operator Type: Equal
+  Inputs: 1180, 741
+  Outputs: 742
+  Attributes:
+
+Node: Where_159
+  Operator Type: Where
+  Inputs: 742, 739, 1180
+  Outputs: 743
+  Attributes:
+
+Node: Expand_160
+  Operator Type: Expand
+  Inputs: 725, 743
+  Outputs: 744
+  Attributes:
+
+Node: GatherElements_161
+  Operator Type: GatherElements
+  Inputs: 508, 744
+  Outputs: 745
+  Attributes:
+    - axis: 1
+
+Node: Transpose_162
+  Operator Type: Transpose
+  Inputs: 745
+  Outputs: 746
+  Attributes:
+    - perm: [0, 2, 1]
+
+Node: Conv_163
+  Operator Type: Conv
+  Inputs: 746, 1183, 1182
+  Outputs: 749
+  Attributes:
+    - dilations: [1]
+    - group: 1
+    - kernel_shape: [1]
+    - pads: [0, 0]
+    - strides: [1]
+
+Node: BatchNormalization_164
+  Operator Type: BatchNormalization
+  Inputs: 749, parent.heads.object.decoder.0.self_posembed.position_embedding_head.1.weight, parent.heads.object.decoder.0.self_posembed.position_embedding_head.1.bias, parent.heads.object.decoder.0.self_posembed.position_embedding_head.1.running_mean, parent.heads.object.decoder.0.self_posembed.position_embedding_head.1.running_var
+  Outputs: 750
+  Attributes:
+    - epsilon: 9.999999747378752e-06
+    - momentum: 0.8999999761581421
+    - training_mode: 0
+
+Node: Relu_165
+  Operator Type: Relu
+  Inputs: 750
+  Outputs: 751
+  Attributes:
+
+Node: Conv_166
+  Operator Type: Conv
+  Inputs: 751, 1185, 1184
+  Outputs: 754
+  Attributes:
+    - dilations: [1]
+    - group: 1
+    - kernel_shape: [1]
+    - pads: [0, 0]
+    - strides: [1]
+
+Node: Transpose_167
+  Operator Type: Transpose
+  Inputs: 754
+  Outputs: 755
+  Attributes:
+    - perm: [2, 0, 1]
+
+Node: Transpose_168
+  Operator Type: Transpose
+  Inputs: 508
+  Outputs: 756
+  Attributes:
+    - perm: [0, 2, 1]
+
+Node: Conv_169
+  Operator Type: Conv
+  Inputs: 756, 1187, 1186
+  Outputs: 759
+  Attributes:
+    - dilations: [1]
+    - group: 1
+    - kernel_shape: [1]
+    - pads: [0, 0]
+    - strides: [1]
+
+Node: BatchNormalization_170
+  Operator Type: BatchNormalization
+  Inputs: 759, parent.heads.object.decoder.0.cross_posembed.position_embedding_head.1.weight, parent.heads.object.decoder.0.cross_posembed.position_embedding_head.1.bias, parent.heads.object.decoder.0.cross_posembed.position_embedding_head.1.running_mean, parent.heads.object.decoder.0.cross_posembed.position_embedding_head.1.running_var
+  Outputs: 760
+  Attributes:
+    - epsilon: 9.999999747378752e-06
+    - momentum: 0.8999999761581421
+    - training_mode: 0
+
+Node: Relu_171
+  Operator Type: Relu
+  Inputs: 760
+  Outputs: 761
+  Attributes:
+
+Node: Conv_172
+  Operator Type: Conv
+  Inputs: 761, 1189, 1188
+  Outputs: 764
+  Attributes:
+    - dilations: [1]
+    - group: 1
+    - kernel_shape: [1]
+    - pads: [0, 0]
+    - strides: [1]
+
+Node: Transpose_173
+  Operator Type: Transpose
+  Inputs: 764
+  Outputs: 765
+  Attributes:
+    - perm: [2, 0, 1]
+
+Node: Transpose_174
+  Operator Type: Transpose
+  Inputs: 722
+  Outputs: 766
+  Attributes:
+    - perm: [2, 0, 1]
+
+Node: Transpose_175
+  Operator Type: Transpose
+  Inputs: 486
+  Outputs: 767
+  Attributes:
+    - perm: [2, 0, 1]
+
+Node: Add_176
+  Operator Type: Add
+  Inputs: 766, 755
+  Outputs: 768
+  Attributes:
+
+Node: Shape_177
+  Operator Type: Shape
+  Inputs: 768
+  Outputs: 769
+  Attributes:
+
+Node: Constant_178
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 770
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Gather_179
+  Operator Type: Gather
+  Inputs: 769, 770
+  Outputs: 771
+  Attributes:
+    - axis: 0
+
+Node: Shape_180
+  Operator Type: Shape
+  Inputs: 768
+  Outputs: 772
+  Attributes:
+
+Node: Constant_181
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 773
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Gather_182
+  Operator Type: Gather
+  Inputs: 772, 773
+  Outputs: 774
+  Attributes:
+    - axis: 0
+
+Node: Shape_183
+  Operator Type: Shape
+  Inputs: 768
+  Outputs: 775
+  Attributes:
+
+Node: Constant_184
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 776
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Gather_185
+  Operator Type: Gather
+  Inputs: 775, 776
+  Outputs: 777
+  Attributes:
+    - axis: 0
+
+Node: Constant_186
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 778
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Div_187
+  Operator Type: Div
+  Inputs: 777, 778
+  Outputs: 779
+  Attributes:
+
+Node: Cast_188
+  Operator Type: Cast
+  Inputs: 779
+  Outputs: 780
+  Attributes:
+    - to: 7
+
+Node: Cast_189
+  Operator Type: Cast
+  Inputs: 780
+  Outputs: 781
+  Attributes:
+    - to: 7
+
+Node: MatMul_190
+  Operator Type: MatMul
+  Inputs: 768, 1192
+  Outputs: 785
+  Attributes:
+
+Node: Add_191
+  Operator Type: Add
+  Inputs: 1190, 785
+  Outputs: 786
+  Attributes:
+
+Node: Shape_192
+  Operator Type: Shape
+  Inputs: 786
+  Outputs: 787
+  Attributes:
+
+Node: Constant_193
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 788
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Gather_194
+  Operator Type: Gather
+  Inputs: 787, 788
+  Outputs: 789
+  Attributes:
+    - axis: 0
+
+Node: Constant_195
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 790
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Constant_196
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 791
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Add_197
+  Operator Type: Add
+  Inputs: 789, 791
+  Outputs: 792
+  Attributes:
+
+Node: Constant_198
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 793
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Div_199
+  Operator Type: Div
+  Inputs: 792, 793
+  Outputs: 794
+  Attributes:
+
+Node: Constant_200
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 795
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Mul_201
+  Operator Type: Mul
+  Inputs: 794, 795
+  Outputs: 796
+  Attributes:
+
+Node: Slice_202
+  Operator Type: Slice
+  Inputs: 786, 790, 796, 788
+  Outputs: 797
+  Attributes:
+
+Node: Constant_203
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 798
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Mul_204
+  Operator Type: Mul
+  Inputs: 794, 798
+  Outputs: 799
+  Attributes:
+
+Node: Slice_205
+  Operator Type: Slice
+  Inputs: 786, 796, 799, 788
+  Outputs: 800
+  Attributes:
+
+Node: Constant_206
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 801
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Mul_207
+  Operator Type: Mul
+  Inputs: 794, 801
+  Outputs: 802
+  Attributes:
+
+Node: Slice_208
+  Operator Type: Slice
+  Inputs: 786, 799, 802, 788
+  Outputs: 803
+  Attributes:
+
+Node: Constant_209
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 804
+  Attributes:
+    - value: {"dims": [], "data_type": 10}
+
+Node: Mul_210
+  Operator Type: Mul
+  Inputs: 797, 804
+  Outputs: 805
+  Attributes:
+
+Node: Constant_211
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 806
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Mul_212
+  Operator Type: Mul
+  Inputs: 774, 806
+  Outputs: 807
+  Attributes:
+
+Node: Constant_213
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 808
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_214
+  Operator Type: Unsqueeze
+  Inputs: 771, 808
+  Outputs: 809
+  Attributes:
+
+Node: Constant_215
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 810
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_216
+  Operator Type: Unsqueeze
+  Inputs: 807, 810
+  Outputs: 811
+  Attributes:
+
+Node: Constant_217
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 812
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_218
+  Operator Type: Unsqueeze
+  Inputs: 781, 812
+  Outputs: 813
+  Attributes:
+
+Node: Concat_219
+  Operator Type: Concat
+  Inputs: 809, 811, 813
+  Outputs: 814
+  Attributes:
+    - axis: 0
+
+Node: Reshape_220
+  Operator Type: Reshape
+  Inputs: 805, 814
+  Outputs: 815
+  Attributes:
+    - allowzero: 0
+
+Node: Transpose_221
+  Operator Type: Transpose
+  Inputs: 815
+  Outputs: 816
+  Attributes:
+    - perm: [1, 0, 2]
+
+Node: Constant_222
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 817
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Mul_223
+  Operator Type: Mul
+  Inputs: 774, 817
+  Outputs: 818
+  Attributes:
+
+Node: Constant_224
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 822
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_225
+  Operator Type: Unsqueeze
+  Inputs: 818, 822
+  Outputs: 823
+  Attributes:
+
+Node: Constant_226
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 824
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_227
+  Operator Type: Unsqueeze
+  Inputs: 781, 824
+  Outputs: 825
+  Attributes:
+
+Node: Concat_228
+  Operator Type: Concat
+  Inputs: 1193, 823, 825
+  Outputs: 826
+  Attributes:
+    - axis: 0
+
+Node: Reshape_229
+  Operator Type: Reshape
+  Inputs: 800, 826
+  Outputs: 827
+  Attributes:
+    - allowzero: 0
+
+Node: Constant_230
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 828
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Mul_231
+  Operator Type: Mul
+  Inputs: 774, 828
+  Outputs: 829
+  Attributes:
+
+Node: Constant_232
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 833
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_233
+  Operator Type: Unsqueeze
+  Inputs: 829, 833
+  Outputs: 834
+  Attributes:
+
+Node: Constant_234
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 835
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_235
+  Operator Type: Unsqueeze
+  Inputs: 781, 835
+  Outputs: 836
+  Attributes:
+
+Node: Concat_236
+  Operator Type: Concat
+  Inputs: 1194, 834, 836
+  Outputs: 837
+  Attributes:
+    - axis: 0
+
+Node: Reshape_237
+  Operator Type: Reshape
+  Inputs: 803, 837
+  Outputs: 838
+  Attributes:
+    - allowzero: 0
+
+Node: Transpose_238
+  Operator Type: Transpose
+  Inputs: 838
+  Outputs: 839
+  Attributes:
+    - perm: [1, 0, 2]
+
+Node: Transpose_239
+  Operator Type: Transpose
+  Inputs: 827
+  Outputs: 840
+  Attributes:
+    - perm: [1, 2, 0]
+
+Node: MatMul_240
+  Operator Type: MatMul
+  Inputs: 816, 840
+  Outputs: 841
+  Attributes:
+
+Node: Softmax_241
+  Operator Type: Softmax
+  Inputs: 841
+  Outputs: 842
+  Attributes:
+    - axis: -1
+
+Node: Cast_242
+  Operator Type: Cast
+  Inputs: 842
+  Outputs: 843
+  Attributes:
+    - to: 1
+
+Node: Cast_243
+  Operator Type: Cast
+  Inputs: 843
+  Outputs: 844
+  Attributes:
+    - to: 10
+
+Node: MatMul_244
+  Operator Type: MatMul
+  Inputs: 844, 839
+  Outputs: 845
+  Attributes:
+
+Node: Transpose_245
+  Operator Type: Transpose
+  Inputs: 845
+  Outputs: 846
+  Attributes:
+    - perm: [1, 0, 2]
+
+Node: Constant_246
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 847
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_247
+  Operator Type: Unsqueeze
+  Inputs: 771, 847
+  Outputs: 848
+  Attributes:
+
+Node: Constant_248
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 849
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_249
+  Operator Type: Unsqueeze
+  Inputs: 774, 849
+  Outputs: 850
+  Attributes:
+
+Node: Constant_250
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 851
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_251
+  Operator Type: Unsqueeze
+  Inputs: 777, 851
+  Outputs: 852
+  Attributes:
+
+Node: Concat_252
+  Operator Type: Concat
+  Inputs: 848, 850, 852
+  Outputs: 853
+  Attributes:
+    - axis: 0
+
+Node: Reshape_253
+  Operator Type: Reshape
+  Inputs: 846, 853
+  Outputs: 854
+  Attributes:
+    - allowzero: 0
+
+Node: MatMul_254
+  Operator Type: MatMul
+  Inputs: 854, 1197
+  Outputs: 858
+  Attributes:
+
+Node: Add_255
+  Operator Type: Add
+  Inputs: 1195, 858
+  Outputs: 859
+  Attributes:
+
+Node: Add_256
+  Operator Type: Add
+  Inputs: 766, 859
+  Outputs: 860
+  Attributes:
+
+Node: Cast_257
+  Operator Type: Cast
+  Inputs: 860
+  Outputs: 861
+  Attributes:
+    - to: 1
+
+Node: ReduceMean_258
+  Operator Type: ReduceMean
+  Inputs: 861
+  Outputs: 862
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_259
+  Operator Type: Sub
+  Inputs: 861, 862
+  Outputs: 863
+  Attributes:
+
+Node: Constant_260
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 864
+  Attributes:
+    - value: {"dims": [], "data_type": 1}
+
+Node: Pow_261
+  Operator Type: Pow
+  Inputs: 863, 864
+  Outputs: 865
+  Attributes:
+
+Node: ReduceMean_262
+  Operator Type: ReduceMean
+  Inputs: 865
+  Outputs: 866
+  Attributes:
+    - axes: [-1]
+
+Node: Constant_263
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 867
+  Attributes:
+    - value: {"dims": [], "data_type": 1}
+
+Node: Add_264
+  Operator Type: Add
+  Inputs: 866, 867
+  Outputs: 868
+  Attributes:
+
+Node: Sqrt_265
+  Operator Type: Sqrt
+  Inputs: 868
+  Outputs: 869
+  Attributes:
+
+Node: Div_266
+  Operator Type: Div
+  Inputs: 863, 869
+  Outputs: 870
+  Attributes:
+
+Node: Mul_267
+  Operator Type: Mul
+  Inputs: 870, parent.heads.object.decoder.0.norm1.weight
+  Outputs: 871
+  Attributes:
+
+Node: Add_268
+  Operator Type: Add
+  Inputs: 871, parent.heads.object.decoder.0.norm1.bias
+  Outputs: 872
+  Attributes:
+
+Node: Cast_269
+  Operator Type: Cast
+  Inputs: 755
+  Outputs: 873
+  Attributes:
+    - to: 1
+
+Node: Add_270
+  Operator Type: Add
+  Inputs: 872, 873
+  Outputs: 874
+  Attributes:
+
+Node: Add_271
+  Operator Type: Add
+  Inputs: 767, 765
+  Outputs: 875
+  Attributes:
+
+Node: Shape_272
+  Operator Type: Shape
+  Inputs: 874
+  Outputs: 876
+  Attributes:
+
+Node: Constant_273
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 877
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Gather_274
+  Operator Type: Gather
+  Inputs: 876, 877
+  Outputs: 878
+  Attributes:
+    - axis: 0
+
+Node: Shape_275
+  Operator Type: Shape
+  Inputs: 874
+  Outputs: 879
+  Attributes:
+
+Node: Constant_276
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 880
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Gather_277
+  Operator Type: Gather
+  Inputs: 879, 880
+  Outputs: 881
+  Attributes:
+    - axis: 0
+
+Node: Shape_278
+  Operator Type: Shape
+  Inputs: 874
+  Outputs: 882
+  Attributes:
+
+Node: Constant_279
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 883
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Gather_280
+  Operator Type: Gather
+  Inputs: 882, 883
+  Outputs: 884
+  Attributes:
+    - axis: 0
+
+Node: Constant_281
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 885
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Div_282
+  Operator Type: Div
+  Inputs: 884, 885
+  Outputs: 886
+  Attributes:
+
+Node: Cast_283
+  Operator Type: Cast
+  Inputs: 886
+  Outputs: 887
+  Attributes:
+    - to: 7
+
+Node: Cast_284
+  Operator Type: Cast
+  Inputs: 887
+  Outputs: 888
+  Attributes:
+    - to: 7
+
+Node: Constant_285
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 893
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_286
+  Operator Type: Unsqueeze
+  Inputs: 884, 893
+  Outputs: 894
+  Attributes:
+
+Node: Constant_287
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 897
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Slice_288
+  Operator Type: Slice
+  Inputs: parent.heads.object.decoder.0.multihead_attn.in_proj_weight, 1198, 894, 1199, 897
+  Outputs: 898
+  Attributes:
+
+Node: Constant_289
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 903
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_290
+  Operator Type: Unsqueeze
+  Inputs: 884, 903
+  Outputs: 904
+  Attributes:
+
+Node: Constant_291
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 907
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Slice_292
+  Operator Type: Slice
+  Inputs: parent.heads.object.decoder.0.multihead_attn.in_proj_bias, 1200, 904, 1201, 907
+  Outputs: 908
+  Attributes:
+
+Node: Cast_293
+  Operator Type: Cast
+  Inputs: 908
+  Outputs: 909
+  Attributes:
+    - to: 10
+
+Node: Cast_294
+  Operator Type: Cast
+  Inputs: 898
+  Outputs: 910
+  Attributes:
+    - to: 10
+
+Node: Cast_295
+  Operator Type: Cast
+  Inputs: 874
+  Outputs: 911
+  Attributes:
+    - to: 10
+
+Node: Transpose_296
+  Operator Type: Transpose
+  Inputs: 910
+  Outputs: 912
+  Attributes:
+    - perm: [1, 0]
+
+Node: MatMul_297
+  Operator Type: MatMul
+  Inputs: 911, 912
+  Outputs: 913
+  Attributes:
+
+Node: Add_298
+  Operator Type: Add
+  Inputs: 909, 913
+  Outputs: 914
+  Attributes:
+
+Node: Constant_299
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 917
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_300
+  Operator Type: Unsqueeze
+  Inputs: 884, 917
+  Outputs: 918
+  Attributes:
+
+Node: Constant_301
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 923
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Slice_302
+  Operator Type: Slice
+  Inputs: parent.heads.object.decoder.0.multihead_attn.in_proj_weight, 918, 1202, 1203, 923
+  Outputs: 924
+  Attributes:
+
+Node: Constant_303
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 927
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_304
+  Operator Type: Unsqueeze
+  Inputs: 884, 927
+  Outputs: 928
+  Attributes:
+
+Node: Constant_305
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 933
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Slice_306
+  Operator Type: Slice
+  Inputs: parent.heads.object.decoder.0.multihead_attn.in_proj_bias, 928, 1204, 1205, 933
+  Outputs: 934
+  Attributes:
+
+Node: Cast_307
+  Operator Type: Cast
+  Inputs: 934
+  Outputs: 935
+  Attributes:
+    - to: 10
+
+Node: Cast_308
+  Operator Type: Cast
+  Inputs: 924
+  Outputs: 936
+  Attributes:
+    - to: 10
+
+Node: Transpose_309
+  Operator Type: Transpose
+  Inputs: 936
+  Outputs: 937
+  Attributes:
+    - perm: [1, 0]
+
+Node: MatMul_310
+  Operator Type: MatMul
+  Inputs: 875, 937
+  Outputs: 938
+  Attributes:
+
+Node: Add_311
+  Operator Type: Add
+  Inputs: 935, 938
+  Outputs: 939
+  Attributes:
+
+Node: Shape_312
+  Operator Type: Shape
+  Inputs: 939
+  Outputs: 940
+  Attributes:
+
+Node: Constant_313
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 941
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Gather_314
+  Operator Type: Gather
+  Inputs: 940, 941
+  Outputs: 942
+  Attributes:
+    - axis: 0
+
+Node: Constant_315
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 943
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Constant_316
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 944
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Add_317
+  Operator Type: Add
+  Inputs: 942, 944
+  Outputs: 945
+  Attributes:
+
+Node: Constant_318
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 946
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Div_319
+  Operator Type: Div
+  Inputs: 945, 946
+  Outputs: 947
+  Attributes:
+
+Node: Constant_320
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 948
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Mul_321
+  Operator Type: Mul
+  Inputs: 947, 948
+  Outputs: 949
+  Attributes:
+
+Node: Slice_322
+  Operator Type: Slice
+  Inputs: 939, 943, 949, 941
+  Outputs: 950
+  Attributes:
+
+Node: Constant_323
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 951
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Mul_324
+  Operator Type: Mul
+  Inputs: 947, 951
+  Outputs: 952
+  Attributes:
+
+Node: Slice_325
+  Operator Type: Slice
+  Inputs: 939, 949, 952, 941
+  Outputs: 953
+  Attributes:
+
+Node: Constant_326
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 954
+  Attributes:
+    - value: {"dims": [], "data_type": 10}
+
+Node: Mul_327
+  Operator Type: Mul
+  Inputs: 914, 954
+  Outputs: 955
+  Attributes:
+
+Node: Constant_328
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 956
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Mul_329
+  Operator Type: Mul
+  Inputs: 881, 956
+  Outputs: 957
+  Attributes:
+
+Node: Constant_330
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 958
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_331
+  Operator Type: Unsqueeze
+  Inputs: 878, 958
+  Outputs: 959
+  Attributes:
+
+Node: Constant_332
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 960
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_333
+  Operator Type: Unsqueeze
+  Inputs: 957, 960
+  Outputs: 961
+  Attributes:
+
+Node: Constant_334
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 962
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_335
+  Operator Type: Unsqueeze
+  Inputs: 888, 962
+  Outputs: 963
+  Attributes:
+
+Node: Concat_336
+  Operator Type: Concat
+  Inputs: 959, 961, 963
+  Outputs: 964
+  Attributes:
+    - axis: 0
+
+Node: Reshape_337
+  Operator Type: Reshape
+  Inputs: 955, 964
+  Outputs: 965
+  Attributes:
+    - allowzero: 0
+
+Node: Transpose_338
+  Operator Type: Transpose
+  Inputs: 965
+  Outputs: 966
+  Attributes:
+    - perm: [1, 0, 2]
+
+Node: Constant_339
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 967
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Mul_340
+  Operator Type: Mul
+  Inputs: 881, 967
+  Outputs: 968
+  Attributes:
+
+Node: Constant_341
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 972
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_342
+  Operator Type: Unsqueeze
+  Inputs: 968, 972
+  Outputs: 973
+  Attributes:
+
+Node: Constant_343
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 974
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_344
+  Operator Type: Unsqueeze
+  Inputs: 888, 974
+  Outputs: 975
+  Attributes:
+
+Node: Concat_345
+  Operator Type: Concat
+  Inputs: 1206, 973, 975
+  Outputs: 976
+  Attributes:
+    - axis: 0
+
+Node: Reshape_346
+  Operator Type: Reshape
+  Inputs: 950, 976
+  Outputs: 977
+  Attributes:
+    - allowzero: 0
+
+Node: Constant_347
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 978
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Mul_348
+  Operator Type: Mul
+  Inputs: 881, 978
+  Outputs: 979
+  Attributes:
+
+Node: Constant_349
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 983
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_350
+  Operator Type: Unsqueeze
+  Inputs: 979, 983
+  Outputs: 984
+  Attributes:
+
+Node: Constant_351
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 985
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_352
+  Operator Type: Unsqueeze
+  Inputs: 888, 985
+  Outputs: 986
+  Attributes:
+
+Node: Concat_353
+  Operator Type: Concat
+  Inputs: 1207, 984, 986
+  Outputs: 987
+  Attributes:
+    - axis: 0
+
+Node: Reshape_354
+  Operator Type: Reshape
+  Inputs: 953, 987
+  Outputs: 988
+  Attributes:
+    - allowzero: 0
+
+Node: Transpose_355
+  Operator Type: Transpose
+  Inputs: 988
+  Outputs: 989
+  Attributes:
+    - perm: [1, 0, 2]
+
+Node: Transpose_356
+  Operator Type: Transpose
+  Inputs: 977
+  Outputs: 990
+  Attributes:
+    - perm: [1, 2, 0]
+
+Node: MatMul_357
+  Operator Type: MatMul
+  Inputs: 966, 990
+  Outputs: 991
+  Attributes:
+
+Node: Softmax_358
+  Operator Type: Softmax
+  Inputs: 991
+  Outputs: 992
+  Attributes:
+    - axis: -1
+
+Node: Cast_359
+  Operator Type: Cast
+  Inputs: 992
+  Outputs: 993
+  Attributes:
+    - to: 1
+
+Node: Cast_360
+  Operator Type: Cast
+  Inputs: 993
+  Outputs: 994
+  Attributes:
+    - to: 10
+
+Node: MatMul_361
+  Operator Type: MatMul
+  Inputs: 994, 989
+  Outputs: 995
+  Attributes:
+
+Node: Transpose_362
+  Operator Type: Transpose
+  Inputs: 995
+  Outputs: 996
+  Attributes:
+    - perm: [1, 0, 2]
+
+Node: Constant_363
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 997
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_364
+  Operator Type: Unsqueeze
+  Inputs: 878, 997
+  Outputs: 998
+  Attributes:
+
+Node: Constant_365
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 999
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_366
+  Operator Type: Unsqueeze
+  Inputs: 881, 999
+  Outputs: 1000
+  Attributes:
+
+Node: Constant_367
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 1001
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_368
+  Operator Type: Unsqueeze
+  Inputs: 884, 1001
+  Outputs: 1002
+  Attributes:
+
+Node: Concat_369
+  Operator Type: Concat
+  Inputs: 998, 1000, 1002
+  Outputs: 1003
+  Attributes:
+    - axis: 0
+
+Node: Reshape_370
+  Operator Type: Reshape
+  Inputs: 996, 1003
+  Outputs: 1004
+  Attributes:
+    - allowzero: 0
+
+Node: MatMul_371
+  Operator Type: MatMul
+  Inputs: 1004, 1210
+  Outputs: 1008
+  Attributes:
+
+Node: Add_372
+  Operator Type: Add
+  Inputs: 1208, 1008
+  Outputs: 1009
+  Attributes:
+
+Node: Cast_373
+  Operator Type: Cast
+  Inputs: 1009
+  Outputs: 1010
+  Attributes:
+    - to: 1
+
+Node: Add_374
+  Operator Type: Add
+  Inputs: 872, 1010
+  Outputs: 1011
+  Attributes:
+
+Node: ReduceMean_375
+  Operator Type: ReduceMean
+  Inputs: 1011
+  Outputs: 1012
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_376
+  Operator Type: Sub
+  Inputs: 1011, 1012
+  Outputs: 1013
+  Attributes:
+
+Node: Constant_377
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 1014
+  Attributes:
+    - value: {"dims": [], "data_type": 1}
+
+Node: Pow_378
+  Operator Type: Pow
+  Inputs: 1013, 1014
+  Outputs: 1015
+  Attributes:
+
+Node: ReduceMean_379
+  Operator Type: ReduceMean
+  Inputs: 1015
+  Outputs: 1016
+  Attributes:
+    - axes: [-1]
+
+Node: Constant_380
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 1017
+  Attributes:
+    - value: {"dims": [], "data_type": 1}
+
+Node: Add_381
+  Operator Type: Add
+  Inputs: 1016, 1017
+  Outputs: 1018
+  Attributes:
+
+Node: Sqrt_382
+  Operator Type: Sqrt
+  Inputs: 1018
+  Outputs: 1019
+  Attributes:
+
+Node: Div_383
+  Operator Type: Div
+  Inputs: 1013, 1019
+  Outputs: 1020
+  Attributes:
+
+Node: Mul_384
+  Operator Type: Mul
+  Inputs: 1020, parent.heads.object.decoder.0.norm2.weight
+  Outputs: 1021
+  Attributes:
+
+Node: Add_385
+  Operator Type: Add
+  Inputs: 1021, parent.heads.object.decoder.0.norm2.bias
+  Outputs: 1022
+  Attributes:
+
+Node: Cast_386
+  Operator Type: Cast
+  Inputs: 1022
+  Outputs: 1025
+  Attributes:
+    - to: 10
+
+Node: MatMul_387
+  Operator Type: MatMul
+  Inputs: 1025, 1213
+  Outputs: 1027
+  Attributes:
+
+Node: Add_388
+  Operator Type: Add
+  Inputs: 1211, 1027
+  Outputs: 1028
+  Attributes:
+
+Node: Relu_389
+  Operator Type: Relu
+  Inputs: 1028
+  Outputs: 1029
+  Attributes:
+
+Node: MatMul_390
+  Operator Type: MatMul
+  Inputs: 1029, 1216
+  Outputs: 1033
+  Attributes:
+
+Node: Add_391
+  Operator Type: Add
+  Inputs: 1214, 1033
+  Outputs: 1034
+  Attributes:
+
+Node: Cast_392
+  Operator Type: Cast
+  Inputs: 1034
+  Outputs: 1035
+  Attributes:
+    - to: 1
+
+Node: Add_393
+  Operator Type: Add
+  Inputs: 1022, 1035
+  Outputs: 1036
+  Attributes:
+
+Node: ReduceMean_394
+  Operator Type: ReduceMean
+  Inputs: 1036
+  Outputs: 1037
+  Attributes:
+    - axes: [-1]
+
+Node: Sub_395
+  Operator Type: Sub
+  Inputs: 1036, 1037
+  Outputs: 1038
+  Attributes:
+
+Node: Constant_396
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 1039
+  Attributes:
+    - value: {"dims": [], "data_type": 1}
+
+Node: Pow_397
+  Operator Type: Pow
+  Inputs: 1038, 1039
+  Outputs: 1040
+  Attributes:
+
+Node: ReduceMean_398
+  Operator Type: ReduceMean
+  Inputs: 1040
+  Outputs: 1041
+  Attributes:
+    - axes: [-1]
+
+Node: Constant_399
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 1042
+  Attributes:
+    - value: {"dims": [], "data_type": 1}
+
+Node: Add_400
+  Operator Type: Add
+  Inputs: 1041, 1042
+  Outputs: 1043
+  Attributes:
+
+Node: Sqrt_401
+  Operator Type: Sqrt
+  Inputs: 1043
+  Outputs: 1044
+  Attributes:
+
+Node: Div_402
+  Operator Type: Div
+  Inputs: 1038, 1044
+  Outputs: 1045
+  Attributes:
+
+Node: Mul_403
+  Operator Type: Mul
+  Inputs: 1045, parent.heads.object.decoder.0.norm3.weight
+  Outputs: 1046
+  Attributes:
+
+Node: Add_404
+  Operator Type: Add
+  Inputs: 1046, parent.heads.object.decoder.0.norm3.bias
+  Outputs: 1047
+  Attributes:
+
+Node: Transpose_405
+  Operator Type: Transpose
+  Inputs: 1047
+  Outputs: 1048
+  Attributes:
+    - perm: [1, 2, 0]
+
+Node: Cast_406
+  Operator Type: Cast
+  Inputs: 1048
+  Outputs: 1050
+  Attributes:
+    - to: 10
+
+Node: Conv_407
+  Operator Type: Conv
+  Inputs: 1050, 1217
+  Outputs: 1051
+  Attributes:
+    - dilations: [1]
+    - group: 1
+    - kernel_shape: [1]
+    - pads: [0, 0]
+    - strides: [1]
+
+Node: BatchNormalization_408
+  Operator Type: BatchNormalization
+  Inputs: 1051, parent.heads.object.prediction_heads.0.center.0.bn.weight, parent.heads.object.prediction_heads.0.center.0.bn.bias, parent.heads.object.prediction_heads.0.center.0.bn.running_mean, parent.heads.object.prediction_heads.0.center.0.bn.running_var
+  Outputs: 1052
+  Attributes:
+    - epsilon: 9.999999747378752e-06
+    - momentum: 0.8999999761581421
+    - training_mode: 0
+
+Node: Relu_409
+  Operator Type: Relu
+  Inputs: 1052
+  Outputs: 1053
+  Attributes:
+
+Node: Conv_410
+  Operator Type: Conv
+  Inputs: 1053, 1219, 1218
+  Outputs: 1056
+  Attributes:
+    - dilations: [1]
+    - group: 1
+    - kernel_shape: [1]
+    - pads: [0, 0]
+    - strides: [1]
+
+Node: Cast_411
+  Operator Type: Cast
+  Inputs: 1048
+  Outputs: 1058
+  Attributes:
+    - to: 10
+
+Node: Conv_412
+  Operator Type: Conv
+  Inputs: 1058, 1220
+  Outputs: 1059
+  Attributes:
+    - dilations: [1]
+    - group: 1
+    - kernel_shape: [1]
+    - pads: [0, 0]
+    - strides: [1]
+
+Node: BatchNormalization_413
+  Operator Type: BatchNormalization
+  Inputs: 1059, parent.heads.object.prediction_heads.0.height.0.bn.weight, parent.heads.object.prediction_heads.0.height.0.bn.bias, parent.heads.object.prediction_heads.0.height.0.bn.running_mean, parent.heads.object.prediction_heads.0.height.0.bn.running_var
+  Outputs: 1060
+  Attributes:
+    - epsilon: 9.999999747378752e-06
+    - momentum: 0.8999999761581421
+    - training_mode: 0
+
+Node: Relu_414
+  Operator Type: Relu
+  Inputs: 1060
+  Outputs: 1061
+  Attributes:
+
+Node: Conv_415
+  Operator Type: Conv
+  Inputs: 1061, 1222, 1221
+  Outputs: 1064
+  Attributes:
+    - dilations: [1]
+    - group: 1
+    - kernel_shape: [1]
+    - pads: [0, 0]
+    - strides: [1]
+
+Node: Cast_416
+  Operator Type: Cast
+  Inputs: 1048
+  Outputs: 1066
+  Attributes:
+    - to: 10
+
+Node: Conv_417
+  Operator Type: Conv
+  Inputs: 1066, 1223
+  Outputs: 1067
+  Attributes:
+    - dilations: [1]
+    - group: 1
+    - kernel_shape: [1]
+    - pads: [0, 0]
+    - strides: [1]
+
+Node: BatchNormalization_418
+  Operator Type: BatchNormalization
+  Inputs: 1067, parent.heads.object.prediction_heads.0.dim.0.bn.weight, parent.heads.object.prediction_heads.0.dim.0.bn.bias, parent.heads.object.prediction_heads.0.dim.0.bn.running_mean, parent.heads.object.prediction_heads.0.dim.0.bn.running_var
+  Outputs: 1068
+  Attributes:
+    - epsilon: 9.999999747378752e-06
+    - momentum: 0.8999999761581421
+    - training_mode: 0
+
+Node: Relu_419
+  Operator Type: Relu
+  Inputs: 1068
+  Outputs: 1069
+  Attributes:
+
+Node: Conv_420
+  Operator Type: Conv
+  Inputs: 1069, 1225, 1224
+  Outputs: 1072
+  Attributes:
+    - dilations: [1]
+    - group: 1
+    - kernel_shape: [1]
+    - pads: [0, 0]
+    - strides: [1]
+
+Node: Cast_421
+  Operator Type: Cast
+  Inputs: 1048
+  Outputs: 1074
+  Attributes:
+    - to: 10
+
+Node: Conv_422
+  Operator Type: Conv
+  Inputs: 1074, 1226
+  Outputs: 1075
+  Attributes:
+    - dilations: [1]
+    - group: 1
+    - kernel_shape: [1]
+    - pads: [0, 0]
+    - strides: [1]
+
+Node: BatchNormalization_423
+  Operator Type: BatchNormalization
+  Inputs: 1075, parent.heads.object.prediction_heads.0.rot.0.bn.weight, parent.heads.object.prediction_heads.0.rot.0.bn.bias, parent.heads.object.prediction_heads.0.rot.0.bn.running_mean, parent.heads.object.prediction_heads.0.rot.0.bn.running_var
+  Outputs: 1076
+  Attributes:
+    - epsilon: 9.999999747378752e-06
+    - momentum: 0.8999999761581421
+    - training_mode: 0
+
+Node: Relu_424
+  Operator Type: Relu
+  Inputs: 1076
+  Outputs: 1077
+  Attributes:
+
+Node: Conv_425
+  Operator Type: Conv
+  Inputs: 1077, 1228, 1227
+  Outputs: 1080
+  Attributes:
+    - dilations: [1]
+    - group: 1
+    - kernel_shape: [1]
+    - pads: [0, 0]
+    - strides: [1]
+
+Node: Cast_426
+  Operator Type: Cast
+  Inputs: 1048
+  Outputs: 1082
+  Attributes:
+    - to: 10
+
+Node: Conv_427
+  Operator Type: Conv
+  Inputs: 1082, 1229
+  Outputs: 1083
+  Attributes:
+    - dilations: [1]
+    - group: 1
+    - kernel_shape: [1]
+    - pads: [0, 0]
+    - strides: [1]
+
+Node: BatchNormalization_428
+  Operator Type: BatchNormalization
+  Inputs: 1083, parent.heads.object.prediction_heads.0.vel.0.bn.weight, parent.heads.object.prediction_heads.0.vel.0.bn.bias, parent.heads.object.prediction_heads.0.vel.0.bn.running_mean, parent.heads.object.prediction_heads.0.vel.0.bn.running_var
+  Outputs: 1084
+  Attributes:
+    - epsilon: 9.999999747378752e-06
+    - momentum: 0.8999999761581421
+    - training_mode: 0
+
+Node: Relu_429
+  Operator Type: Relu
+  Inputs: 1084
+  Outputs: 1085
+  Attributes:
+
+Node: Conv_430
+  Operator Type: Conv
+  Inputs: 1085, 1231, 1230
+  Outputs: 1088
+  Attributes:
+    - dilations: [1]
+    - group: 1
+    - kernel_shape: [1]
+    - pads: [0, 0]
+    - strides: [1]
+
+Node: Cast_431
+  Operator Type: Cast
+  Inputs: 1048
+  Outputs: 1090
+  Attributes:
+    - to: 10
+
+Node: Conv_432
+  Operator Type: Conv
+  Inputs: 1090, 1232
+  Outputs: 1091
+  Attributes:
+    - dilations: [1]
+    - group: 1
+    - kernel_shape: [1]
+    - pads: [0, 0]
+    - strides: [1]
+
+Node: BatchNormalization_433
+  Operator Type: BatchNormalization
+  Inputs: 1091, parent.heads.object.prediction_heads.0.heatmap.0.bn.weight, parent.heads.object.prediction_heads.0.heatmap.0.bn.bias, parent.heads.object.prediction_heads.0.heatmap.0.bn.running_mean, parent.heads.object.prediction_heads.0.heatmap.0.bn.running_var
+  Outputs: 1092
+  Attributes:
+    - epsilon: 9.999999747378752e-06
+    - momentum: 0.8999999761581421
+    - training_mode: 0
+
+Node: Relu_434
+  Operator Type: Relu
+  Inputs: 1092
+  Outputs: 1093
+  Attributes:
+
+Node: Conv_435
+  Operator Type: Conv
+  Inputs: 1093, 1234, 1233
+  Outputs: 1096
+  Attributes:
+    - dilations: [1]
+    - group: 1
+    - kernel_shape: [1]
+    - pads: [0, 0]
+    - strides: [1]
+
+Node: Transpose_436
+  Operator Type: Transpose
+  Inputs: 745
+  Outputs: 1097
+  Attributes:
+    - perm: [0, 2, 1]
+
+Node: Add_437
+  Operator Type: Add
+  Inputs: 1056, 1097
+  Outputs: 1098
+  Attributes:
+
+Node: Constant_438
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 1099
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Unsqueeze_439
+  Operator Type: Unsqueeze
+  Inputs: 690, 1099
+  Outputs: 1100
+  Attributes:
+
+Node: Constant_440
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 1101
+  Attributes:
+    - value: {"dims": [3], "data_type": 7}
+
+Node: ConstantOfShape_441
+  Operator Type: ConstantOfShape
+  Inputs: 1235
+  Outputs: 1103
+  Attributes:
+    - value: {"dims": [1], "data_type": 7}
+
+Node: Constant_442
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 1104
+  Attributes:
+    - value: {"dims": [], "data_type": 7}
+
+Node: Mul_443
+  Operator Type: Mul
+  Inputs: 1103, 1104
+  Outputs: 1105
+  Attributes:
+
+Node: Constant_444
+  Operator Type: Constant
+  Inputs: 
+  Outputs: 1106
+  Attributes:
+    - value: {"dims": [3], "data_type": 7}
+
+Node: Equal_445
+  Operator Type: Equal
+  Inputs: 1106, 1105
+  Outputs: 1107
+  Attributes:
+
+Node: Where_446
+  Operator Type: Where
+  Inputs: 1107, 1103, 1101
+  Outputs: 1108
+  Attributes:
+
+Node: Expand_447
+  Operator Type: Expand
+  Inputs: 1100, 1108
+  Outputs: 1109
+  Attributes:
+
+Node: GatherElements_448
+  Operator Type: GatherElements
+  Inputs: 669, 1109
+  Outputs: 1110
+  Attributes:
+    - axis: -1
+
+Node: Concat_449
+  Operator Type: Concat
+  Inputs: 1098
+  Outputs: reg
+  Attributes:
+    - axis: -1
+
+Node: Concat_450
+  Operator Type: Concat
+  Inputs: 1064
+  Outputs: height
+  Attributes:
+    - axis: -1
+
+Node: Concat_451
+  Operator Type: Concat
+  Inputs: 1072
+  Outputs: dim
+  Attributes:
+    - axis: -1
+
+Node: Concat_452
+  Operator Type: Concat
+  Inputs: 1080
+  Outputs: rot
+  Attributes:
+    - axis: -1
+
+Node: Concat_453
+  Operator Type: Concat
+  Inputs: 1088
+  Outputs: vel
+  Attributes:
+    - axis: -1
+
+Node: Concat_454
+  Operator Type: Concat
+  Inputs: 1096
+  Outputs: 1116
+  Attributes:
+    - axis: -1
+
+Node: Sigmoid_455
+  Operator Type: Sigmoid
+  Inputs: 1116
+  Outputs: 1117
+  Attributes:
+
+Node: Mul_456
+  Operator Type: Mul
+  Inputs: 1117, 1110
+  Outputs: 1118
+  Attributes:
+
+Node: Mul_457
+  Operator Type: Mul
+  Inputs: 1118, 718
+  Outputs: score
+  Attributes:
+
+### Initializer (Weights and Constants) ###
+Name: parent.heads.object.decoder.0.multihead_attn.in_proj_weight, Shape: [384, 128], Data Type: 1
+Name: parent.heads.object.decoder.0.multihead_attn.in_proj_bias, Shape: [384], Data Type: 1
+Name: parent.heads.object.decoder.0.norm1.weight, Shape: [128], Data Type: 1
+Name: parent.heads.object.decoder.0.norm1.bias, Shape: [128], Data Type: 1
+Name: parent.heads.object.decoder.0.norm2.weight, Shape: [128], Data Type: 1
+Name: parent.heads.object.decoder.0.norm2.bias, Shape: [128], Data Type: 1
+Name: parent.heads.object.decoder.0.norm3.weight, Shape: [128], Data Type: 1
+Name: parent.heads.object.decoder.0.norm3.bias, Shape: [128], Data Type: 1
+Name: parent.heads.object.decoder.0.self_posembed.position_embedding_head.1.weight, Shape: [128], Data Type: 1
+Name: parent.heads.object.decoder.0.self_posembed.position_embedding_head.1.bias, Shape: [128], Data Type: 1
+Name: parent.heads.object.decoder.0.self_posembed.position_embedding_head.1.running_mean, Shape: [128], Data Type: 1
+Name: parent.heads.object.decoder.0.self_posembed.position_embedding_head.1.running_var, Shape: [128], Data Type: 1
+Name: parent.heads.object.decoder.0.cross_posembed.position_embedding_head.1.weight, Shape: [128], Data Type: 1
+Name: parent.heads.object.decoder.0.cross_posembed.position_embedding_head.1.bias, Shape: [128], Data Type: 1
+Name: parent.heads.object.decoder.0.cross_posembed.position_embedding_head.1.running_mean, Shape: [128], Data Type: 1
+Name: parent.heads.object.decoder.0.cross_posembed.position_embedding_head.1.running_var, Shape: [128], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.center.0.bn.weight, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.center.0.bn.bias, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.center.0.bn.running_mean, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.center.0.bn.running_var, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.height.0.bn.weight, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.height.0.bn.bias, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.height.0.bn.running_mean, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.height.0.bn.running_var, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.dim.0.bn.weight, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.dim.0.bn.bias, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.dim.0.bn.running_mean, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.dim.0.bn.running_var, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.rot.0.bn.weight, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.rot.0.bn.bias, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.rot.0.bn.running_mean, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.rot.0.bn.running_var, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.vel.0.bn.weight, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.vel.0.bn.bias, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.vel.0.bn.running_mean, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.vel.0.bn.running_var, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.heatmap.0.bn.weight, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.heatmap.0.bn.bias, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.heatmap.0.bn.running_mean, Shape: [64], Data Type: 1
+Name: parent.heads.object.prediction_heads.0.heatmap.0.bn.running_var, Shape: [64], Data Type: 1
+Name: 1120, Shape: [10, 10], Data Type: 10
+Name: 1121, Shape: [128], Data Type: 10
+Name: 1122, Shape: [128, 512, 3, 3], Data Type: 10
+Name: 1126, Shape: [3], Data Type: 7
+Name: 1134, Shape: [3], Data Type: 7
+Name: 1135, Shape: [1], Data Type: 7
+Name: 1136, Shape: [128], Data Type: 10
+Name: 1137, Shape: [128, 128, 3, 3], Data Type: 10
+Name: 1138, Shape: [10], Data Type: 10
+Name: 1139, Shape: [10, 128, 3, 3], Data Type: 10
+Name: 1140, Shape: [4], Data Type: 7
+Name: 1144, Shape: [4], Data Type: 7
+Name: 1145, Shape: [1], Data Type: 7
+Name: 1146, Shape: [1], Data Type: 7
+Name: 1147, Shape: [1], Data Type: 7
+Name: 1148, Shape: [1], Data Type: 7
+Name: 1151, Shape: [4], Data Type: 7
+Name: 1153, Shape: [2], Data Type: 7
+Name: 1154, Shape: [1], Data Type: 7
+Name: 1155, Shape: [1], Data Type: 7
+Name: 1157, Shape: [2], Data Type: 7
+Name: 1158, Shape: [1], Data Type: 7
+Name: 1159, Shape: [1], Data Type: 7
+Name: 1163, Shape: [3], Data Type: 7
+Name: 1166, Shape: [2], Data Type: 7
+Name: 1167, Shape: [1], Data Type: 7
+Name: 1172, Shape: [3], Data Type: 7
+Name: 1173, Shape: [1], Data Type: 7
+Name: 1174, Shape: [128], Data Type: 10
+Name: 1175, Shape: [128, 10, 1], Data Type: 10
+Name: 1180, Shape: [3], Data Type: 7
+Name: 1181, Shape: [1], Data Type: 7
+Name: 1182, Shape: [128], Data Type: 10
+Name: 1183, Shape: [128, 2, 1], Data Type: 10
+Name: 1184, Shape: [128], Data Type: 10
+Name: 1185, Shape: [128, 128, 1], Data Type: 10
+Name: 1186, Shape: [128], Data Type: 10
+Name: 1187, Shape: [128, 2, 1], Data Type: 10
+Name: 1188, Shape: [128], Data Type: 10
+Name: 1189, Shape: [128, 128, 1], Data Type: 10
+Name: 1190, Shape: [384], Data Type: 10
+Name: 1192, Shape: [128, 384], Data Type: 10
+Name: 1193, Shape: [1], Data Type: 7
+Name: 1194, Shape: [1], Data Type: 7
+Name: 1195, Shape: [128], Data Type: 10
+Name: 1197, Shape: [128, 128], Data Type: 10
+Name: 1198, Shape: [1], Data Type: 7
+Name: 1199, Shape: [1], Data Type: 7
+Name: 1200, Shape: [1], Data Type: 7
+Name: 1201, Shape: [1], Data Type: 7
+Name: 1202, Shape: [1], Data Type: 7
+Name: 1203, Shape: [1], Data Type: 7
+Name: 1204, Shape: [1], Data Type: 7
+Name: 1205, Shape: [1], Data Type: 7
+Name: 1206, Shape: [1], Data Type: 7
+Name: 1207, Shape: [1], Data Type: 7
+Name: 1208, Shape: [128], Data Type: 10
+Name: 1210, Shape: [128, 128], Data Type: 10
+Name: 1211, Shape: [256], Data Type: 10
+Name: 1213, Shape: [128, 256], Data Type: 10
+Name: 1214, Shape: [128], Data Type: 10
+Name: 1216, Shape: [256, 128], Data Type: 10
+Name: 1217, Shape: [64, 128, 1], Data Type: 10
+Name: 1218, Shape: [2], Data Type: 10
+Name: 1219, Shape: [2, 64, 1], Data Type: 10
+Name: 1220, Shape: [64, 128, 1], Data Type: 10
+Name: 1221, Shape: [1], Data Type: 10
+Name: 1222, Shape: [1, 64, 1], Data Type: 10
+Name: 1223, Shape: [64, 128, 1], Data Type: 10
+Name: 1224, Shape: [3], Data Type: 10
+Name: 1225, Shape: [3, 64, 1], Data Type: 10
+Name: 1226, Shape: [64, 128, 1], Data Type: 10
+Name: 1227, Shape: [2], Data Type: 10
+Name: 1228, Shape: [2, 64, 1], Data Type: 10
+Name: 1229, Shape: [64, 128, 1], Data Type: 10
+Name: 1230, Shape: [2], Data Type: 10
+Name: 1231, Shape: [2, 64, 1], Data Type: 10
+Name: 1232, Shape: [64, 128, 1], Data Type: 10
+Name: 1233, Shape: [10], Data Type: 10
+Name: 1234, Shape: [10, 64, 1], Data Type: 10
+Name: 1235, Shape: [1], Data Type: 7
+
+=== End of ONNX Model Info ===

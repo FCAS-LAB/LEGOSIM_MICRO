@@ -68,7 +68,7 @@ cuobj_dir:
 	mkdir -p cuobj
 
 run:
-	../../interchiplet/bin/interchiplet ./conv.yml 
+	../../interchiplet/bin/interchiplet ./conv.yml -w 6
 # Clean generated files.
 clean:
 	rm -rf bench.txt delayInfo.txt buffer* message_record.txt
