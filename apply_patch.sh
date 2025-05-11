@@ -9,12 +9,16 @@ fi
 
 # Pathc for Sniper
 cd ${SIMULATOR_ROOT}/snipersim
-git apply ../interchiplet/patch/snipersim.diff
+git apply ../interchiplet/patch/snipersim_test.diff
 
 # Patch for GPGPUSim
 cd ${SIMULATOR_ROOT}/gpgpu-sim
-git apply ../interchiplet/patch/gpgpu-sim.diff
+git apply ../interchiplet/patch/gpgpu-sim_test.diff
 
 # Patch for GEM5
 cd ${SIMULATOR_ROOT}/gem5
 git apply ../interchiplet/patch/gem5.diff
+
+# Patch for Popnet
+cd ${SIMULATOR_ROOT}/popnet
+git apply ../interchiplet/patch/popnet.diff
