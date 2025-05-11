@@ -1,0 +1,5 @@
+node,device,clock rate
+1,CPU,3
+0,GPU,1
+2,GPU,1
+3,GPU,1

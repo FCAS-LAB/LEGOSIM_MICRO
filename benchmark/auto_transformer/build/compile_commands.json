@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/qc/Chiplet_Heterogeneous_newVersion_gem5/Chiplet_Heterogeneous_newVersion/benchmark/auto_transformer/build",
+  "command": "/home/qc/gcc-9.4.0/bin/g++ -DUSE_C10D_GLOO -DUSE_DISTRIBUTED -DUSE_RPC -DUSE_TENSORPIPE -I/interchiplet/includes -I/home/qc/Chiplet_Heterogeneous_newVersion_gem5/Chiplet_Heterogeneous_newVersion/benchmark/auto_transformer/third_party/CLI11/include -isystem /home/qc/libtorch-cpu/libtorch/include -isystem /home/qc/libtorch-cpu/libtorch/include/torch/csrc/api/include  -Wall -g -g -std=gnu++1z -D_GLIBCXX_USE_CXX11_ABI=1 -o CMakeFiles/Transformer.dir/transformer.cpp.o -c /home/qc/Chiplet_Heterogeneous_newVersion_gem5/Chiplet_Heterogeneous_newVersion/benchmark/auto_transformer/transformer.cpp",
+  "file": "/home/qc/Chiplet_Heterogeneous_newVersion_gem5/Chiplet_Heterogeneous_newVersion/benchmark/auto_transformer/transformer.cpp",
+  "output": "CMakeFiles/Transformer.dir/transformer.cpp.o"
+}
+]

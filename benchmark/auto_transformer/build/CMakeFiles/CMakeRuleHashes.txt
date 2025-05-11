@@ -1,0 +1,4 @@
+# Hashes of file build rules.
+7cd4bd40623441c384a16a6833d3afbd bin/matmul_cu
+83d547bbe3168cd18b33ef194eca2867 cuobj
+0724460317c795864ef8ab273df1edff cuobj/matmul.o

@@ -1,0 +1,12 @@
+//参考：Dot脚本语言语法整理 https://blog.csdn.net/jy692405180/article/details/52077979
+
+graph mesh_2_2
+{
+    edge[weight=800]
+    node[pipeline_stage_delay=1]
+    0--1
+    2--3
+
+    0--2
+    1--3
+}
