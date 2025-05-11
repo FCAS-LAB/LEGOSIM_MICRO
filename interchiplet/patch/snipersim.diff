@@ -189,6 +189,32 @@ index c336283..0e8ef1a 100644
        case static_cast<unsigned long>(-1):
        default:
           break;
+diff --git a/frontend/frontend_defs.h b/frontend/frontend_defs.h
+index 0a9d4b7..9d9b42c 100644
+--- a/frontend/frontend_defs.h
++++ b/frontend/frontend_defs.h
+@@ -6,7 +6,7 @@
+ #include "bbv_count.h"
+ 
+ #define LINE_SIZE_BYTES 64
+-#define MAX_NUM_THREADS 128
++#define MAX_NUM_THREADS 1024
+ #define MAX_NUM_SYSCALLS 4096
+ 
+ // Type declarations
+diff --git a/sift/recorder/globals.h b/sift/recorder/globals.h
+index d2fb8c2..1f48d0b 100644
+--- a/sift/recorder/globals.h
++++ b/sift/recorder/globals.h
+@@ -19,7 +19,7 @@
+ 
+ #define LINE_SIZE_BYTES 64
+ #define MAX_NUM_SYSCALLS 4096
+-#define MAX_NUM_THREADS_DEFAULT 128
++#define MAX_NUM_THREADS_DEFAULT 1024
+ 
+ extern KNOB<std::string> KnobOutputFile;
+ extern KNOB<UINT64> KnobBlocksize;
 diff --git a/sift/recorder/syscall_modeling.cc b/sift/recorder/syscall_modeling.cc
 index 4944127..e69e73c 100644
 --- a/sift/recorder/syscall_modeling.cc

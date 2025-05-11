@@ -49,3 +49,16 @@ for item in "${file_list[@]}"; do
     echo $item
     cp --parent gem5/$item .changed_files/
 done
+
+# Patch for popnet
+cd ${SIMULATOR_ROOT}/popnet_chiplet
+git diff > ../interchiplet/patch/popnet.diff
+gpgpu_sim_changed_file_list="$(git diff --name-only)"
+
+cd ${SIMULATOR_ROOT}
+file_list=($gpgpu_sim_changed_file_list)
+echo ${#file_list[@]} "Files has changed."
+for item in "${file_list[@]}"; do
+    echo $item
+    cp --parent popnet_chiplet/$item .changed_files/
+done

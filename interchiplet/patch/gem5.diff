@@ -1,3 +1,17 @@
+diff --git a/src/SConscript b/src/SConscript
+index 52051b3256..9662ed149b 100644
+--- a/src/SConscript
++++ b/src/SConscript
+@@ -274,7 +274,8 @@ if env['PROTOC_GRPC']:
+     with Configure(env) as conf:
+         if (not env['HAVE_PKG_CONFIG'] or
+             not conf.CheckPkgConfig(['grpc++'], '--libs')):
+-            env.Append(LIBS=['grpc++'])
++                pass
++            # env.Append(LIBS=['grpc++'])
+ 
+ def protoc_grpc_emitter(target, source, env):
+     root, ext = os.path.splitext(source[0].get_abspath())
 diff --git a/src/arch/arm/linux/se_workload.cc b/src/arch/arm/linux/se_workload.cc
 index c919d85edf..80aacf5a66 100644
 --- a/src/arch/arm/linux/se_workload.cc

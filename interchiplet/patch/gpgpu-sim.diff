@@ -1,3 +1,62 @@
+diff --git a/configs/tested-cfgs/SM7_QV100/gpgpusim.config b/configs/tested-cfgs/SM7_QV100/gpgpusim.config
+index c4818d1..7a3f2cf 100644
+--- a/configs/tested-cfgs/SM7_QV100/gpgpusim.config
++++ b/configs/tested-cfgs/SM7_QV100/gpgpusim.config
+@@ -122,7 +122,7 @@
+ -gpgpu_gmem_skip_L1D 0
+ -gpgpu_n_cluster_ejection_buffer_size 32
+ -gpgpu_l1_latency 20
+--gpgpu_smem_latency 20
++-gpgpu_smem_latency 50
+ -gpgpu_flush_l1_cache 1
+ 
+ # 32 sets, each 128 bytes 24-way for each memory sub partition (96 KB per memory sub partition). This gives us 6MB L2 cache
+@@ -155,7 +155,7 @@
+ 
+ # memory partition latency config 
+ -gpgpu_l2_rop_latency 160
+--dram_latency 100
++-dram_latency 1000
+ 
+ # dram model config
+ -gpgpu_dram_scheduler 1
+diff --git a/configs/tested-cfgs/SM7_TITANV/gpgpusim.config b/configs/tested-cfgs/SM7_TITANV/gpgpusim.config
+index 3fa51ee..554a094 100644
+--- a/configs/tested-cfgs/SM7_TITANV/gpgpusim.config
++++ b/configs/tested-cfgs/SM7_TITANV/gpgpusim.config
+@@ -20,8 +20,8 @@
+ -gpgpu_runtime_pending_launch_count_limit 2048
+ 
+ # Compute Capability
+--gpgpu_compute_capability_major 7
+--gpgpu_compute_capability_minor 0
++-gpgpu_compute_capability_major 8
++-gpgpu_compute_capability_minor 9
+ 
+ # SASS execution (only supported with CUDA >= 4.0)
+ -gpgpu_ptx_convert_to_ptxplus 0
+@@ -35,16 +35,15 @@
+ 
+ # volta clock domains
+ #-gpgpu_clock_domains <Core Clock>:<Interconnect Clock>:<L2 Clock>:<DRAM Clock>
+-# Volta NVIDIA TITANV  clock domains are adopted from 
+-# https://en.wikipedia.org/wiki/Volta_(microarchitecture)
+--gpgpu_clock_domains 1200.0:1200.0:1200.0:850.0
++# 2,205 MHz
++-gpgpu_clock_domains 2205.0:2205.0:2205.0:14000.0 
+ # boost mode
+-# -gpgpu_clock_domains 1455.0:1455.0:1455.0:850.0
++# -gpgpu_clock_domains 1680.0:1680.0:1680.0:3500.0
+ 
+ # shader core pipeline config
+--gpgpu_shader_registers 65536
++-gpgpu_shader_registers 256000
+ -gpgpu_registers_per_block 65536
+--gpgpu_occupancy_sm_number 70
++-gpgpu_occupancy_sm_number 76
+ 
+ # This implies a maximum of 64 warps/SM
+ -gpgpu_shader_core_pipeline 2048:32 
 diff --git a/libcuda/Makefile b/libcuda/Makefile
 index c8ff2e3..81e2f9a 100644
 --- a/libcuda/Makefile
