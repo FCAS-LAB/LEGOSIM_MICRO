@@ -19,3 +19,6 @@
 [submodule "gem5"]
 	path = gem5
 	url = https://github.com/gem5/gem5.git
+[submodule "MNSIMChiplet/MNSIM"]
+	path = MNSIMChiplet/MNSIM
+	url = https://github.com/thu-nics/MNSIM-2.0.git
