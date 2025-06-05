@@ -8,7 +8,7 @@ For the detail documents in English, please access [Document for LegoSim](https:
 1. 从github上下载仓库。
 
     ```
-    git clone --single-branch --branch master_v2 https://github.com/FCAS-SCUT/Chiplet_Heterogeneous_newVersion.git
+    git clone https://github.com/superQCman/Chiplet_Heterogeneous_newVersion.git
     ```
 
     进入仿真器根目录，以下的示例命名都假设从仿真器根目录开始执行。
@@ -106,14 +106,14 @@ For the detail documents in English, please access [Document for LegoSim](https:
 2. 编译可执行文件
 
     ```
-    cd benchmark/matmul
+    cd benchmark/matmul_test
     make
     ```
 
 3. 执行可执行文件。示例包含4个进程，分别是1个CPU进行和3个GPU进程。必须在benchmark/matmul进程执行。
 
     ```
-    ../../interchiplet/bin/interchiplet ./matmul.yml
+    make run
     ```
 
     执行后，可以在benchmark/matmul文件下找到一组proc_r{R}_p{P}_t{T}的文件夹，对应于第R轮执行的第P阶段的第T个线程。
