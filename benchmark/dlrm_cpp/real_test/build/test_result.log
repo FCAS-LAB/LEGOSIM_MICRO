@@ -1,0 +1,40 @@
+----------------------start--------------------------------
+可用GPU数量: 2
+Using CUDA
+--------------bot_mlp_forward_cuda start--------------------
+num_layers: 2
+num_layers: 2
+MLP GPU计算时间: 0.20 ms, 数据传输时间: 0.91 ms
+MLP GPU计算时间: 0.07 ms, 数据传输时间: 1.11 ms
+--------------bot_mlp_forward_cuda end--------------------
+bot_mlp_forward_cuda time: 2ms
+--------------apply_emb start--------------------
+--------------embeddingbag_forward_cuda start--------------------
+Embedding GPU计算时间: 0.03 ms
+Embedding数据传输时间: 0.06 ms
+--------------embeddingbag_forward_cuda end--------------------
+--------------embeddingbag_forward_cuda start--------------------
+Embedding GPU计算时间: 0.09 ms
+Embedding数据传输时间: 0.11 ms
+--------------embeddingbag_forward_cuda end--------------------
+--------------embeddingbag_forward_cuda start--------------------
+Embedding GPU计算时间: 0.04 ms
+Embedding数据传输时间: 0.07 ms
+--------------embeddingbag_forward_cuda end--------------------
+--------------apply_emb end--------------------
+apply_emb time: 14737ms
+--------------interact_features start--------------------
+x[0] device: cpu
+ly_per_device[0][0] device: cpu
+x[1] device: cpu
+ly_per_device[1][0] device: cpu
+--------------interact_features end--------------------
+interact_features time: 340ms
+--------------top_mlp_forward_cuda start--------------------
+num_layers: 3
+MLP GPU计算时间: 0.07 ms, 数据传输时间: 0.71 ms
+num_layers: 3
+MLP GPU计算时间: 0.05 ms, 数据传输时间: 0.66 ms
+--------------top_mlp_forward_cuda end--------------------
+top_mlp_forward_cuda time: 16ms
+result shape: [10, 1]

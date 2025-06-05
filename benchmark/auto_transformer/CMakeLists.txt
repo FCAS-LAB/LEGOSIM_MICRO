@@ -19,9 +19,11 @@ set(CMAKE_CXX_COMPILER "/home/qc/gcc-9.4.0/bin/g++")
 
 # 添加包含目录
 include_directories(${SIMULATOR_ROOT}/interchiplet/includes)
+include_directories(${SIMULATOR_ROOT}/snipersim/include)
 
 # 设置C++库路径
 set(INTERCHIPLET_C_LIB "${SIMULATOR_ROOT}/interchiplet/lib/libinterchiplet_c.a")
+set(SNIPERSIM_LIB "${SIMULATOR_ROOT}/snipersim/lib/libcarbon_sim.a")
 
 # 设置输出目录 - 匹配makefile中的结构
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -73,8 +75,7 @@ add_custom_target(run
 )
 
 # 添加clean目标
-add_custom_target(clean_all
-    COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_BINARY_DIR}/bin
+add_custom_target(clean_target
     COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_BINARY_DIR}/obj
     COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_BINARY_DIR}/cuobj
     COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_BINARY_DIR}/proc_*

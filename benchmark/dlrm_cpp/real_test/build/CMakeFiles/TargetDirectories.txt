@@ -1,0 +1,3 @@
+/home/qc/Chiplet_Heterogeneous_newVersion_gem5/Chiplet_Heterogeneous_newVersion/benchmark/dlrm_cpp/real_test/build/CMakeFiles/dlrm_real.dir
+/home/qc/Chiplet_Heterogeneous_newVersion_gem5/Chiplet_Heterogeneous_newVersion/benchmark/dlrm_cpp/real_test/build/CMakeFiles/edit_cache.dir
+/home/qc/Chiplet_Heterogeneous_newVersion_gem5/Chiplet_Heterogeneous_newVersion/benchmark/dlrm_cpp/real_test/build/CMakeFiles/rebuild_cache.dir

@@ -11,6 +11,7 @@
 #include <thread>
 #include "apis_c.h"
 #include "cmdline_opt.h"
+#include "sim_api.h"
 
 
 int max_seq_len = 1000;
@@ -696,7 +697,9 @@ int main(int argc, const char* argv[]) {
     auto src_mask = torch::ones({batch_size, 1, seq_len});
     auto trg_mask = torch::tril(torch::ones({batch_size, seq_len, seq_len}));
 
+    SimRoiStart();
     auto output = model->forward(src, trg, src_mask, trg_mask);
+    
     
     bool is_end = true;
     for(int i = 0; i < device_num; i++){
@@ -706,6 +709,7 @@ int main(int argc, const char* argv[]) {
     }
 
     std::cout << "Output shape: " << output.sizes() << std::endl;
+    SimRoiEnd();
 
     return 0;
 }

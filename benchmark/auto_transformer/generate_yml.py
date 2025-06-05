@@ -82,7 +82,7 @@ if __name__ == "__main__":
     
     parser.add_argument("-w", "--width", type=int, default=2, help="topology width")
     parser.add_argument("-H", "--height", type=int, default=2, help="topology height")
-    parser.add_argument("-g", "--GV_path", type=str, default=f"/home/qc/Chiplet_Heterogeneous_newVersion_gem5/Chiplet_Heterogeneous_newVersion/benchmark/auto_transformer/mesh_2_2.gv", help="Path to the GV file")
+    parser.add_argument("-g", "--GV_path", type=str, default=f"$SIMULATOR_ROOT/benchmark/auto_transformer/mesh_2_2.gv", help="Path to the GV file")
     parser.add_argument("-p", "--popnet_clock_rate", type=int, default=1, help="popnet clock rate")
     args = parser.parse_args()
     generate_yaml_file_from_csv(args.csv_path, args.yml_path, args.width, args.height, args.GV_path, args.popnet_clock_rate)
