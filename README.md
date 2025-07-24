@@ -10,7 +10,7 @@ For the artifact document, please access [Artifact for LegoSim](./artifact/READM
 1. Clone the repository from GitHub.
 
     ```
-    git clone https://github.com/superQCman/Chiplet_Heterogeneous_newVersion.git
+    git clone https://github.com/FCAS-LAB/LEGOSIM_MICRO.git
     ```
 
     Enter the simulator root directory. The following examples assume execution from the simulator root directory.
