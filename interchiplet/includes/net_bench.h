@@ -6,7 +6,7 @@
 #include "global_define.h"
 #include <iostream>
 
-#define PAC_PAYLOAD_BIT 512
+#define PAC_PAYLOAD_BIT 64
 #define PAC_PAYLOAD_BYTE (PAC_PAYLOAD_BIT / 8)
 
 /**
@@ -60,7 +60,7 @@ class NetworkBenchItem {
      * @param __dst_cmd Structure of destination command.
      */
     NetworkBenchItem(const InterChiplet::SyncCommand& __src_cmd,
-                     const InterChiplet::SyncCommand& __dst_cmd)
+                     const InterChiplet::SyncCommand& __dst_cmd, int flit_num)
         : m_src_cycle(__src_cmd.m_cycle),
           m_dst_cycle(__dst_cmd.m_cycle),
           m_dst(__src_cmd.m_dst),
@@ -69,15 +69,19 @@ class NetworkBenchItem {
           m_desc(__src_cmd.m_desc | __dst_cmd.m_desc) {
         // Calculate the number of flit.
         // One head flit is required any way.
-        m_pac_size = __src_cmd.m_nbytes / PAC_PAYLOAD_BYTE +
-                     ((__src_cmd.m_nbytes % PAC_PAYLOAD_BYTE) > 0 ? 1 : 0) + 1;
+        if(flit_num <= 0) {
+            flit_num = 1;
+        }
+        int package_size = PAC_PAYLOAD_BYTE * flit_num;
+        m_pac_size = __src_cmd.m_nbytes / package_size +
+                     ((__src_cmd.m_nbytes % package_size) > 0 ? 1 : 0) + 1;
     }
 
     /**
      * @brief Construct NetworkBenchItem from SyncCommand.
      * @param __src_cmd Structure of source command.
      */
-    NetworkBenchItem(const InterChiplet::SyncCommand& __src_cmd)
+    NetworkBenchItem(const InterChiplet::SyncCommand& __src_cmd, int flit_num)
         : m_src_cycle(__src_cmd.m_cycle),
           m_dst_cycle(__src_cmd.m_cycle),
           m_dst(__src_cmd.m_dst),
@@ -86,6 +90,10 @@ class NetworkBenchItem {
           m_desc(__src_cmd.m_desc) {
         // Calculate the number of flit.
         // One head flit is required any way.
+        if(flit_num <= 0) {
+            flit_num = 1;
+        }
+        int package_size = PAC_PAYLOAD_BYTE * flit_num;
         m_pac_size = __src_cmd.m_nbytes / PAC_PAYLOAD_BYTE +
                      ((__src_cmd.m_nbytes % PAC_PAYLOAD_BYTE) > 0 ? 1 : 0) + 1;
     }

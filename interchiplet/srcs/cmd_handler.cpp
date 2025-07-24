@@ -222,7 +222,7 @@ void handle_waitlaunch_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct* _
     }
 }
 
-void handle_read_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct* __sync_struct) {
+void handle_read_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct* __sync_struct, int flit_num) {
     // Check for paired write command.
     bool has_write_cmd = __sync_struct->m_comm_struct.hasMatchWrite(__cmd);
     InterChiplet::SyncCommand write_cmd = __sync_struct->m_comm_struct.popMatchWrite(__cmd);
@@ -233,7 +233,7 @@ void handle_read_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct* __sync_
         spdlog::debug("{} Register READ command to pair with WRITE command.", dumpCmd(__cmd));
     } else {
         // Insert event to benchmark list.
-        NetworkBenchItem bench_item(write_cmd, __cmd);
+        NetworkBenchItem bench_item(write_cmd, __cmd, flit_num);
         __sync_struct->m_bench_list.insert(bench_item);
 
         // If there is a paired write command, get the end cycle of transaction.
@@ -256,12 +256,12 @@ void handle_read_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct* __sync_
  * @param __cmd Command to handle.
  * @param __sync_struct Pointer to global synchronize structure.
  */
-void handle_barrier_write_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct* __sync_struct) {
+void handle_barrier_write_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct* __sync_struct, int flit_num) {
     int uid = DIM_X(__cmd.m_dst);
     int count = __cmd.m_desc & 0xFFFF;
 
     // Insert event to benchmark list.
-    NetworkBenchItem bench_item(__cmd);
+    NetworkBenchItem bench_item(__cmd, flit_num);
     __sync_struct->m_bench_list.insert(bench_item);
 
     // Register BARRIER command.
@@ -301,12 +301,12 @@ void handle_barrier_write_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct
  * @param __cmd Command to handle.
  * @param __sync_struct Pointer to global synchronize structure.
  */
-void handle_lock_write_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct* __sync_struct) {
+void handle_lock_write_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct* __sync_struct, int flit_num) {
     // Get mutex ID.
     int uid = DIM_X(__cmd.m_dst);
 
     // Insert event to benchmark list.
-    NetworkBenchItem bench_item(__cmd);
+    NetworkBenchItem bench_item(__cmd, flit_num);
     __sync_struct->m_bench_list.insert(bench_item);
 
     if (__sync_struct->m_lock_timing_struct.isLocked(uid)) {
@@ -360,12 +360,12 @@ void handle_lock_write_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct* _
  * @param __cmd Command to handle.
  * @param __sync_struct Pointer to global synchronize structure.
  */
-void handle_unlock_write_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct* __sync_struct) {
+void handle_unlock_write_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct* __sync_struct, int flit_num) {
     // Get mutex ID.
     int uid = DIM_X(__cmd.m_dst);
 
     // Insert event to benchmark list.
-    NetworkBenchItem bench_item(__cmd);
+    NetworkBenchItem bench_item(__cmd, flit_num);
     __sync_struct->m_bench_list.insert(bench_item);
 
     if (__sync_struct->m_lock_timing_struct.isLocked(uid)) {
@@ -431,16 +431,16 @@ void handle_unlock_write_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct*
     }
 }
 
-void handle_write_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct* __sync_struct) {
+void handle_write_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct* __sync_struct, int flit_num) {
     if (__cmd.m_desc & InterChiplet::SPD_BARRIER) {
         // Special handle WRITE cmmand after BARRIER. WRITE(BARRIER)
-        return handle_barrier_write_cmd(__cmd, __sync_struct);
+        return handle_barrier_write_cmd(__cmd, __sync_struct, flit_num);
     } else if (__cmd.m_desc & InterChiplet::SPD_LOCK) {
         // Special handle WRITE cmmand after LOCK. WRITE(LOCK)
-        return handle_lock_write_cmd(__cmd, __sync_struct);
+        return handle_lock_write_cmd(__cmd, __sync_struct, flit_num);
     } else if (__cmd.m_desc & InterChiplet::SPD_UNLOCK) {
         // Special handle WRITE cmmand after UNLOCK. WRITE(UNLOCK)
-        return handle_unlock_write_cmd(__cmd, __sync_struct);
+        return handle_unlock_write_cmd(__cmd, __sync_struct, flit_num);
     }
 
     // Check for paired read command.
@@ -453,7 +453,7 @@ void handle_write_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct* __sync
         spdlog::debug("{} Register WRITE command to pair with READ command.", dumpCmd(__cmd));
     } else {
         // Insert event to benchmark list.
-        NetworkBenchItem bench_item(__cmd, read_cmd);
+        NetworkBenchItem bench_item(__cmd, read_cmd, flit_num);
         __sync_struct->m_bench_list.insert(bench_item);
 
         // If there is a paired read command, get the end cycle of transaction.

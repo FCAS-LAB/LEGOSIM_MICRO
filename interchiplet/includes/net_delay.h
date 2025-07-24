@@ -6,8 +6,8 @@
 #include "global_define.h"
 #include "spdlog/spdlog.h"
 
-#define PAC_PAYLOAD_BIT 512
-#define PAC_PAYLOAD_BYTE (PAC_PAYLOAD_BIT / 8)
+// #define PAC_PAYLOAD_BIT 64
+// #define PAC_PAYLOAD_BYTE (PAC_PAYLOAD_BIT / 8)
 
 /**
  * @defgroup net_delay

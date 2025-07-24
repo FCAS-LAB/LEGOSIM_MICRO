@@ -609,14 +609,14 @@ void handle_waitlaunch_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct* _
  * @param __cmd Command to handle.
  * @param __sync_struct Pointer to global synchronize structure.
  */
-void handle_read_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct* __sync_struct);
+void handle_read_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct* __sync_struct, int flit_num);
 
 /**
  * @brief Handle WRITE command.
  * @param __cmd Command to handle.
  * @param __sync_struct Pointer to global synchronize structure.
  */
-void handle_write_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct* __sync_struct);
+void handle_write_cmd(const InterChiplet::SyncCommand& __cmd, SyncStruct* __sync_struct, int flit_num);
 /**
  * @}
  */

@@ -14,6 +14,7 @@
 #include "cmdline_options.h"
 #include "spdlog/spdlog.h"
 
+int flit_num = 2;  // Default flit size is 2*8 bytes
 /**
  * @brief Data structure of process configuration.
  */
@@ -143,10 +144,10 @@ void parse_command(char* __pipe_buf, ProcessStruct* __proc_struct, int __stdin_f
                     handle_waitlaunch_cmd(cmd, __proc_struct->m_sync_struct);
                     break;
                 case InterChiplet::SC_READ:
-                    handle_read_cmd(cmd, __proc_struct->m_sync_struct);
+                    handle_read_cmd(cmd, __proc_struct->m_sync_struct, flit_num);
                     break;
                 case InterChiplet::SC_WRITE:
-                    handle_write_cmd(cmd, __proc_struct->m_sync_struct);
+                    handle_write_cmd(cmd, __proc_struct->m_sync_struct, flit_num);
                     break;
                 default:
                     break;
@@ -421,6 +422,7 @@ int main(int argc, const char* argv[]) {
         return 0;
     };
     int width = options.m_width;
+    flit_num = options.m_flit_num;
     // Initializate logging
     if (options.m_debug) {
         spdlog::set_level(spdlog::level::debug);
