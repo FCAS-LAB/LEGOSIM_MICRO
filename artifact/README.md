@@ -75,7 +75,7 @@ Computation Time Details for Each Node:
 ...
 ```
 
-### 2. Run multi-chiplet system with different inter-chiplet communication protocols (PCIe, UCIe)
+### 3. Run multi-chiplet system with different inter-chiplet communication protocols (PCIe, UCIe)
 ---
 To run the multi-chiplet system with different inter-chiplet communication protocols, you can enter the `UCIe_PCIe` directory and execute the `run.sh` script. This script will iterate through the different protocols and apply necessary modifications to the configuration files.
 
@@ -84,7 +84,7 @@ cd UCIe_PCIe
 bash run.sh
 ```
 
-### 3. Run multi-chiplet system with different storage configurations (DDR5, HBM3)
+### 4. Run multi-chiplet system with different storage configurations (DDR5, HBM3)
 ---
 To run the multi-chiplet system with different storage configurations, you can enter the `HBM_DDR` directory and execute the `run.sh` script. This script will iterate through the different storage configurations and apply necessary modifications to the configuration files.
 
