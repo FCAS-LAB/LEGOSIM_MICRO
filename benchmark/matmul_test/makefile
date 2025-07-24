@@ -52,7 +52,7 @@ cuobj_dir:
 	mkdir -p cuobj
 
 run:
-	$(INTERCHIPLET) ./matmul.yml -w 6
+	$(INTERCHIPLET) ./matmul.yml -w 6 -f 2
 
 # Clean generated files.
 clean:
