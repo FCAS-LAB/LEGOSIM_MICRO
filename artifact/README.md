@@ -45,6 +45,36 @@ bash run.sh
 ```
 Note: The MLP and Transformer benchmarks need several day to finish all the simulations. If you want to have a quick test, you can run bfs or matmul benchmarks at first.
 
+### 2. Analyse computation or communication bottleneck of each chiplet
+- Run:
+
+```bash
+python bottleneck_analyse.py --popnet_log ./<benchmark>/proc_r1_p2_t0 --cpu_node <cpu_node_id>
+```
+- Result:
+```bash
+# Example:
+All deduplicated communication records:
+...
+Node Communication Statistics:
+...
+Node Computation and Communication Analysis:
+Node    Total Comp Time Total Comm Time τ Value Bottleneck Type
+----------------------------------------------------------------------
+2       1847    1792022 0.0010306793108566747   Communication Bound
+6       15709   3796598 0.004137651655508431    Communication Bound
+7       51059   33      1547.2424242424242      Computation Bound
+12      14316   3499685 0.004090653873134296    Communication Bound
+13      51059   43      1187.4186046511627      Computation Bound
+18      1153    900052  0.0012810370956344744   Communication Bound
+Total computation time: 135143
+Total communication time: 9988433
+Average τ value: 0.013529950093272888
+
+Computation Time Details for Each Node:
+...
+```
+
 ### 2. Run multi-chiplet system with different inter-chiplet communication protocols (PCIe, UCIe)
 ---
 To run the multi-chiplet system with different inter-chiplet communication protocols, you can enter the `UCIe_PCIe` directory and execute the `run.sh` script. This script will iterate through the different protocols and apply necessary modifications to the configuration files.

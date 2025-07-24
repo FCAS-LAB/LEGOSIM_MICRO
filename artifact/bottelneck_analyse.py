@@ -1,5 +1,6 @@
 import re
 from collections import defaultdict
+import argparse
 
 def analyze_chiplet_communication_computation(log_file_path, cpu_node=35):
     raw_records = []
@@ -155,6 +156,10 @@ def analyze_chiplet_communication_computation(log_file_path, cpu_node=35):
     }
 
 if __name__ == "__main__":
-    log_file_path = "./proc_r1_p2_t0/popnet_0.log"
-    cpu_node = 35
+    parser = argparse.ArgumentParser(description="communication and computation proportion analyse")
+    parser.add_argument("--popnet_log", default="./proc_r1_p2_t0/popnet_0.log", help="Popnet log file path")
+    parser.add_argument("--cpu_node", type=int, default=35, help="CPU node ID for analysis")
+    args = parser.parse_args()
+    log_file_path = args.popnet_log
+    cpu_node = args.cpu_node
     analyze_chiplet_communication_computation(log_file_path, cpu_node)
