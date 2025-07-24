@@ -1,4 +1,4 @@
-# Artifact of LEGOSim:A Unified Parallel Simulation Framework for Multi-chiplet Heterogeneous Integration
+# Artifact for LEGOSim:A Unified Parallel Simulation Framework for Multi-chiplet Heterogeneous Integration
 
 ## Experiment Workflow
 
@@ -111,6 +111,6 @@ Load benchmark configuration from ...
 [info] Quit simulation because simulation cycle has converged.
 [info] **** End of Simulation ****
 [info] Benchmark elapses xxxxxx cycle.
-[info] Simulation elapseds xxd xxh xxm xxs.
+[info] Simulation elapseds xx d xx h xxm xx s.
 ```
 The expected results of above experiments are stored in the `output.csv` file.
