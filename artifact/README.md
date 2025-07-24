@@ -23,8 +23,9 @@ bash run.sh
 ```
 - Transformer:
 
-As the transformer benchmark was built with libtorch library, gcc/g++ 9.4.0 or higher is required. You can set the compiler in the `CMakeLists.txt` file as follows:
+As the transformer benchmark was built with libtorch library, libtorch 2.0.0+cpu and gcc/g++ 9.4.0 or higher is required. You can set the compiler in the `CMakeLists.txt` file as follows:
 ```bash
+set(CMAKE_PREFIX_PATH "<LibTorch path>") 
 # In CMakeLists.txt, change the compiler to gcc-9 and g++-9
 set(CMAKE_C_COMPILER "<gcc-9.4.0 path>/bin/gcc")
 set(CMAKE_CXX_COMPILER "<gcc-9.4.0 path>/bin/g++")
