@@ -1,0 +1,31 @@
+benchmark, topology, flit size, result (cycle)
+MLP, mesh, 2, 244179537
+MLP, mesh, 4, 159790278
+MLP, meshll, 2,
+MLP, meshll, 4,
+MLP, NVL, 2, 218043300
+NLP, NVL, 4, 143205239
+MLP, star, 2, 180218297
+MLP, star, 4, 113154032
+MLP, torus, 2,
+MLP, torus, 4, 126620956
+bfs, mesh, 2, 5982162
+bfs, mesh, 4, 4454723
+bfs, meshll, 2, 5587059
+bfs, meshll, 4, 4135890
+bfs, NVL, 2, 5540995
+bfs, NVL, 4, 4171689
+bfs, star, 2, 4919475
+bfs, star, 4, 3703193
+bfs, torus, 2, 5252060
+bfs, torus, 4, 3951151
+matmul, mesh, 2, 25154231
+matmul, mesh, 4, 14247198
+matmul, meshll, 2, 23889662
+matmul, meshll, 4, 13532405
+matmul, NVL, 2, 22714558
+matmul, NVL, 4, 12897766
+matmul, star, 2, 20376075
+matmul, star, 4, 11652455
+matmul, torus, 2, 21607281
+matmul, torus, 4, 12344888
