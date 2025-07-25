@@ -45,15 +45,46 @@ bash run.sh
 ```
 Note: The MLP and Transformer benchmarks need several day to finish all the simulations. If you want to have a quick test, you can run bfs or matmul benchmarks at first.
 
-### 2. Analyse computation or communication bottleneck of each chiplet
-- Run:
+
+### 2. Run multi-chiplet system with different inter-chiplet communication protocols (PCIe, UCIe)
+---
+To run the multi-chiplet system with different inter-chiplet communication protocols, you can enter the `UCIe_PCIe` directory and execute the `run.sh` script. This script will iterate through the different protocols and apply necessary modifications to the configuration files.
 
 ```bash
-python bottleneck_analyse.py --popnet_log ./<benchmark>/proc_r1_p2_t0 --cpu_node <cpu_node_id>
+cd UCIe_PCIe
+bash run.sh
 ```
-- Result:
+
+### 3. Run multi-chiplet system with different storage configurations (DDR5, HBM3)
+---
+To run the multi-chiplet system with different storage configurations, you can enter the `HBM_DDR` directory and execute the `run.sh` script. This script will iterate through the different storage configurations and apply necessary modifications to the configuration files.
+
 ```bash
-# Example:
+cd HBM_DDR
+bash run.sh
+```
+
+## Output Interpretation
+The output of each benchmark will be stored in the `result_{topology}_flit_{flit_size}.log` files. The results will include the performance metrics for each topology and flit size combination. You can analyze these results to compare the performance of different configurations. Besides, every simulation will generate a heat map which visualizes the inter-chiplet traffic distributions of each benchmark. Computation or communication bottleneck of each chiplet will be stored in the `bottleneck_{topology}_flit_{flit_size}.log` files.
+
+```bash
+# Example output of result_{topology}_flit_{flit_size}.log
+==== LegoSim Chiplet Simulator ====
+Load benchmark configuration from ...
+[info] **** Round 1 Phase 1 ****
+[info] ...
+[info] **** Round 1 Phase 2 ****
+[info] ...
+[info] **** Round 2 Phase 1 ****
+[info] ...
+[info] **** Round n Phase n ****
+[info] ...
+[info] Quit simulation because simulation cycle has converged.
+[info] **** End of Simulation ****
+[info] Benchmark elapses xxxxxx cycle.
+[info] Simulation elapseds xx d xx h xxm xx s.
+
+# Example output of bottleneck_{topology}_flit_{flit_size}.log
 All deduplicated communication records:
 ...
 Node Communication Statistics:
@@ -74,43 +105,4 @@ Average τ value: 0.013529950093272888
 Computation Time Details for Each Node:
 ...
 ```
-
-### 3. Run multi-chiplet system with different inter-chiplet communication protocols (PCIe, UCIe)
----
-To run the multi-chiplet system with different inter-chiplet communication protocols, you can enter the `UCIe_PCIe` directory and execute the `run.sh` script. This script will iterate through the different protocols and apply necessary modifications to the configuration files.
-
-```bash
-cd UCIe_PCIe
-bash run.sh
-```
-
-### 4. Run multi-chiplet system with different storage configurations (DDR5, HBM3)
----
-To run the multi-chiplet system with different storage configurations, you can enter the `HBM_DDR` directory and execute the `run.sh` script. This script will iterate through the different storage configurations and apply necessary modifications to the configuration files.
-
-```bash
-cd HBM_DDR
-bash run.sh
-```
-
-## Output Interpretation
-The output of each benchmark will be stored in the `result_{topology}_flit_{flit_size}.log` file. The results will include the performance metrics for each topology and flit size combination. You can analyze these results to compare the performance of different configurations. Besides, every simulation will generate a heat map which visualizes the inter-chiplet traffic distributions of each benchmark.
-
-```bash
-# Example output of result_{topology}_flit_{flit_size}.log
-==== LegoSim Chiplet Simulator ====
-Load benchmark configuration from ...
-[info] **** Round 1 Phase 1 ****
-[info] ...
-[info] **** Round 1 Phase 2 ****
-[info] ...
-[info] **** Round 2 Phase 1 ****
-[info] ...
-[info] **** Round n Phase n ****
-[info] ...
-[info] Quit simulation because simulation cycle has converged.
-[info] **** End of Simulation ****
-[info] Benchmark elapses xxxxxx cycle.
-[info] Simulation elapseds xx d xx h xxm xx s.
-```
-The expected results of above experiments are stored in the `output.csv` file.
+The expected results of above experiments are stored in the `result` directory.
