@@ -24,6 +24,7 @@ run_test() {
     local flit_size=$1
     local topology=$2
     local result_file="result_${topology}_flit_${flit_size}.log"
+    local bottleneck_file="bottleneck_${topology}_flit_${flit_size}.log"
     
     echo "Testing: ${topology} with flit_size ${flit_size}"
     
@@ -31,6 +32,7 @@ run_test() {
     make
     make run > "${result_file}" 2>&1
     python heatMap.py --topology "${topology}" --flit_size "${flit_size}"
+    python bottleneck_analyse.py > "${bottleneck_file}" 2>&1
     make clean
     
     echo "Completed: ${result_file}"
