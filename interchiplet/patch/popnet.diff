@@ -95,3 +95,16 @@ index 9ff4fcb..e6e0d1d 100644
  	//changed at 2024-6-4
  	if (configuration::wap().sync_protocol_enable() == false)
  	{
+diff --git a/test/mesh_4_4.gv b/test/mesh_4_4.gv
+index 7f46448..efcd7ac 100644
+--- a/test/mesh_4_4.gv
++++ b/test/mesh_4_4.gv
+@@ -2,7 +2,7 @@
+ 
+ graph mesh_4_4
+ {
+-    edge[weight=1]
++    edge[weight=80000]
+     node[pipeline_stage_delay=1]
+     //横线
+     0--1--2--3
