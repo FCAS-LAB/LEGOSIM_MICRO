@@ -1,8 +1,8 @@
 #!/bin/bash
 
-set -e  # 遇到错误就退出
+set -e  
 
-# 测试配置列表
+
 configs=(
     "2 NVL"
     "4 NVL"
@@ -14,9 +14,11 @@ configs=(
     "4 torus"
     "2 star"
     "4 star"
+    "2 NVL"
+    "4 NVL"
 )
 
-# 运行测试函数
+
 run_test() {
     local flit_size=$1
     local topology=$2
@@ -35,7 +37,7 @@ run_test() {
     echo "Completed: ${result_file}"
 }
 
-# 主循环
+
 echo "Starting batch tests..."
 
 for config in "${configs[@]}"; do

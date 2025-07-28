@@ -16,7 +16,7 @@ configs=(
     "4 NVL"
 )
 
-# 运行测试函数
+
 run_test() {
     local flit_size=$1
     local topology=$2
@@ -34,7 +34,7 @@ run_test() {
     cd ..
     echo "Generate heatmap for ${topology} with flit_size ${flit_size}"
     python heatMap.py --topology "${topology}" --flit_size "${flit_size}"
-    python bottleneck_analyse.py > "${bottleneck_file}" 2>&1
+    python bottleneck_analyse.py --popnet_log ./build/proc_r1_p2_t0/popnet_0.log > "${bottleneck_file}" 2>&1
     cd build
     make clean_target
     cd ..
@@ -42,7 +42,7 @@ run_test() {
     echo "Completed: ${result_file}"
 }
 
-# 主循环
+
 echo "Starting batch tests..."
 
 for config in "${configs[@]}"; do

@@ -14,11 +14,11 @@ run_test() {
     local topology=$2
     local storage
     if [ "$flit_size" == "8" ]; then
-        storage="DDR"  # mesh topology uses a fixed flit size of 8
+        storage="PCIe"  
     fi
 
     if [ "$flit_size" == "32" ]; then
-        storage="HBM"  # mesh topology uses a fixed flit size of 8
+        storage="UCIe"  
     fi
     local result_file="result_${topology}_${storage}.log"
     
