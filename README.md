@@ -1,7 +1,7 @@
 
-For the detail documents in English, please access [Document for LegoSim](https://fcas-zju.github.io/Chiplet_Heterogeneous_newVersion/).
+For the detail user manual documents, please access [User Manual for LEGOSim ](./LEGOSim_Manual.pdf).
 
-For the artifact document, please access [Artifact for LegoSim](./artifact/README.md).
+For the artifact document, please access [Artifact for LegoLEGOSimSim](./artifact/README.md).
 
 # Installation
 
