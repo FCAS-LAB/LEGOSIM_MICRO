@@ -25,3 +25,6 @@
 [submodule "benchmark/MLP_mesh/json"]
     path = benchmark/MLP_mesh/json
     url = https://github.com/nlohmann/json.git
+[submodule "scale-sim-v2"]
+	path = scale-sim-v2
+	url = https://github.com/scalesim-project/scale-sim-v2.git

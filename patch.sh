@@ -62,3 +62,16 @@ for item in "${file_list[@]}"; do
     echo $item
     cp --parent popnet_chiplet/$item .changed_files/
 done
+
+# Patch for scale-sim
+cd ${SIMULATOR_ROOT}/scale-sim-v2
+git diff > ../interchiplet/patch/scale-sim.diff
+scale_sim_changed_file_list="$(git diff --name-only)"
+
+cd ${SIMULATOR_ROOT}
+file_list=($scale_sim_changed_file_list)
+echo ${#file_list[@]} "Files has changed."
+for item in "${file_list[@]}"; do
+    echo $item
+    cp --parent scale-sim-v2/$item .changed_files/
+done

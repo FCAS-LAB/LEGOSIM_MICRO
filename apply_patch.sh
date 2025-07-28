@@ -22,3 +22,7 @@ git apply ../interchiplet/patch/gem5.diff
 # Patch for Popnet
 cd ${SIMULATOR_ROOT}/popnet_chiplet
 git apply ../interchiplet/patch/popnet.diff
+
+# Patch for scale-sim
+cd ${SIMULATOR_ROOT}/scale-sim-v2
+git apply ../interchiplet/patch/scale-sim.diff

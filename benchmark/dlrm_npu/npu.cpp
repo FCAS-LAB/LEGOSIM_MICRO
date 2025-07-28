@@ -19,12 +19,13 @@ int main(int argc, char** argv)
     global_pipe_comm.read_data(fileName.c_str(), size_A, size * sizeof(int64_t));
     long long int time_end = InterChiplet::readSync(timeNow, 3, 3, idX, idY, size * sizeof(int64_t), 0);
 
-    system("cd /home/qc/Chiplet_Heterogeneous_newVersion_gem5/Chiplet_Heterogeneous_newVersion/MNSIMChiplet;python3 MNSIM_Chiplet.py -ID1 0 -ID2 2");
+    system("cd $SIMULATOR_ROOT/scale-sim-v2 && pip3 install -e . && python -m scalesim.scale -c $SIMULATOR_ROOT/scale-sim-v2/configs/google.cfg -t $SIMULATOR_ROOT/scale-sim-v2/topologies/dlrm/dlrm_fwd.csv -p $SIMULATOR_ROOT/scale-sim-v2/test_runs");
 
-    std::ifstream inputFile("/home/qc/Chiplet_Heterogeneous_newVersion_gem5/Chiplet_Heterogeneous_newVersion/MNSIMChiplet/result_0_2.res");
+    std::ifstream inputFile("$SIMULATOR_ROOT/scale-sim-v2/test_runs/total_cycle.txt");
     float time;
     inputFile >> time;
     long long unsigned int true_time = (long long unsigned int)time;
+    // std::cout<< "Time taken: " << true_time << std::endl;
     timeNow = true_time + time_end; 
 
     int64_t* ans = new int64_t[112*112*128];
