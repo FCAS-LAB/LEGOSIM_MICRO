@@ -1,5 +1,5 @@
 graph NVL_6_6 {
-    edge[weight=8500]
+    edge[weight=85000]
     node[pipeline_stage_delay=1]
     
     // Connecting nodes in NVL pattern

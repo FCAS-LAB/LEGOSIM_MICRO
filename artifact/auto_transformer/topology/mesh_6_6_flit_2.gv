@@ -1,6 +1,6 @@
 graph mesh_6_6 
 {
-    edge[weight=10000]
+    edge[weight=100000]
     node[pipeline_stage_delay=1]
     
     // Standard Mesh Network (short links)

@@ -1,5 +1,5 @@
 graph meshll_6_6 {
-    edge[weight=9000]
+    edge[weight=90000]
     node[pipeline_stage_delay=1]
     
     // Standard Mesh Network (short links)

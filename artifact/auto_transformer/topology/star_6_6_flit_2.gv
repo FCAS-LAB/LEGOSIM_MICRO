@@ -1,5 +1,5 @@
 graph star_6_6 {
-    edge[weight=8000]
+    edge[weight=80000]
     node[pipeline_stage_delay=1]
     
     // Connecting all nodes to the central node 35
