@@ -1,13 +1,13 @@
 benchmark, topology, flit size, result (cycle)
 MLP, mesh, 2, 244179537
 MLP, mesh, 4, 159790278
-MLP, meshll, 2,
-MLP, meshll, 4,
+MLP, meshll, 2, 221086768
+MLP, meshll, 4, 140079626
 MLP, NVL, 2, 218043300
 NLP, NVL, 4, 143205239
 MLP, star, 2, 180218297
 MLP, star, 4, 113154032
-MLP, torus, 2,
+MLP, torus, 2, 199160069
 MLP, torus, 4, 126620956
 bfs, mesh, 2, 5982162
 bfs, mesh, 4, 4454723
