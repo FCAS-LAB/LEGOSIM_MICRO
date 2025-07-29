@@ -1,4 +1,4 @@
-# Artifact for LEGOSim:A Unified Parallel Simulation Framework for Multi-chiplet Heterogeneous Integration
+# Artifact for LEGOSim: A Unified Parallel Simulation Framework for Multi-chiplet Heterogeneous Integration
 
 ## Experiment Workflow
 
