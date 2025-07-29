@@ -252,13 +252,14 @@ torch::Tensor parallel_matmul(torch::Tensor a, torch::Tensor b, int dim, int src
         std::vector<std::thread> threads;
         for (size_t i = 0; i < b_list.size(); ++i) {
             std::cout << "b_list[" << i << "] shape: " << b_list[i].sizes() << std::endl;
-            threads.push_back(std::thread(custom_matmul_GPU, a, b_list[i], 
-                     std::ref(c_list[i]), src_x, src_y, 
-                     device_map[i].first, device_map[i].second));
+            // threads.push_back(std::thread(custom_matmul_GPU, a, b_list[i], 
+            //          std::ref(c_list[i]), src_x, src_y, 
+            //          device_map[i].first, device_map[i].second));
+            custom_matmul_GPU(a, b_list[i], c_list[i], src_x, src_y, device_map[i].first, device_map[i].second);
         }
-        for (auto& thread : threads) {
-            thread.join();
-        }
+        // for (auto& thread : threads) {
+        //     thread.join();
+        // }
         std::cout<<"#########################"<<std::endl;
 
         c = torch::cat(c_list, dim);

@@ -12,7 +12,7 @@ def main():
     
     args = parser.parse_args()
     # Step 1: Read the log data from popnet.log file
-    with open("./proc_r1_p2_t0/popnet.log", "r") as file:
+    with open("./build/proc_r1_p2_t0/popnet.log", "r") as file:
         log_data = file.readlines()
 
     # Step 2: Parse the data to extract router communication pairs
