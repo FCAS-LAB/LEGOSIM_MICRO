@@ -25,7 +25,7 @@ For the artifact document, please access [Artifact for LEGOSim](./artifact/READM
 3. Run script to initialize environment variables.
 
     ```
-    # In setup_env.sh, modify export PATH=/usr/local/cuda-11.3/bin:/usr/bin/:$PATH according to your CUDA version and path
+    # In setup_env.sh, modify export PATH=/usr/local/cuda-11.3/bin:$PATH according to your CUDA version and path
     source setup_env.sh
     ```
 
@@ -46,7 +46,7 @@ For the artifact document, please access [Artifact for LEGOSim](./artifact/READM
     make -j4
     ```
 
-6. Compile and install Gem5. Check Gem5 documentation for detailed installation guide. LegoSim can run X86 and ARM architecture simulations:
+6. Compile and install Gem5. Check Gem5 documentation for detailed installation guide. LEGOSim can run X86 and ARM architecture simulations:
 
     ```
     cd gem5
@@ -63,7 +63,7 @@ For the artifact document, please access [Artifact for LEGOSim](./artifact/READM
 7. Compile and install GPGPUSim. Prerequisites for GPGPUSim:
 
     1. GPGPUSim requires CUDA installation. The new version supports CUDA 4 to 11, see GPGPUSim README for details.
-    2. GPGPUSim has compiler version requirements, GCC7 recommended. For libraries like libtorch that need higher GCC versions, set during benchmark compilation.
+    2. GPGPUSim has compiler version requirements, GCC 7 recommended. For libraries like libtorch that need higher GCC versions, set during benchmark compilation.
 
     After configuring CUDA and compiler, run make.
 
@@ -98,7 +98,7 @@ For the artifact document, please access [Artifact for LEGOSim](./artifact/READM
 
 # Verify Installation
 
-After correct execution of above steps, use benchmark/matmul to verify environment setup.
+After correct execution of above steps, use benchmark/matmul_test to verify environment setup.
 
 1. Set simulator environment
 
@@ -113,13 +113,13 @@ After correct execution of above steps, use benchmark/matmul to verify environme
     make
     ```
 
-3. Execute the program. Example includes 4 processes: 1 CPU process and 3 GPU processes. Must execute in benchmark/matmul directory.
+3. Execute the program. Example includes 4 processes: 1 CPU process and 3 GPU processes. Must execute in benchmark/matmul_test directory.
 
     ```
     make run
     ```
 
-    After execution, find folders named proc_r{R}_p{P}_t{T} in benchmark/matmul, corresponding to thread T of phase P in round R.
+    After execution, find folders named proc_r{R}_p{P}_t{T} in benchmark/matmul_test, corresponding to thread T of phase P in round R.
     In folders you'll find:
 
     1. GPGPUSim temporary files and log file gpgpusim_X_X.log
