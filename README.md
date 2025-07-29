@@ -151,7 +151,7 @@ apply_patch.sh script applies patches:
 ./apply_patch.sh
 ```
 
-1. Applies snipersim.diff and gpgpu-sim.diff to snipersim and gpgpu-sim.
+1. Applies snipersim.diff, gpgpu-sim.diff, gem5.diff, popnet.diff and scale-sim.diff to snipersim, gpgpu-sim , gem5, popnet and scale-sim.
 2. If application fails, refer to files in .changed_files for manual modification.
 
 Note: Not recommended to directly copy from .changed_files to snipersim and gpgpu-sim folders. Snipersim and gpgpu-sim evolution might modify same files as chiplet simulator. Patches report conflicts, direct copying causes unpredictable errors.
