@@ -7,7 +7,7 @@ For the artifact document, please access [Artifact for LEGOSim](./artifact/READM
 
 ## Download Repository and Setup Environment
 
-**Necessary packages for installation**: zlib1g-dev, libbz2-dev, libboost-dev, libsqlite3-dev, xutils-dev, bison, flex, libgl1-mesa-dev, libglu1-mesa-dev, libboost-all-dev, CMake 3.26.3.
+**Necessary packages for installation**: zlib1g-dev, libbz2-dev, libboost-dev, libsqlite3-dev, xutils-dev, bison, flex, libgl1-mesa-dev, libglu1-mesa-dev, libboost-all-dev, CMake 3.26.3, scons 4.4.0.
 
 ---
 1. Clone the repository from GitHub.
