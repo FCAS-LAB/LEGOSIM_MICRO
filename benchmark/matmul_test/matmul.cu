@@ -12,17 +12,19 @@
 #include "device_launch_parameters.h"
 
 /**
- * 本示例程序为：通过4个GPU chiplet
- * 计算随机数矩阵A（400 * 100）与随机数矩阵B（100 * 400）相乘结果。
- * 由矩阵乘法原理可知，我们可将计算任务划分为4个100*100的矩阵相乘，并将结果相加。
+ * This example program demonstrates:
+ * Computing the multiplication of random matrix A (400 * 100) and 
+ * random matrix B (100 * 400) using 4 GPU chiplets.
+ * According to matrix multiplication principles, we can divide the computation 
+ * into four 100*100 matrix multiplications and sum the results.
  */
 
 #define Row 100
 #define Col 100
 
 /**
- * 矩阵乘法的核心函数，由每个线程都会运行一次本函数，
- * 根据线程编号不同计算出位于结果矩阵不同位置的数据。
+ * Core function for matrix multiplication. Each thread runs this function once,
+ * computing different positions in the result matrix based on thread ID.
  */
 
 __global__ void matrix_mul_gpu(int64_t* M, int64_t* N, int64_t* P, int width) {
@@ -39,8 +41,7 @@ __global__ void matrix_mul_gpu(int64_t* M, int64_t* N, int64_t* P, int width) {
 }
 
 int main(int argc, char** argv) {
-    // 读取本进程所代表的chiplet编号
-
+    // Read the chiplet number represented by this process
     int idX = atoi(argv[1]);
     int idY = atoi(argv[2]);
     int64_t *d_dataA, *d_dataB, *d_dataC;
