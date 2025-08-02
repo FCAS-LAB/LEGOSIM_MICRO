@@ -28,6 +28,7 @@ run_test() {
     python modify.py --flit_size "${flit_size}" --topology "${topology}"
     make
     make run > "${result_file}" 2>&1
+    python result.py --input "${result_file%.log}"
     python heatMap.py --topology "${topology}" --flit_size "${flit_size}"
     python bottleneck_analyse.py > "${bottleneck_file}" 2>&1
     make clean

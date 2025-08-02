@@ -33,6 +33,7 @@ run_test() {
     make run > "${result_file}" 2>&1
     cd ..
     echo "Generate heatmap for ${topology} with flit_size ${flit_size}"
+    python result.py --input "./build/${result_file%.log}"
     python heatMap.py --topology "${topology}" --flit_size "${flit_size}"
     python bottleneck_analyse.py --popnet_log ./build/proc_r1_p2_t0/popnet_0.log > "${bottleneck_file}" 2>&1
     cd build

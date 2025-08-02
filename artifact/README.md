@@ -65,7 +65,7 @@ bash run.sh
 ```
 
 ## Output Interpretation
-The output of each benchmark will be stored in the `result_{topology}_flit_{flit_size}.log` files. The results will include the performance metrics for each topology and flit size combination. You can analyze these results to compare the performance of different configurations. Besides, every simulation will generate a heat map which visualizes the inter-chiplet traffic distributions of each benchmark. Computation or communication bottleneck of each chiplet will be stored in the `bottleneck_{topology}_flit_{flit_size}.log` files.
+The output of each benchmark will be stored in the `result_{topology}_flit_{flit_size}.log` files and the smulation cycle will be stored in the `result_{topology}_flit_{flit_size}.txt` files. You can analyze these results to compare the performance of different configurations. Besides, every simulation will generate a heat map which visualizes the inter-chiplet traffic distributions of each benchmark. Computation or communication bottleneck of each chiplet will be stored in the `bottleneck_{topology}_flit_{flit_size}.log` files.
 
 ```bash
 # Example output of result_{topology}_flit_{flit_size}.log
