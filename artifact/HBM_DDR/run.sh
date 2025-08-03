@@ -14,6 +14,7 @@ run_test() {
     python modify.py --type "${storage_type}"
     make
     make run > "${result_file}" 2>&1
+    python result.py --input "${result_file%.log}"
     make clean
     echo "Completed: ${result_file}"
 }
