@@ -2,7 +2,7 @@
 
 ## Experiment Workflow
 
-### 1. Run multi-chiplet system with different topologies and flit sizes
+### 1. Run multi-chiplet system with different topologies and flit sizes (Figure 16,17)
 ---
 To run the multi-chiplet system with different topologies, you can use the provided script `run.sh` in the directory of each benchmark. This script will iterate through various topologies (mesh, meshll, NVL, star, torus) and flit sizes (2, 4), applying necessary modifications to the configuration files.
 
@@ -46,7 +46,7 @@ bash run.sh
 Note: The MLP and Transformer benchmarks need several day to finish all the simulations. If you want to have a quick test, you can run bfs or matmul benchmarks at first.
 
 
-### 2. Run multi-chiplet system with different inter-chiplet communication protocols (PCIe, UCIe)
+### 2. Run multi-chiplet system with different inter-chiplet communication protocols (PCIe, UCIe) (Figure 18)
 ---
 To run the multi-chiplet system with different inter-chiplet communication protocols, you can enter the `UCIe_PCIe` directory and execute the `run.sh` script. This script will iterate through the different protocols and apply necessary modifications to the configuration files.
 
@@ -55,7 +55,7 @@ cd UCIe_PCIe
 bash run.sh
 ```
 
-### 3. Run multi-chiplet system with different storage configurations (DDR5, HBM3)
+### 3. Run multi-chiplet system with different storage configurations (DDR5, HBM3)(Figure 18)
 ---
 To run the multi-chiplet system with different storage configurations, you can enter the `HBM_DDR` directory and execute the `run.sh` script. This script will iterate through the different storage configurations and apply necessary modifications to the configuration files.
 
@@ -63,6 +63,12 @@ To run the multi-chiplet system with different storage configurations, you can e
 cd HBM_DDR
 bash run.sh
 ```
+
+### 4. Analyze synchronization overhead (Figure 10)
+```
+python sync_overhead.py
+```
+This script will generate a plot showing the synchronization overhead for different synchronization methods.
 
 ## Output Interpretation
 The output of each benchmark will be stored in the `result_{topology}_flit_{flit_size}.log` files and the smulation cycle will be stored in the `result_{topology}_flit_{flit_size}.txt` files. You can analyze these results to compare the performance of different configurations. Besides, every simulation will generate a heat map which visualizes the inter-chiplet traffic distributions of each benchmark. Computation or communication bottleneck of each chiplet will be stored in the `bottleneck_{topology}_flit_{flit_size}.log` files.
