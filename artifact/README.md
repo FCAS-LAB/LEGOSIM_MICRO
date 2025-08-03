@@ -2,7 +2,7 @@
 
 ## Experiment Workflow
 
-### 1. Run multi-chiplet system with different topologies and flit sizes (Figure 16,17)
+### 1. Run multi-chiplet system with different topologies and flit sizes (Figure 16, 17)
 ---
 To run the multi-chiplet system with different topologies, you can use the provided script `run.sh` in the directory of each benchmark. This script will iterate through various topologies (mesh, meshll, NVL, star, torus) and flit sizes (2, 4), applying necessary modifications to the configuration files.
 
@@ -69,6 +69,12 @@ bash run.sh
 python sync_overhead.py
 ```
 This script will generate a plot showing the synchronization overhead for different synchronization methods.
+
+### 5. Exploring the Design Space of On-chip Buffer and Inter-chiplet Interconnection Network (Figure 13, 15)
+```
+cd DSE
+bash run.sh
+```
 
 ## Output Interpretation
 The output of each benchmark will be stored in the `result_{topology}_flit_{flit_size}.log` files and the smulation cycle will be stored in the `result_{topology}_flit_{flit_size}.txt` files. You can analyze these results to compare the performance of different configurations. Besides, every simulation will generate a heat map which visualizes the inter-chiplet traffic distributions of each benchmark. Computation or communication bottleneck of each chiplet will be stored in the `bottleneck_{topology}_flit_{flit_size}.log` files.

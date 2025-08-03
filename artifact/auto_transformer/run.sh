@@ -1,8 +1,7 @@
 #!/bin/bash
 
-set -e  # 遇到错误就退出
+set -e 
 
-# 测试配置列表
 configs=(
     "2 mesh"
     "4 mesh"
