@@ -29,3 +29,13 @@ matmul, star, 2, 20376075
 matmul, star, 4, 11652455
 matmul, torus, 2, 21607281
 matmul, torus, 4, 12344888
+Transformer, mesh, 2, 1513556544
+Transformer, mesh, 4, 1304253706
+Transformer, meshll, 2, 1450898330
+Transformer, meshll, 4, 1266578710
+Transformer, NVL, 2, 1443438195
+Transformer, NVL, 4, 1261977643
+Transformer, star, 2, 1388552996
+Transformer, star, 4, 1224220867
+Transformer, torus, 2, 1423770389
+Transformer, torus, 4, 1256659477
